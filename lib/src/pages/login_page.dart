@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:form_validation/src/bloc/provider.dart';
-import 'package:form_validation/src/providers/user_provider.dart';
-import 'package:form_validation/src/utils/utils.dart';
+import 'package:feeling_cars_now/src/bloc/login_bloc.dart';
+import 'package:feeling_cars_now/src/bloc/provider.dart';
+import 'package:feeling_cars_now/src/providers/user_provider.dart';
+import 'package:feeling_cars_now/src/utils/utils.dart';
 
 class LoginPage extends StatelessWidget {
   final _userProvider = new UserProvider();

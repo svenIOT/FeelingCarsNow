@@ -2,35 +2,34 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:form_validation/src/bloc/provider.dart';
-import 'package:form_validation/src/bloc/products_bloc.dart';
-import 'package:form_validation/src/models/product_model.dart';
-import 'package:form_validation/src/utils/utils.dart' as utils;
+import 'package:feeling_cars_now/src/bloc/car_bloc.dart';
+import 'package:feeling_cars_now/src/bloc/provider.dart';
+import 'package:feeling_cars_now/src/models/car_model.dart';
+import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
 
-class ProductPage extends StatefulWidget {
+class EditCarPage extends StatefulWidget {
   @override
-  _ProductPageState createState() => _ProductPageState();
+  _EditCarPageState createState() => _EditCarPageState();
 }
 
-class _ProductPageState extends State<ProductPage> {
+class _EditCarPageState extends State<EditCarPage> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  ProductsBloc productsBloc;
-  ProductModel product = new ProductModel();
+  CarsBloc carsBloc;
+  CarModel car = new CarModel();
   bool _isSaving = false;
   File photo;
 
   @override
   Widget build(BuildContext context) {
-    productsBloc = Provider.productsBloc(context);
-    final ProductModel argumentProduct =
-        ModalRoute.of(context).settings.arguments;
-    if (argumentProduct != null) product = argumentProduct;
+    carsBloc = Provider.carsBloc(context);
+    final CarModel argumentCar = ModalRoute.of(context).settings.arguments;
+    if (argumentCar != null) car = argumentCar;
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        title: Text('Producto'),
+        title: Text('Coche'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.photo_size_select_actual),
@@ -50,10 +49,9 @@ class _ProductPageState extends State<ProductPage> {
             child: Column(
               children: <Widget>[
                 _showImage(),
-                _productName(),
-                _productPrice(),
+                _carBrand(),
+                _carPrice(),
                 _createSaveButton(),
-                _productAvailable()
               ],
             ),
           ),
@@ -67,43 +65,32 @@ class _ProductPageState extends State<ProductPage> {
       FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.deepPurple,
-        onPressed: () => Navigator.pushNamed(context, 'product'),
+        onPressed: () => Navigator.pushNamed(context, 'car'),
       );
 
-  Widget _productName() {
+  Widget _carBrand() {
     return TextFormField(
-      initialValue: product.title,
+      initialValue: car.brand,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
-        labelText: 'Producto',
+        labelText: 'Marca',
       ),
-      onSaved: (value) => product.title = value,
+      onSaved: (value) => car.brand = value,
       validator: (value) =>
-          value.length < 3 ? 'Ingrese el nombre del producto' : null,
+          value.length < 3 ? 'Ingrese la marca del coche' : null,
     );
   }
 
-  Widget _productPrice() {
+  Widget _carPrice() {
     return TextFormField(
-      initialValue: product.value.toString(),
+      initialValue: car.price.toString() ?? 0.0,
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
         labelText: 'Precio',
       ),
-      onSaved: (value) => product.value = double.parse(value),
+      onSaved: (value) => car.price = int.parse(value),
       validator: (value) =>
           utils.isNumber(value) ? null : 'Ingrese solo números para el precio',
-    );
-  }
-
-  Widget _productAvailable() {
-    return SwitchListTile(
-      value: product.available,
-      title: Text('Disponible'),
-      activeColor: Colors.deepPurple,
-      onChanged: (value) => setState(() {
-        product.available = value;
-      }),
     );
   }
 
@@ -126,12 +113,10 @@ class _ProductPageState extends State<ProductPage> {
     setState(() => _isSaving = true);
 
     // Si la foto es != null es que tengo que subir la foto
-    if (photo != null) product.photoUrl = await productsBloc.uploadImage(photo);
+    if (photo != null) car.photoUrl = await carsBloc.uploadImage(photo);
 
-    // Si el producto no tiene ID lo crea
-    product.id == null
-        ? productsBloc.addProduct(product)
-        : productsBloc.editProduct(product);
+    // Si el coche no tiene ID lo crea
+    car.id == null ? carsBloc.addCar(car) : carsBloc.editCar(car);
 
     setState(() => _isSaving = false);
     showSnackBar('Registro guardado correctamente');
@@ -147,9 +132,9 @@ class _ProductPageState extends State<ProductPage> {
     scaffoldKey.currentState.showSnackBar(snackbar);
   }
 
-  _showImage() => product.photoUrl != null
+  _showImage() => car.photoUrl != null
       ? FadeInImage(
-          image: NetworkImage(product.photoUrl),
+          image: NetworkImage(car.photoUrl),
           placeholder: AssetImage('assets/jar-loading.gif'),
           height: 300.0,
           fit: BoxFit.cover,
@@ -180,6 +165,6 @@ class _ProductPageState extends State<ProductPage> {
 
     photo = File(pickedFile.path);
 
-    if (photo != null) return product.photoUrl == null;
+    if (photo != null) return car.photoUrl == null;
   }
 }

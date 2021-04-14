@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:form_validation/src/bloc/login_bloc.dart';
-import 'package:form_validation/src/bloc/products_bloc.dart';
-export 'package:form_validation/src/bloc/login_bloc.dart';
-export 'package:form_validation/src/bloc/products_bloc.dart';
+
+import 'car_bloc.dart';
+import 'package:feeling_cars_now/src/bloc/login_bloc.dart';
 
 class Provider extends InheritedWidget {
   final loginBloc = new LoginBloc();
-  final _productsBloc = new ProductsBloc();
+  final _carsBloc = new CarsBloc();
 
   static Provider _instance;
 
@@ -28,7 +27,7 @@ class Provider extends InheritedWidget {
     return context.dependOnInheritedWidgetOfExactType<Provider>().loginBloc;
   }
 
-  static ProductsBloc productsBloc(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<Provider>()._productsBloc;
+  static CarsBloc carsBloc(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>()._carsBloc;
   }
 }

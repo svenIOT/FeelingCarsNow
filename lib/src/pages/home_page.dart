@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:form_validation/src/bloc/provider.dart';
-import 'package:form_validation/src/models/product_model.dart';
-import 'package:form_validation/src/widgets/drawer.dart';
-import 'package:form_validation/src/widgets/search_elements.dart';
+
+import 'package:feeling_cars_now/src/bloc/car_bloc.dart';
+import 'package:feeling_cars_now/src/bloc/provider.dart';
+import 'package:feeling_cars_now/src/models/car_model.dart';
+import 'package:feeling_cars_now/src/widgets/drawer.dart';
+import 'package:feeling_cars_now/src/widgets/search_elements.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -10,8 +12,8 @@ class HomePage extends StatelessWidget {
     //final _height = MediaQuery.of(context).size.height;
     //final _width = MediaQuery.of(context).size.width;
 
-    final productsBloc = Provider.productsBloc(context);
-    productsBloc.loadProducts();
+    final carsBloc = Provider.carsBloc(context);
+    carsBloc.loadCars();
 
     return Scaffold(
         appBar: AppBar(
@@ -27,7 +29,7 @@ class HomePage extends StatelessWidget {
                 // Lista de coches destacados
                 _createFeaturedList(),
                 // Lista de coches genérica
-                _createList(productsBloc),
+                _createList(carsBloc),
               ],
             ),
           ),
@@ -35,11 +37,10 @@ class HomePage extends StatelessWidget {
         floatingActionButton: _createFloatingActionButton(context));
   }
 
-  Widget _createList(ProductsBloc productsBloc) {
+  Widget _createList(CarsBloc carsBloc) {
     return StreamBuilder(
-      stream: productsBloc.productsStream,
-      builder: (BuildContext context,
-              AsyncSnapshot<List<ProductModel>> snapshot) =>
+      stream: carsBloc.carsStream,
+      builder: (BuildContext context, AsyncSnapshot<List<CarModel>> snapshot) =>
           snapshot.hasData
               ? ListView.builder(
                   primary: false,
@@ -47,7 +48,7 @@ class HomePage extends StatelessWidget {
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) =>
-                      _createItem(context, snapshot.data[index], productsBloc))
+                      _createItem(context, snapshot.data[index], carsBloc))
               : Center(child: CircularProgressIndicator()),
     );
   }
@@ -56,42 +57,34 @@ class HomePage extends StatelessWidget {
       FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.deepPurple,
-        onPressed: () => Navigator.pushNamed(context, 'product'),
+        onPressed: () => Navigator.pushNamed(context, 'car'),
       );
 
-  Widget _createItem(
-      BuildContext context, ProductModel product, ProductsBloc productsBloc) {
-    return Dismissible(
-      key: UniqueKey(),
-      background: Container(
-        color: Colors.red[400],
-      ),
-      onDismissed: (direction) => productsBloc.deleteProduct(product.id),
-      child: Card(
-        child: Column(
-          children: <Widget>[
-            (product.photoUrl == null)
-                ? Image(
-                    image: AssetImage('assets/no-image.png'),
-                    height: 250.0,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  )
-                : FadeInImage(
-                    placeholder: AssetImage('assets/jar-loading.gif'),
-                    image: NetworkImage(product.photoUrl),
-                    height: 250.0,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-            ListTile(
-              title: Text('${product.title} - ${product.value}'),
-              subtitle: Text(product.id),
-              onTap: () =>
-                  Navigator.pushNamed(context, 'product', arguments: product),
-            ),
-          ],
-        ),
+  Widget _createItem(BuildContext context, CarModel car, CarsBloc carsBloc) {
+    return Card(
+      child: Column(
+        children: <Widget>[
+          (car.photoUrl == null)
+              ? Image(
+                  image: AssetImage('assets/no-image.png'),
+                  height: 250.0,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                )
+              : FadeInImage(
+                  placeholder: AssetImage('assets/jar-loading.gif'),
+                  image: NetworkImage(car.photoUrl),
+                  height: 250.0,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+          ListTile(
+            title: Text('${car.brand} - ${car.model}'),
+            subtitle: Text('${car.price} €'),
+            onTap: () =>
+                Navigator.pushNamed(context, 'details', arguments: car),
+          ),
+        ],
       ),
     );
   }

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:form_validation/src/bloc/validators.dart';
+import 'package:feeling_cars_now/src/bloc/validators.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginBloc with Validators {

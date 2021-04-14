@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:form_validation/src/user_preferences/user_preferences.dart';
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class UserProvider {

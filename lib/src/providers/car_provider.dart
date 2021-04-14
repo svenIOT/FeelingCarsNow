@@ -1,59 +1,59 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:form_validation/src/user_preferences/user_preferences.dart';
+import 'package:feeling_cars_now/src/models/car_model.dart';
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-import 'package:form_validation/src/models/product_model.dart';
 import 'package:mime_type/mime_type.dart';
 
-class ProductProvider {
+class CarProvider {
   final _url =
       'https://flutter-varios-db270-default-rtdb.europe-west1.firebasedatabase.app';
   final _prefs = new UserPreferences();
 
-  Future<bool> createProduct(ProductModel product) async {
-    final url = '$_url/products.json?auth=${_prefs.token}';
+  Future<bool> createCar(CarModel car) async {
+    final url = '$_url/cars.json?auth=${_prefs.token}';
 
-    final response = await http.post(url, body: productModelToJson(product));
-
-    final decodeData = json.decode(response.body);
-
-    return true;
-  }
-
-  Future<bool> editProduct(ProductModel product) async {
-    final url = '$_url/products/${product.id}.json?auth=${_prefs.token}';
-
-    final response = await http.put(url, body: productModelToJson(product));
+    final response = await http.post(url, body: carModelToJson(car));
 
     final decodeData = json.decode(response.body);
 
     return true;
   }
 
-  Future<List<ProductModel>> loadProducts() async {
-    final url = '$_url/products.json?auth=${_prefs.token}';
+  Future<bool> editCar(CarModel car) async {
+    final url = '$_url/cars/${car.id}.json?auth=${_prefs.token}';
+
+    final response = await http.put(url, body: carModelToJson(car));
+
+    final decodeData = json.decode(response.body);
+
+    return true;
+  }
+
+  Future<List<CarModel>> loadCars() async {
+    final url = '$_url/cars.json?auth=${_prefs.token}';
 
     final response = await http.get(url);
 
-    final List<ProductModel> products = new List();
+    final List<CarModel> cars = new List();
     final Map<String, dynamic> decodedData = json.decode(response.body);
 
     if (decodedData == null || decodedData['error'] != null) return [];
 
-    decodedData.forEach((key, product) {
-      final tempProduct = ProductModel.fromJson(product);
-      tempProduct.id = key;
+    decodedData.forEach((key, car) {
+      final tempCar = CarModel.fromJson(car);
+      tempCar.id = key;
 
-      products.add(tempProduct);
+      cars.add(tempCar);
     });
 
-    return products;
+    return cars;
   }
 
-  Future<bool> deleteProduct(String id) async {
-    final url = '$_url/products/$id.json?auth=${_prefs.token}';
+  Future<bool> deleteCar(String id) async {
+    final url = '$_url/cars/$id.json?auth=${_prefs.token}';
     final response = await http.delete(url);
 
     return true;
