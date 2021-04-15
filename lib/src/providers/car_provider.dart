@@ -52,6 +52,15 @@ class CarProvider {
     return cars;
   }
 
+  Future<List<CarModel>> loadFeaturedCars() async {
+    final List<CarModel> cars = await loadCars();
+
+    final List<CarModel> featuredCars =
+        cars.where((car) => car.featured).toList();
+
+    return featuredCars;
+  }
+
   Future<bool> deleteCar(String id) async {
     final url = '$_url/cars/$id.json?auth=${_prefs.token}';
     final response = await http.delete(url);

@@ -5,7 +5,7 @@ class SearchElements extends StatelessWidget {
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
     return Container(
-      height: _height / 4.5,
+      height: _height / 4.6,
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
       child: Column(
         children: <Widget>[
