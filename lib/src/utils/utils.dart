@@ -13,7 +13,7 @@ void showAlert(BuildContext context, String message) {
       title: Text('Error'),
       content: Text(message),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: Text('De acuedo'),
         ),

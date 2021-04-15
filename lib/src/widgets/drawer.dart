@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:feeling_cars_now/src/routes/routes.dart';
 
 class UserDrawer extends StatelessWidget {
   @override
@@ -16,8 +15,8 @@ class UserDrawer extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, 'resume'),
           ),
           _createDrawerItem(
-            icon: Icons.event,
-            text: 'Events',
+            icon: Icons.message,
+            text: 'Mensajes',
             onTap: () => Navigator.pushNamed(context, 'resume'),
           ),
           Divider(),
@@ -29,13 +28,13 @@ class UserDrawer extends StatelessWidget {
           _createDrawerItem(
             icon: Icons.settings,
             text: 'Preferencias',
-            onTap: () => Navigator.pushNamed(context, 'resume'),
+            onTap: () => Navigator.pushNamed(context, 'preferences'),
           ),
           Divider(),
           _createDrawerItem(
             icon: Icons.bug_report,
             text: 'Reportar un error',
-            onTap: () => Navigator.pushNamed(context, 'resume'),
+            onTap: () => Navigator.pushNamed(context, 'error'),
           ),
           Divider(),
           _createDrawerItem(

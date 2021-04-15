@@ -5,6 +5,7 @@ import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/models/car_model.dart';
 import 'package:feeling_cars_now/src/widgets/drawer.dart';
 import 'package:feeling_cars_now/src/widgets/search_elements.dart';
+import 'package:feeling_cars_now/src/widgets/text_header.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -23,12 +24,16 @@ class HomePage extends StatelessWidget {
         body: SingleChildScrollView(
           child: Container(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 // Elementos de búsqueda y filtros
                 SearchElements(),
                 // Lista de coches destacados
+                TextHeader('Coches destacados:'),
                 _createFeaturedList(),
+                SizedBox(height: 10.0),
                 // Lista de coches genérica
+                TextHeader('Coches a la venta:'),
                 _createList(carsBloc),
               ],
             ),
@@ -91,24 +96,25 @@ class HomePage extends StatelessWidget {
 
   Widget _createFeaturedList() {
     return Container(
-      height: 100.0,
+      padding: EdgeInsets.symmetric(horizontal: 5.0),
+      height: 150.0,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
           Container(
-            width: 100.0,
+            width: 150.0,
             color: Colors.red,
           ),
           Container(
-            width: 100.0,
+            width: 150.0,
             color: Colors.blue,
           ),
           Container(
-            width: 100.0,
+            width: 150.0,
             color: Colors.green,
           ),
           Container(
-            width: 100.0,
+            width: 150.0,
             color: Colors.yellow,
           ),
           Container(

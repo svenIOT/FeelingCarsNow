@@ -11,6 +11,7 @@ class CarModel {
     this.id,
     this.brand,
     this.category,
+    this.featured,
     this.fuel,
     this.km,
     this.price,
@@ -23,6 +24,7 @@ class CarModel {
   String id;
   String brand;
   String category;
+  bool featured;
   String fuel;
   int km;
   int price;
@@ -35,6 +37,7 @@ class CarModel {
         id: json["id"],
         brand: json["brand"],
         category: json["category"],
+        featured: json["featured"],
         fuel: json["fuel"],
         km: json["km"],
         price: json["price"],
@@ -48,6 +51,7 @@ class CarModel {
         //"id": id, evitar duplicado de ID
         "brand": brand,
         "category": category,
+        "featured": featured,
         "fuel": fuel,
         "km": km,
         "price": price,
