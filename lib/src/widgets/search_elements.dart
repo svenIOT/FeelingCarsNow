@@ -15,7 +15,7 @@ class SearchElements extends StatelessWidget {
           // filtros
           _createFilters(),
           // Botón
-          _createButton(),
+          _createButton(context),
         ],
       ),
     );
@@ -74,7 +74,7 @@ class SearchElements extends StatelessWidget {
     );
   }
 
-  Widget _createButton() {
+  Widget _createButton(BuildContext context) {
     return Container(
       child: ElevatedButton(
         child: Text('Aplicar'),
@@ -82,7 +82,9 @@ class SearchElements extends StatelessWidget {
           primary: Colors.deepPurple,
         ),
         onPressed: () {
-          print('Pressed');
+          // Navegar a una nueva página con los resultados
+          Navigator.pushNamed(
+              context, 'search'); // TODO: arguments: filtros y texto
         },
       ),
     );

@@ -21,3 +21,13 @@ void showAlert(BuildContext context, String message) {
     ),
   );
 }
+
+void showSnackBar(BuildContext context, String message) {
+  final snackbar = SnackBar(
+    content: Text(message),
+    duration: Duration(milliseconds: 1750),
+  );
+
+  // Deprecated: scaffoldKey.currentState.showSnackBar(snackbar);
+  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+}
