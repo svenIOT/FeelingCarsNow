@@ -26,14 +26,13 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        title: Text('Coche'),
+        title: Text('Detalles'),
         actions: <Widget>[
           // TODO: si el usuario es el propietario del anuncio habilitar botón editar
         ],
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(15.0),
           child: Form(
             key: formKey,
             child: Column(
@@ -62,6 +61,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
     return FloatingActionButton(
       child: Icon(Icons.messenger),
       tooltip: 'Inicia una conversación con el vendedor',
+      backgroundColor: Theme.of(context).primaryColor,
       onPressed: _submit,
     );
   }
@@ -69,16 +69,24 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
   void _submit() async {}
 
   _showCarImage() => car.photoUrl != null
-      ? FadeInImage(
-          image: NetworkImage(car.photoUrl),
-          placeholder: AssetImage('assets/jar-loading.gif'),
-          height: 300.0,
-          fit: BoxFit.cover,
+      ? Container(
+          margin: EdgeInsets.zero,
+          padding: EdgeInsets.zero,
+          child: FadeInImage(
+            image: NetworkImage(car.photoUrl),
+            placeholder: AssetImage('assets/jar-loading.gif'),
+            height: 300.0,
+            fit: BoxFit.cover,
+          ),
         )
-      : Image(
-          // Si la foto.path es null escoje la imagen de assets
-          image: AssetImage(photo?.path ?? 'assets/no-image.png'),
-          height: 300.0,
-          fit: BoxFit.cover,
+      : Container(
+          margin: EdgeInsets.zero,
+          padding: EdgeInsets.zero,
+          child: Image(
+            // Si la foto.path es null escoje la imagen de assets
+            image: AssetImage(photo?.path ?? 'assets/no-image.png'),
+            height: 300.0,
+            fit: BoxFit.cover,
+          ),
         );
 }

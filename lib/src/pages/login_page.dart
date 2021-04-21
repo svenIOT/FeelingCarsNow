@@ -67,7 +67,7 @@ class LoginPage extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
-                          color: Colors.deepPurple))
+                          color: Theme.of(context).primaryColor))
                 ]),
             onPressed: () =>
                 Navigator.pushReplacementNamed(context, 'register'),
@@ -86,7 +86,8 @@ class LoginPage extends StatelessWidget {
             child: TextField(
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                icon: Icon(Icons.alternate_email, color: Colors.deepPurple),
+                icon: Icon(Icons.alternate_email,
+                    color: Theme.of(context).primaryColor),
                 labelText: 'Correo electrónico',
                 hintText: 'ejemplo@correo.com',
                 counterText: snapshot.data,
@@ -107,7 +108,8 @@ class LoginPage extends StatelessWidget {
               obscureText: true,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                icon: Icon(Icons.lock_outline, color: Colors.deepPurple),
+                icon: Icon(Icons.lock_outline,
+                    color: Theme.of(context).primaryColor),
                 labelText: 'Contraseña',
                 hintText: 'Contraseña',
                 counterText: snapshot.data,
@@ -130,7 +132,7 @@ class LoginPage extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5.0),
             ),
-            color: Colors.deepPurple,
+            color: Theme.of(context).primaryColor,
             textColor: Colors.white,
             onPressed: snapshot.hasData ? () => _login(context, bloc) : null,
           );

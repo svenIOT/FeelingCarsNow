@@ -15,9 +15,6 @@ class MultiselectCustom extends StatelessWidget {
     return MultiSelect(
       autovalidate: false,
       titleText: title,
-      validator: (value) {
-        if (value == null) return 'Por favor selecciona 1 o más opciones';
-      },
       errorText: 'Por favor selecciona 1 o más opciones',
       dataSource: dataSource,
       textField: 'display',

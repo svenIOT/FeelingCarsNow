@@ -74,7 +74,7 @@ class UserDrawer extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fill,
-          image: AssetImage('assets/no-image.png'), // TODO: fondo header
+          image: AssetImage('assets/drawer_header.jpg'),
         ),
       ),
       child: Stack(
@@ -85,7 +85,7 @@ class UserDrawer extends StatelessWidget {
             child: Text(
               "Usuario", // TODO: añadir usuario
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 21.0,
                 fontWeight: FontWeight.w500,
               ),

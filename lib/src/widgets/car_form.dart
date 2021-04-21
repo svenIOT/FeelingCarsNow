@@ -173,7 +173,7 @@ class _CarFormState extends State<CarForm> {
   Widget _createSaveButton() {
     return RaisedButton.icon(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      color: Colors.deepPurple,
+      color: Theme.of(context).primaryColor,
       textColor: Colors.white,
       icon: Icon(Icons.save),
       label: Text('Guardar'),

@@ -53,7 +53,7 @@ class _EditCarPageState extends State<EditCarPage> {
   Widget _createFloatingActionButton(BuildContext context) =>
       FloatingActionButton(
         child: Icon(Icons.add),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () => Navigator.pushNamed(context, 'car'),
       );
 

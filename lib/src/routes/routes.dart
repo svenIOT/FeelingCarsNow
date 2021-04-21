@@ -5,7 +5,7 @@ import 'package:feeling_cars_now/src/pages/login_page.dart';
 import 'package:feeling_cars_now/src/pages/edit_car_page.dart';
 import 'package:feeling_cars_now/src/pages/register_page.dart';
 import 'package:feeling_cars_now/src/pages/user_cars_page.dart';
-import 'package:feeling_cars_now/src/pages/car_details.dart';
+import 'package:feeling_cars_now/src/pages/car_details_page.dart';
 import 'package:feeling_cars_now/src/pages/preferences_page.dart';
 import 'package:feeling_cars_now/src/pages/error_report_page.dart';
 import 'package:feeling_cars_now/src/pages/find_page.dart';
