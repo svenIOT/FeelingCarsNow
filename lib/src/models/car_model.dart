@@ -15,6 +15,7 @@ class CarModel {
     this.fuel,
     this.km,
     this.price,
+    this.power,
     this.model,
     this.userId,
     this.year,
@@ -28,6 +29,7 @@ class CarModel {
   String fuel;
   int km;
   int price;
+  int power;
   String model;
   String userId;
   int year;
@@ -40,6 +42,7 @@ class CarModel {
         featured: json["featured"],
         fuel: json["fuel"],
         km: json["km"],
+        power: json["power"],
         price: json["price"],
         model: json["model"],
         userId: json["userID"],
@@ -54,6 +57,7 @@ class CarModel {
         "featured": featured,
         "fuel": fuel,
         "km": km,
+        "power": power,
         "price": price,
         "model": model,
         "userID": userId,

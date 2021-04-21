@@ -59,9 +59,9 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
   }
 
   Widget _createMessageButton() {
-    return ElevatedButton.icon(
-      icon: Icon(Icons.messenger_outline),
-      label: Text('Escribir mensaje'),
+    return FloatingActionButton(
+      child: Icon(Icons.messenger),
+      tooltip: 'Inicia una conversación con el vendedor',
       onPressed: _submit,
     );
   }

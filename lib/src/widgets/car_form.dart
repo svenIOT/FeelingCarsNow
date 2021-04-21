@@ -45,6 +45,7 @@ class _CarFormState extends State<CarForm> {
           _categoryAndFuelDropdownButton(car),
           _carBrand(),
           _carModel(),
+          _carPower(),
           _carKm(),
           _carPrice(),
           _createSaveButton(),
@@ -124,7 +125,21 @@ class _CarFormState extends State<CarForm> {
       ),
       onSaved: (value) => car.model = value,
       validator: (value) =>
-          value.length < 3 ? 'Ingrese el modelo del coche' : null,
+          value.length < 2 ? 'Ingrese el modelo del coche' : null,
+    );
+  }
+
+  Widget _carPower() {
+    return TextFormField(
+      initialValue: car.power.toString() ?? "0",
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        labelText: 'Potencia',
+      ),
+      onSaved: (value) => car.power = int.tryParse(value),
+      validator: (value) => utils.isNumber(value)
+          ? null
+          : 'Ingrese la potencia en caballos del coche',
     );
   }
 

@@ -6,6 +6,8 @@ bool isNumber(String value) {
   return num.tryParse(value) == null ? false : true;
 }
 
+Size getDeviceSize(BuildContext context) => MediaQuery.of(context).size;
+
 void showAlert(BuildContext context, String message) {
   showDialog(
     context: context,

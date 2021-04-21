@@ -15,15 +15,15 @@ class UserDrawer extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, 'resume'),
           ),
           _createDrawerItem(
-            icon: Icons.message,
+            icon: Icons.question_answer,
             text: 'Mensajes',
             onTap: () => Navigator.pushNamed(context, 'resume'),
           ),
           Divider(),
           _createDrawerItem(
-            icon: Icons.collections_bookmark,
-            text: 'Steps',
-            onTap: () => Navigator.pushNamed(context, 'resume'),
+            icon: Icons.help_center,
+            text: 'Ayuda',
+            onTap: () => Navigator.pushNamed(context, 'faq'),
           ),
           _createDrawerItem(
             icon: Icons.settings,

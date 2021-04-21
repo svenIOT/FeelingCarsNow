@@ -33,6 +33,7 @@ dependencies:
   image_picker:
   mime_type:
   shared_preferences:
+  flutter_multiselect: ^0.5.1
 
 dev_dependencies:
   flutter_test:

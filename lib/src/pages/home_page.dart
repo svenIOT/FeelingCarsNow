@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/widgets/drawer.dart';
-import 'package:feeling_cars_now/src/widgets/search_elements.dart';
 import 'package:feeling_cars_now/src/widgets/text_header.dart';
 import 'package:feeling_cars_now/src/widgets/featured_cars.dart';
 import 'package:feeling_cars_now/src/widgets/standard_cars.dart';
@@ -19,6 +18,12 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () => Navigator.pushNamed(context, 'search'),
+          ),
+        ],
       ),
       drawer: UserDrawer(),
       body: SingleChildScrollView(
@@ -26,8 +31,6 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // Elementos de búsqueda y filtros
-              SearchElements(),
               // Lista de coches destacados
               TextHeader('Coches destacados:'),
               FeaturedCars(featuredCarsBloc),
