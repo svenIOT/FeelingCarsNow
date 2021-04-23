@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:feeling_cars_now/src/utils/constants.dart' as Constants;
+import 'package:feeling_cars_now/src/constants/multiselect_items_constants.dart'
+    as MultiselectItemsConstants;
+import 'package:feeling_cars_now/src/constants/modalbutton_options_constants.dart'
+    as ModalbuttonOptionsConstants;
 import 'package:feeling_cars_now/src/widgets/multiselect_custom.dart';
 
 class SearchAndFiltersPage extends StatelessWidget {
@@ -64,12 +67,12 @@ class SearchAndFiltersPage extends StatelessWidget {
         children: <Widget>[
           MultiselectCustom(
             title: 'Homologación',
-            dataSource: Constants.multiselectCategory,
+            dataSource: MultiselectItemsConstants.multiselectCategory,
           ),
           SizedBox(height: 20.0),
           MultiselectCustom(
             title: 'Combustible',
-            dataSource: Constants.multiselectFuel,
+            dataSource: MultiselectItemsConstants.multiselectFuel,
           ),
           SizedBox(height: 20.0),
           _kmPicker(context),
@@ -132,7 +135,7 @@ class SearchAndFiltersPage extends StatelessWidget {
                       onSelectedItemChanged: (index) {
                         print(index);
                       },
-                      children: Constants.carKilometersValues,
+                      children: ModalbuttonOptionsConstants.carKilometersValues,
                     ),
                   );
                 });
@@ -156,7 +159,7 @@ class SearchAndFiltersPage extends StatelessWidget {
                       onSelectedItemChanged: (index) {
                         print(index);
                       },
-                      children: Constants.carKilometersValues,
+                      children: ModalbuttonOptionsConstants.carKilometersValues,
                     ),
                   );
                 });
@@ -186,7 +189,7 @@ class SearchAndFiltersPage extends StatelessWidget {
                       onSelectedItemChanged: (index) {
                         print(index);
                       },
-                      children: Constants.carPowerValues,
+                      children: ModalbuttonOptionsConstants.carPowerValues,
                     ),
                   );
                 });
@@ -210,7 +213,7 @@ class SearchAndFiltersPage extends StatelessWidget {
                       onSelectedItemChanged: (index) {
                         print(index);
                       },
-                      children: Constants.carPowerValues,
+                      children: ModalbuttonOptionsConstants.carPowerValues,
                     ),
                   );
                 });

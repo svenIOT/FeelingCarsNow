@@ -32,13 +32,13 @@ class StandardCars extends StatelessWidget {
         children: <Widget>[
           (car.photoUrl == null)
               ? Image(
-                  image: AssetImage('assets/no-image.png'),
+                  image: AssetImage('assets/img/no-image.png'),
                   height: 250.0,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 )
               : FadeInImage(
-                  placeholder: AssetImage('assets/jar-loading.gif'),
+                  placeholder: AssetImage('assets/img/jar-loading.gif'),
                   image: NetworkImage(car.photoUrl),
                   height: 250.0,
                   width: double.infinity,

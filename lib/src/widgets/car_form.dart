@@ -5,7 +5,8 @@ import 'package:feeling_cars_now/src/bloc/car_bloc.dart';
 import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/models/car_model.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
-import 'package:feeling_cars_now/src/utils/constants.dart' as Constants;
+import 'package:feeling_cars_now/src/constants/dropdown_items_constants.dart'
+    as DropdownItemsConstants;
 import 'dropdown_custom.dart';
 
 class CarForm extends StatefulWidget {
@@ -57,13 +58,13 @@ class _CarFormState extends State<CarForm> {
   _showImage() => car.photoUrl != null
       ? FadeInImage(
           image: NetworkImage(car.photoUrl),
-          placeholder: AssetImage('assets/jar-loading.gif'),
+          placeholder: AssetImage('assets/img/jar-loading.gif'),
           height: 300.0,
           fit: BoxFit.cover,
         )
       : Image(
           // Si la foto.path es null escoje la imagen de assets
-          image: AssetImage(photo?.path ?? 'assets/no-image.png'),
+          image: AssetImage(photo?.path ?? 'assets/img/no-image.png'),
           height: 300.0,
           fit: BoxFit.cover,
         );
@@ -89,13 +90,13 @@ class _CarFormState extends State<CarForm> {
         children: [
           DropdownCustom(
             hintText: "Homologación...",
-            items: Constants.categoryDropdownItems,
+            items: DropdownItemsConstants.categoryDropdownItems,
             car: _car,
           ),
           SizedBox(height: 15.0),
           DropdownCustom(
             hintText: "Combustible...",
-            items: Constants.fuelDropdownItems,
+            items: DropdownItemsConstants.fuelDropdownItems,
             car: _car,
           ),
         ],

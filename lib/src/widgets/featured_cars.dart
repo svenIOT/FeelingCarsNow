@@ -36,13 +36,13 @@ class FeaturedCars extends StatelessWidget {
         children: <Widget>[
           (car.photoUrl == null)
               ? Image(
-                  image: AssetImage('assets/no-image.png'),
+                  image: AssetImage('assets/img/no-image.png'),
                   height: 180.0,
                   width: 180.0,
                   fit: BoxFit.cover,
                 )
               : FadeInImage(
-                  placeholder: AssetImage('assets/jar-loading.gif'),
+                  placeholder: AssetImage('assets/img/jar-loading.gif'),
                   image: NetworkImage(car.photoUrl),
                   height: 180.0,
                   width: 180.0,

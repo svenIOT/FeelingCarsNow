@@ -74,7 +74,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
           padding: EdgeInsets.zero,
           child: FadeInImage(
             image: NetworkImage(car.photoUrl),
-            placeholder: AssetImage('assets/jar-loading.gif'),
+            placeholder: AssetImage('assets/img/jar-loading.gif'),
             height: 300.0,
             fit: BoxFit.cover,
           ),
@@ -84,7 +84,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
           padding: EdgeInsets.zero,
           child: Image(
             // Si la foto.path es null escoje la imagen de assets
-            image: AssetImage(photo?.path ?? 'assets/no-image.png'),
+            image: AssetImage(photo?.path ?? 'assets/img/no-image.png'),
             height: 300.0,
             fit: BoxFit.cover,
           ),

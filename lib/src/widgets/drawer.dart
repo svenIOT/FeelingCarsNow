@@ -22,7 +22,7 @@ class UserDrawer extends StatelessWidget {
           Divider(),
           _createDrawerItem(
             icon: Icons.help_center,
-            text: 'Ayuda',
+            text: 'Preguntas frecuentes',
             onTap: () => Navigator.pushNamed(context, 'faq'),
           ),
           _createDrawerItem(
@@ -74,7 +74,7 @@ class UserDrawer extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fill,
-          image: AssetImage('assets/drawer_header.jpg'),
+          image: AssetImage('assets/img/drawer_header.jpg'),
         ),
       ),
       child: Stack(
