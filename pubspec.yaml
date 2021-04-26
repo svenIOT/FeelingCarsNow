@@ -30,10 +30,11 @@ dependencies:
   cupertino_icons: ^1.0.0
   rxdart: ^0.25.0
   http:
-  image_picker:
+  image_picker: ^0.6.1
   mime_type:
   shared_preferences:
   flutter_multiselect: ^0.5.1
+  flutter_email_sender: ^5.0.0
 
 dev_dependencies:
   flutter_test:

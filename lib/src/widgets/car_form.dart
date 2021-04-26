@@ -10,40 +10,42 @@ import 'package:feeling_cars_now/src/constants/dropdown_items_constants.dart'
 import 'dropdown_custom.dart';
 
 class CarForm extends StatefulWidget {
+  final GlobalKey<FormState> formKey;
+  CarsBloc carsBloc;
+  CarModel car;
+  File photo;
+
+  CarForm({
+    @required this.formKey,
+    @required this.carsBloc,
+    @required this.car,
+    @required this.photo,
+  });
+
   @override
   _CarFormState createState() => _CarFormState();
 }
 
 class _CarFormState extends State<CarForm> {
-  final formKey = GlobalKey<FormState>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  CarsBloc carsBloc;
-  CarModel car = new CarModel();
   bool _isSaving = false;
-  File photo;
 
   @override
   Widget build(BuildContext context) {
-    carsBloc = Provider.carsBloc(context);
+    widget.carsBloc = Provider.carsBloc(context);
 
     // Por defecto los coches no están destacados
-    car.featured = false;
+    widget.car.featured = false;
     // TODO: validaciones
     // TODO: agregar dinámicamente el usuario que crea el coche
-    car.userId = "DhMd9XzjbMUkROQ2j83xMaOwB9b2";
-
-    // Si se le pasa un coche desde el padre lo guarda en car (es editar coche)
-    final CarModel argumentCar = ModalRoute.of(context).settings.arguments;
-    if (argumentCar != null) car = argumentCar;
+    widget.car.userId = "DhMd9XzjbMUkROQ2j83xMaOwB9b2";
 
     return Form(
-      key: formKey,
+      key: widget.formKey,
       child: Column(
         children: <Widget>[
           _showImage(),
           _carYear(),
-          _categoryAndFuelDropdownButton(car),
+          _categoryAndFuelDropdownButton(widget.car),
           _carBrand(),
           _carModel(),
           _carPower(),
@@ -55,28 +57,28 @@ class _CarFormState extends State<CarForm> {
     );
   }
 
-  _showImage() => car.photoUrl != null
+  _showImage() => widget.car.photoUrl != null
       ? FadeInImage(
-          image: NetworkImage(car.photoUrl),
+          image: NetworkImage(widget.car.photoUrl),
           placeholder: AssetImage('assets/img/jar-loading.gif'),
           height: 300.0,
           fit: BoxFit.cover,
         )
       : Image(
           // Si la foto.path es null escoje la imagen de assets
-          image: AssetImage(photo?.path ?? 'assets/img/no-image.png'),
+          image: AssetImage(widget.photo?.path ?? 'assets/img/no-image.png'),
           height: 300.0,
           fit: BoxFit.cover,
         );
 
   Widget _carYear() {
     return TextFormField(
-      initialValue: car.year.toString() ?? "1984",
+      initialValue: widget.car.year.toString() ?? "1984",
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
         labelText: 'Año del coche',
       ),
-      onSaved: (value) => car.year = int.tryParse(value),
+      onSaved: (value) => widget.car.year = int.tryParse(value),
       validator: (value) => utils.isNumber(value)
           ? null
           : 'Ingrese un año válido de 4 dígitos númericos',
@@ -106,12 +108,12 @@ class _CarFormState extends State<CarForm> {
 
   Widget _carBrand() {
     return TextFormField(
-      initialValue: car.brand,
+      initialValue: widget.car.brand,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Marca',
       ),
-      onSaved: (value) => car.brand = value,
+      onSaved: (value) => widget.car.brand = value,
       validator: (value) =>
           value.length < 3 ? 'Ingrese la marca del coche' : null,
     );
@@ -119,12 +121,12 @@ class _CarFormState extends State<CarForm> {
 
   Widget _carModel() {
     return TextFormField(
-      initialValue: car.model,
+      initialValue: widget.car.model,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Modelo',
       ),
-      onSaved: (value) => car.model = value,
+      onSaved: (value) => widget.car.model = value,
       validator: (value) =>
           value.length < 2 ? 'Ingrese el modelo del coche' : null,
     );
@@ -132,12 +134,12 @@ class _CarFormState extends State<CarForm> {
 
   Widget _carPower() {
     return TextFormField(
-      initialValue: car.power.toString() ?? "0",
+      initialValue: widget.car.power.toString() ?? "0",
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Potencia',
       ),
-      onSaved: (value) => car.power = int.tryParse(value),
+      onSaved: (value) => widget.car.power = int.tryParse(value),
       validator: (value) => utils.isNumber(value)
           ? null
           : 'Ingrese la potencia en caballos del coche',
@@ -146,12 +148,12 @@ class _CarFormState extends State<CarForm> {
 
   Widget _carKm() {
     return TextFormField(
-      initialValue: car.km.toString() ?? "0",
+      initialValue: widget.car.km.toString() ?? "0",
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
         labelText: 'Kilometros',
       ),
-      onSaved: (value) => car.km = int.tryParse(value),
+      onSaved: (value) => widget.car.km = int.tryParse(value),
       validator: (value) => utils.isNumber(value)
           ? null
           : 'Ingrese solo números para los kilometros',
@@ -160,12 +162,12 @@ class _CarFormState extends State<CarForm> {
 
   Widget _carPrice() {
     return TextFormField(
-      initialValue: car.price.toString() ?? "0",
+      initialValue: widget.car.price.toString() ?? "0",
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
         labelText: 'Precio',
       ),
-      onSaved: (value) => car.price = int.tryParse(value),
+      onSaved: (value) => widget.car.price = int.tryParse(value),
       validator: (value) =>
           utils.isNumber(value) ? null : 'Ingrese solo números para el precio',
     );
@@ -183,17 +185,20 @@ class _CarFormState extends State<CarForm> {
   }
 
   void _submit() async {
-    if (!formKey.currentState.validate()) return;
+    if (!widget.formKey.currentState.validate()) return;
 
-    formKey.currentState.save();
+    widget.formKey.currentState.save();
 
     setState(() => _isSaving = true);
 
     // Si hay foto (es != null) hay que subirla a cloudinary
-    if (photo != null) car.photoUrl = await carsBloc.uploadImage(photo);
+    if (widget.photo != null)
+      widget.car.photoUrl = await widget.carsBloc.uploadImage(widget.photo);
 
     // Si el coche no tiene ID lo crea
-    car.id == null ? carsBloc.addCar(car) : carsBloc.editCar(car);
+    widget.car.id == null
+        ? widget.carsBloc.addCar(widget.car)
+        : widget.carsBloc.editCar(widget.car);
 
     setState(() => _isSaving = false);
     utils.showSnackBar(context, 'Registro guardado correctamente');

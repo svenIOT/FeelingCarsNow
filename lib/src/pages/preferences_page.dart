@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 class PreferencesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('feeafeafgra'), // TODO:
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Preferencias"),
+      ),
+      body: Container(),
     );
   }
 }

@@ -23,8 +23,11 @@ class _EditCarPageState extends State<EditCarPage> {
   @override
   Widget build(BuildContext context) {
     carsBloc = Provider.carsBloc(context);
+
+    // Si se le pasa un coche desde el padre lo guarda en car (es editar coche)
     final CarModel argumentCar = ModalRoute.of(context).settings.arguments;
     if (argumentCar != null) car = argumentCar;
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -43,27 +46,15 @@ class _EditCarPageState extends State<EditCarPage> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(15.0),
-          child: CarForm(),
+          child: CarForm(
+            formKey: formKey,
+            car: car,
+            carsBloc: carsBloc,
+            photo: photo,
+          ),
         ),
       ),
-      floatingActionButton: _createFloatingActionButton(context),
     );
-  }
-
-  Widget _createFloatingActionButton(BuildContext context) =>
-      FloatingActionButton(
-        child: Icon(Icons.add),
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () => Navigator.pushNamed(context, 'car'),
-      );
-
-  void showSnackBar(String message) {
-    final snackbar = SnackBar(
-      content: Text(message),
-      duration: Duration(milliseconds: 1750),
-    );
-
-    scaffoldKey.currentState.showSnackBar(snackbar);
   }
 
   _selectGaleryImage() async {
@@ -79,12 +70,14 @@ class _EditCarPageState extends State<EditCarPage> {
   }
 
   _processImage(ImageSource source) async {
-    final pickedFile = await ImagePicker().getImage(
+    final pickedFile = await ImagePicker.pickImage(
       source: source,
     );
 
-    photo = File(pickedFile.path);
+    // Si hay foto seleccionada la asigna en photo
+    if (pickedFile != null) photo = File(pickedFile.path);
 
+    // Elimina la foto del modelo para añadir posteriormente la seleccionada
     if (photo != null) return car.photoUrl == null;
   }
 }
