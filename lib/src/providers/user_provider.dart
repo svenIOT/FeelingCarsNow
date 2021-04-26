@@ -14,9 +14,9 @@ class UserProvider {
       'returnSecureToken': true
     };
 
-    final resp = await http.post(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=$_firebaseKey',
-        body: json.encode(authData));
+    final url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=$_firebaseKey';
+    final resp = await http.post(Uri.parse(url), body: json.encode(authData));
 
     Map<String, dynamic> decodedResp = json.decode(resp.body);
     print(decodedResp);
@@ -36,9 +36,9 @@ class UserProvider {
       'returnSecureToken': true
     };
 
-    final resp = await http.post(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=$_firebaseKey',
-        body: json.encode(authData));
+    final url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=$_firebaseKey';
+    final resp = await http.post(Uri.parse(url), body: json.encode(authData));
 
     Map<String, dynamic> decodedResp = json.decode(resp.body);
     print(decodedResp);

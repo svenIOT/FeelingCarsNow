@@ -15,7 +15,7 @@ class CarProvider {
   Future<bool> createCar(CarModel car) async {
     final url = '$_url/cars.json?auth=${_prefs.token}';
 
-    final response = await http.post(url, body: carModelToJson(car));
+    final response = await http.post(Uri.parse(url), body: carModelToJson(car));
 
     final decodeData = json.decode(response.body);
 
@@ -25,7 +25,7 @@ class CarProvider {
   Future<bool> editCar(CarModel car) async {
     final url = '$_url/cars/${car.id}.json?auth=${_prefs.token}';
 
-    final response = await http.put(url, body: carModelToJson(car));
+    final response = await http.put(Uri.parse(url), body: carModelToJson(car));
 
     final decodeData = json.decode(response.body);
 
@@ -35,9 +35,9 @@ class CarProvider {
   Future<List<CarModel>> loadCars() async {
     final url = '$_url/cars.json?auth=${_prefs.token}';
 
-    final response = await http.get(url);
+    final response = await http.get(Uri.parse(url));
 
-    final List<CarModel> cars = new List();
+    final List<CarModel> cars = [];
     final Map<String, dynamic> decodedData = json.decode(response.body);
 
     if (decodedData == null || decodedData['error'] != null) return [];
@@ -63,7 +63,7 @@ class CarProvider {
 
   Future<bool> deleteCar(String id) async {
     final url = '$_url/cars/$id.json?auth=${_prefs.token}';
-    final response = await http.delete(url);
+    final response = await http.delete(Uri.parse(url));
 
     return true;
   }
