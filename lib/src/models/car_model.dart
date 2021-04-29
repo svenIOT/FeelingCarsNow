@@ -7,20 +7,21 @@ CarModel carModelFromJson(String str) => CarModel.fromJson(json.decode(str));
 String carModelToJson(CarModel data) => json.encode(data.toJson());
 
 class CarModel {
-  CarModel({
-    this.id,
-    this.brand,
-    this.category,
-    this.featured,
-    this.fuel,
-    this.km,
-    this.price,
-    this.power,
-    this.model,
-    this.userId,
-    this.year,
-    this.photoUrl,
-  });
+  CarModel(
+      {this.id,
+      this.brand,
+      this.category,
+      this.featured,
+      this.fuel,
+      this.km,
+      this.price,
+      this.power,
+      this.model,
+      this.userId,
+      this.year,
+      this.photoUrl,
+      this.description,
+      this.location});
 
   String id;
   String brand;
@@ -34,21 +35,24 @@ class CarModel {
   String userId;
   int year;
   String photoUrl;
+  String description;
+  String location;
 
   factory CarModel.fromJson(Map<String, dynamic> json) => CarModel(
-        id: json["id"],
-        brand: json["brand"],
-        category: json["category"],
-        featured: json["featured"],
-        fuel: json["fuel"],
-        km: json["km"],
-        power: json["power"],
-        price: json["price"],
-        model: json["model"],
-        userId: json["userID"],
-        year: json["year"],
-        photoUrl: json["photoUrl"],
-      );
+      id: json["id"],
+      brand: json["brand"],
+      category: json["category"],
+      featured: json["featured"],
+      fuel: json["fuel"],
+      km: json["km"],
+      power: json["power"],
+      price: json["price"],
+      model: json["model"],
+      userId: json["userID"],
+      year: json["year"],
+      photoUrl: json["photoUrl"],
+      description: json["description"],
+      location: json["location"]);
 
   Map<String, dynamic> toJson() => {
         //"id": id, evitar duplicado de ID
@@ -61,6 +65,8 @@ class CarModel {
         "price": price,
         "model": model,
         "userID": userId,
-        "photoUrl": photoUrl
+        "photoUrl": photoUrl,
+        "description": description,
+        "location": location
       };
 }

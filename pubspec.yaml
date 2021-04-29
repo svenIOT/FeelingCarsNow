@@ -35,6 +35,7 @@ dependencies:
   shared_preferences:
   flutter_multiselect: ^0.5.1
   flutter_email_sender: ^5.0.0
+  flutter_icons: ^1.1.0
 
 dev_dependencies:
   flutter_test:

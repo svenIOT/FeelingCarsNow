@@ -1,11 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'dart:async';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:feeling_cars_now/src/widgets/text_header.dart';
 
 class ErrorReportPage extends StatefulWidget {
   const ErrorReportPage({Key key}) : super(key: key);
