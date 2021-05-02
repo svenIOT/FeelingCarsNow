@@ -1,13 +1,24 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:feeling_cars_now/src/constants/multiselect_items_constants.dart'
     as MultiselectItemsConstants;
 import 'package:feeling_cars_now/src/constants/modalbutton_options_constants.dart'
     as ModalbuttonOptionsConstants;
 import 'package:feeling_cars_now/src/widgets/multiselect_custom.dart';
+import 'package:feeling_cars_now/src/widgets/text_header.dart';
+import 'package:feeling_cars_now/src/utils/utils.dart' as Utils;
+import 'package:feeling_cars_now/src/models/filter_model.dart';
 
-class SearchAndFiltersPage extends StatelessWidget {
+class SearchAndFiltersPage extends StatefulWidget {
+  @override
+  _SearchAndFiltersPageState createState() => _SearchAndFiltersPageState();
+}
+
+class _SearchAndFiltersPageState extends State<SearchAndFiltersPage> {
+  Filter filter = new Filter();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +66,7 @@ class SearchAndFiltersPage extends StatelessWidget {
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
           hintText: 'Buscar...',
-          contentPadding: const EdgeInsets.all(10),
+          contentPadding: EdgeInsets.all(10),
         ),
       ),
     );
@@ -74,10 +85,15 @@ class SearchAndFiltersPage extends StatelessWidget {
             title: 'Combustible',
             dataSource: MultiselectItemsConstants.multiselectFuel,
           ),
-          SizedBox(height: 20.0),
-          _kmPicker(context),
           SizedBox(height: 10.0),
-          _powerPicker(context),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              TextHeader('Kilometros'),
+              TextHeader('Potencia'),
+            ],
+          ),
+          _kmAndPowerPickers(context),
         ],
       ),
     );
@@ -85,16 +101,17 @@ class SearchAndFiltersPage extends StatelessWidget {
 
   Widget _createApllyButton(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 30.0),
       child: ElevatedButton(
-        child: Text('Aplicar'),
+        child: Row(
+          children: [Text('Aplicar   '), Icon(FontAwesome.flag_checkered)],
+        ),
         style: ElevatedButton.styleFrom(
           primary: Theme.of(context).primaryColor,
         ),
         onPressed: () {
           // Navegar a una nueva página con los resultados
-          Navigator.pushNamed(
-              context, 'find'); // TODO: arguments: filtros y texto
+          Navigator.pushNamed(context, 'find',
+              arguments: filter); // TODO: arguments: filtros
         },
       ),
     );
@@ -102,9 +119,8 @@ class SearchAndFiltersPage extends StatelessWidget {
 
   Widget _createResetButton(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 30.0),
       child: ElevatedButton(
-        child: Icon(Icons.restore),
+        child: Icon(MaterialCommunityIcons.restore),
         style: ElevatedButton.styleFrom(
           primary: Theme.of(context).primaryColor,
         ),
@@ -115,111 +131,93 @@ class SearchAndFiltersPage extends StatelessWidget {
     );
   }
 
-  Widget _kmPicker(BuildContext context) {
+  Widget _kmAndPowerPickers(BuildContext context) {
     return Row(
-      children: [
-        MaterialButton(
-          child: Text(
-            "Kilometros desde...",
-            style: TextStyle(color: Theme.of(context).primaryColor),
-          ),
-          color: Colors.grey[200],
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                builder: (BuildContext builder) {
-                  return Container(
-                    height: MediaQuery.of(context).copyWith().size.height / 3,
-                    child: CupertinoPicker(
-                      itemExtent: 50,
-                      onSelectedItemChanged: (index) {
-                        print(index);
-                      },
-                      children: ModalbuttonOptionsConstants.carKilometersValues,
-                    ),
-                  );
-                });
-          },
+      children: <Widget>[
+        _createModalBottomSheet(
+          header: '${filter.kmSince ?? 0} - ${filter.kmUntil ?? 0}',
+          firstOnItemChange: (index) => setState(() => filter.kmSince =
+              int.tryParse(ModalbuttonOptionsConstants
+                  .carKilometersValues[index]
+                  .replaceFirst('.', ''))),
+          secondOnItemChange: (index) => setState(() => filter.kmUntil =
+              int.tryParse(ModalbuttonOptionsConstants
+                  .carKilometersValues[index]
+                  .replaceFirst('.', ''))),
+          children: ModalbuttonOptionsConstants.carKilometersValues
+              .map((e) => Text(e))
+              .toList(),
         ),
         SizedBox(width: 10.0),
-        MaterialButton(
-          child: Text(
-            "Kilometros hasta...",
-            style: TextStyle(color: Theme.of(context).primaryColor),
-          ),
-          color: Colors.grey[200],
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                builder: (BuildContext builder) {
-                  return Container(
-                    height: MediaQuery.of(context).copyWith().size.height / 3,
-                    child: CupertinoPicker(
-                      itemExtent: 50,
-                      onSelectedItemChanged: (index) {
-                        print(index);
-                      },
-                      children: ModalbuttonOptionsConstants.carKilometersValues,
-                    ),
-                  );
-                });
-          },
-        ),
+        _createModalBottomSheet(
+          header: '${filter.powerSince ?? 0} - ${filter.powerUntil ?? 0}',
+          firstOnItemChange: (index) => setState(() => filter.powerSince =
+              int.tryParse(ModalbuttonOptionsConstants.carPowerValues[index])),
+          secondOnItemChange: (index) => setState(() => filter.powerUntil =
+              int.tryParse(ModalbuttonOptionsConstants.carPowerValues[index])),
+          children: ModalbuttonOptionsConstants.carPowerValues
+              .map((e) => Text(e))
+              .toList(),
+        )
       ],
     );
   }
 
-  Widget _powerPicker(BuildContext context) {
-    return Row(
-      children: [
-        MaterialButton(
-          child: Text(
-            "Potencia desde...    ",
-            style: TextStyle(color: Theme.of(context).primaryColor),
-          ),
-          color: Colors.grey[200],
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                builder: (BuildContext builder) {
-                  return Container(
-                    height: MediaQuery.of(context).copyWith().size.height / 3,
-                    child: CupertinoPicker(
-                      itemExtent: 50,
-                      onSelectedItemChanged: (index) {
-                        print(index);
-                      },
-                      children: ModalbuttonOptionsConstants.carPowerValues,
-                    ),
-                  );
-                });
-          },
+  Widget _createModalBottomSheet({
+    String header,
+    void Function(int) firstOnItemChange,
+    void Function(int) secondOnItemChange,
+    List<Widget> children,
+  }) {
+    final height = Utils.getDeviceSize(context).height / 3;
+
+    return Expanded(
+      child: MaterialButton(
+        child: Text(
+          header,
+          style: TextStyle(color: Theme.of(context).primaryColor),
         ),
-        SizedBox(width: 10.0),
-        MaterialButton(
-          child: Text(
-            "Potencia hasta...    ",
-            style: TextStyle(color: Theme.of(context).primaryColor),
-          ),
-          color: Colors.grey[200],
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                builder: (BuildContext builder) {
-                  return Container(
-                    height: MediaQuery.of(context).copyWith().size.height / 3,
-                    child: CupertinoPicker(
-                      itemExtent: 50,
-                      onSelectedItemChanged: (index) {
-                        print(index);
-                      },
-                      children: ModalbuttonOptionsConstants.carPowerValues,
+        color: Colors.grey[200],
+        onPressed: () => showModalBottomSheet(
+          context: context,
+          builder: (BuildContext builder) => Container(
+            height: height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [TextHeader('Desde'), TextHeader('Hasta')],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: height,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: CupertinoPicker(
+                            itemExtent: 50,
+                            onSelectedItemChanged: firstOnItemChange,
+                            children: children,
+                          ),
+                        ),
+                        Expanded(
+                          child: CupertinoPicker(
+                              itemExtent: 50,
+                              onSelectedItemChanged: secondOnItemChange,
+                              children: children),
+                        ),
+                      ],
                     ),
-                  );
-                });
-          },
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-      ],
+      ),
     );
   }
 }

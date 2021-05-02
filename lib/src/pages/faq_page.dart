@@ -3,19 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:feeling_cars_now/src/constants/faq_constants.dart'
     as faqConstants;
 import 'package:feeling_cars_now/src/widgets/text_header.dart';
+import 'package:feeling_cars_now/src/models/item_model.dart';
 
 class FaqPage extends StatefulWidget {
   @override
   _FaqPageState createState() => _FaqPageState();
-}
-
-// Clase item
-class Item {
-  bool isExpanded;
-  final String header;
-  final String body;
-
-  Item({this.isExpanded: false, this.header, this.body});
 }
 
 class _FaqPageState extends State<FaqPage> {

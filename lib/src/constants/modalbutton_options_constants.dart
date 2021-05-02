@@ -1,23 +1,23 @@
-import 'package:flutter/material.dart';
-
-const List<Widget> carKilometersValues = [
-  Text('10.000'),
-  Text('30.000'),
-  Text('50.000'),
-  Text('70.000'),
-  Text('100.000'),
-  Text('150.000'),
-  Text('200.000'),
-  Text('+200.000'),
+const List<String> carKilometersValues = [
+  '0',
+  '10.000',
+  '30.000',
+  '50.000',
+  '70.000',
+  '100.000',
+  '150.000',
+  '200.000',
+  '+200.000',
 ];
 
-const List<Widget> carPowerValues = [
-  Text('100'),
-  Text('200'),
-  Text('250'),
-  Text('300'),
-  Text('350'),
-  Text('400'),
-  Text('500'),
-  Text('+500'),
+const List<String> carPowerValues = [
+  '0',
+  '100',
+  '200',
+  '250',
+  '300',
+  '350',
+  '400',
+  '500',
+  '+500',
 ];
