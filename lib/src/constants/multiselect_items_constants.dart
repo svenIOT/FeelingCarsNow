@@ -1,21 +1,21 @@
-const List<Map<String, Object>> multiselectCategory = [
+const List<Map<String, String>> multiselectCategory = [
   {
     "display": "Calle",
-    "value": 1,
+    "value": "Calle",
   },
   {
     "display": "Rally",
-    "value": 2,
+    "value": "Rally",
   },
 ];
 
 const List<Map<String, Object>> multiselectFuel = [
   {
     "display": "Gasolina",
-    "value": 1,
+    "value": "Gasolina",
   },
   {
     "display": "Híbrido",
-    "value": 2,
+    "value": "Hibrido",
   },
 ];

@@ -17,6 +17,8 @@ class SearchAndFiltersPage extends StatefulWidget {
 }
 
 class _SearchAndFiltersPageState extends State<SearchAndFiltersPage> {
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  final textController = TextEditingController();
   Filter filter = new Filter();
 
   @override
@@ -30,20 +32,26 @@ class _SearchAndFiltersPageState extends State<SearchAndFiltersPage> {
           padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
           child: Column(
             children: <Widget>[
-              // Barra de búsqueda
-              _createSearchInput(context),
-              SizedBox(height: 20.0),
-              // filtros
-              _createFilters(context),
-              SizedBox(height: 20.0),
-              // Botones
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  _createResetButton(context),
-                  _createApllyButton(context),
-                ],
-              )
+              Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      // Barra de búsqueda
+                      _createSearchInput(context),
+                      SizedBox(height: 20.0),
+                      // filtros
+                      _createFilters(context),
+                      SizedBox(height: 20.0),
+                      // Botones
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          _createResetButton(context),
+                          _createApllyButton(context),
+                        ],
+                      )
+                    ],
+                  ))
             ],
           ),
         ),
@@ -63,11 +71,13 @@ class _SearchAndFiltersPageState extends State<SearchAndFiltersPage> {
         ),
       ),
       child: TextField(
+        controller: textController,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
           hintText: 'Buscar...',
           contentPadding: EdgeInsets.all(10),
         ),
+        onChanged: (String value) => value = textController.text,
       ),
     );
   }
@@ -79,11 +89,15 @@ class _SearchAndFiltersPageState extends State<SearchAndFiltersPage> {
           MultiselectCustom(
             title: 'Homologación',
             dataSource: MultiselectItemsConstants.multiselectCategory,
+            filter: filter,
+            category: true,
           ),
           SizedBox(height: 20.0),
           MultiselectCustom(
             title: 'Combustible',
             dataSource: MultiselectItemsConstants.multiselectFuel,
+            filter: filter,
+            category: false,
           ),
           SizedBox(height: 10.0),
           Row(
@@ -109,9 +123,17 @@ class _SearchAndFiltersPageState extends State<SearchAndFiltersPage> {
           primary: Theme.of(context).primaryColor,
         ),
         onPressed: () {
+          // Eliminar espacios sobrantes y guardar palabras
+          filter.searchWords = textController.text
+              .replaceAll(RegExp(' +'), ' ')
+              .trimRight()
+              .trimLeft()
+              .split(" ");
+          // Guardar estado
+          final FormState form = _formKey.currentState;
+          form.save();
           // Navegar a una nueva página con los resultados
-          Navigator.pushNamed(context, 'find',
-              arguments: filter); // TODO: arguments: filtros
+          Navigator.pushNamed(context, 'find', arguments: filter);
         },
       ),
     );
@@ -163,12 +185,11 @@ class _SearchAndFiltersPageState extends State<SearchAndFiltersPage> {
     );
   }
 
-  Widget _createModalBottomSheet({
-    String header,
-    void Function(int) firstOnItemChange,
-    void Function(int) secondOnItemChange,
-    List<Widget> children,
-  }) {
+  Widget _createModalBottomSheet(
+      {String header,
+      void Function(int) firstOnItemChange,
+      void Function(int) secondOnItemChange,
+      List<Widget> children}) {
     final height = Utils.getDeviceSize(context).height / 3;
 
     return Expanded(

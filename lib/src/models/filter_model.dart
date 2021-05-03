@@ -1,7 +1,7 @@
 class Filter {
   List<String> searchWords = [];
-  String category = "";
-  String fuel = "";
+  List<String> category = [];
+  List<String> fuel = [];
   int kmSince = 0;
   int kmUntil = 999999;
   int powerSince = 0;
