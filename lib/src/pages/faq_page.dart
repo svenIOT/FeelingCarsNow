@@ -71,9 +71,11 @@ class _FaqPageState extends State<FaqPage> {
               animationDuration: Duration(seconds: 1),
               expansionCallback: (index, isExpanded) => setState(() {
                 // TODO: no se aplica el cambio en los expansionPanel
-                print(_faqBasicsItems[index].isExpanded);
+                print(
+                    'Elemento ${index} - Pre tap ${_faqBasicsItems[index].isExpanded}');
                 _faqBasicsItems[index].isExpanded = !isExpanded;
-                print(_faqBasicsItems[index].isExpanded);
+                print(
+                    'Elemento ${index} - Post tap ${_faqBasicsItems[index].isExpanded}');
               }),
               children: _createExpansionPanels(_faqBasicsItems),
               expandedHeaderPadding: EdgeInsets.all(5.0),

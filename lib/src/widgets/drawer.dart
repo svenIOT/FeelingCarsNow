@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class UserDrawer extends StatelessWidget {
   @override
@@ -10,7 +11,7 @@ class UserDrawer extends StatelessWidget {
           _createHeader(),
           SizedBox(height: 5.0),
           _createDrawerItem(
-            icon: Icons.car_rental,
+            icon: MaterialCommunityIcons.car_back,
             text: 'Mis coches',
             onTap: () => Navigator.pushNamed(context, 'resume'),
           ),

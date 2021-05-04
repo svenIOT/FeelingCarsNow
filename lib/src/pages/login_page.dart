@@ -54,14 +54,18 @@ class LoginPage extends StatelessWidget {
               ],
             ),
           ),
-          FlatButton(
+          ElevatedButton(
+            style:
+                ElevatedButton.styleFrom(primary: Colors.white30, elevation: 0),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     '¿No tienes cuenta? Crea una ',
-                    style:
-                        TextStyle(fontWeight: FontWeight.w400, fontSize: 16.0),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16.0,
+                        color: Colors.black),
                   ),
                   Text("aquí",
                       style: TextStyle(
@@ -124,16 +128,14 @@ class LoginPage extends StatelessWidget {
   Widget _createButton(LoginBloc bloc) => StreamBuilder(
         stream: bloc.formValidStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return RaisedButton(
+          return ElevatedButton(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
               child: Text('Ingresar'),
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
+            style: ElevatedButton.styleFrom(
+              primary: Theme.of(context).primaryColor,
             ),
-            color: Theme.of(context).primaryColor,
-            textColor: Colors.white,
             onPressed: snapshot.hasData ? () => _login(context, bloc) : null,
           );
         },

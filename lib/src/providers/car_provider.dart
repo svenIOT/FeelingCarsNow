@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:feeling_cars_now/src/models/car_model.dart';
+import 'package:feeling_cars_now/src/models/filter_model.dart';
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -17,7 +18,7 @@ class CarProvider {
 
     final response = await http.post(Uri.parse(url), body: carModelToJson(car));
 
-    final decodeData = json.decode(response.body);
+    json.decode(response.body);
 
     return true;
   }
@@ -27,7 +28,7 @@ class CarProvider {
 
     final response = await http.put(Uri.parse(url), body: carModelToJson(car));
 
-    final decodeData = json.decode(response.body);
+    json.decode(response.body);
 
     return true;
   }
@@ -63,9 +64,45 @@ class CarProvider {
 
   Future<bool> deleteCar(String id) async {
     final url = '$_url/cars/$id.json?auth=${_prefs.token}';
-    final response = await http.delete(Uri.parse(url));
+    await http.delete(Uri.parse(url));
 
     return true;
+  }
+
+  Future<List<CarModel>> loadFilteredCars(Filter filter) async {
+    final List<CarModel> cars = await loadCars();
+    List<CarModel> filteredKmCars = [];
+    List<CarModel> filteredPowerCars = [];
+    List<CarModel> filteredCategoryCars = [];
+    List<CarModel> filteredSearchWordsCars = [];
+
+    // Si no hay filtro devuelve todos los coches
+    if (filter == null) return cars;
+
+    // Filtrar por palabras clave
+    if (filter.searchWords.isNotEmpty) {}
+
+    // Filtrar por kilómetros y potencia
+    if (filter.kmSince != 0 && filter.kmUntil != 0) {
+      filteredKmCars = cars.where((car) {
+        return car.km >= filter.kmSince && car.km <= filter.kmUntil;
+      }).toList();
+    }
+
+    if (filter.powerSince != 0 && filter.powerUntil != 0) {
+      filteredPowerCars = cars.where((car) {
+        return car.power >= filter.powerSince && car.km <= filter.powerUntil;
+      }).toList();
+    }
+    // Filtrar por categoría y combustible
+
+    List<CarModel> filteredCars = [
+      ...filteredKmCars,
+      ...filteredPowerCars,
+      ...filteredCategoryCars,
+      ...filteredSearchWordsCars
+    ];
+    return filteredCars;
   }
 
   Future<String> uploadImage(File image) async {
