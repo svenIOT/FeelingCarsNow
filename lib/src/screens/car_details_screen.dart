@@ -6,12 +6,12 @@ import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/models/car_model.dart';
 import 'package:feeling_cars_now/src/widgets/text_header.dart';
 
-class CarDetailsPage extends StatefulWidget {
+class CarDetailsScreen extends StatefulWidget {
   @override
-  _CarDetailsPageState createState() => _CarDetailsPageState();
+  _CarDetailsScreenState createState() => _CarDetailsScreenState();
 }
 
-class _CarDetailsPageState extends State<CarDetailsPage> {
+class _CarDetailsScreenState extends State<CarDetailsScreen> {
   CarsBloc carsBloc;
   CarModel car = new CarModel();
 

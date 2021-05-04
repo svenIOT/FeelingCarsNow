@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class UserCarsPage extends StatelessWidget {
+class UserCarsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

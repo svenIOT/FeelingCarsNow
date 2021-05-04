@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PreferencesPage extends StatelessWidget {
+class PreferencesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

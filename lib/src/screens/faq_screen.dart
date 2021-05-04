@@ -5,12 +5,12 @@ import 'package:feeling_cars_now/src/constants/faq_constants.dart'
 import 'package:feeling_cars_now/src/widgets/text_header.dart';
 import 'package:feeling_cars_now/src/models/item_model.dart';
 
-class FaqPage extends StatefulWidget {
+class FaqScreen extends StatefulWidget {
   @override
-  _FaqPageState createState() => _FaqPageState();
+  _FaqScreenState createState() => _FaqScreenState();
 }
 
-class _FaqPageState extends State<FaqPage> {
+class _FaqScreenState extends State<FaqScreen> {
   @override
   Widget build(BuildContext context) {
     // Creación de items desde los datos en las constantes

@@ -6,7 +6,7 @@ import 'package:feeling_cars_now/src/widgets/text_header.dart';
 import 'package:feeling_cars_now/src/widgets/featured_cars.dart';
 import 'package:feeling_cars_now/src/widgets/standard_cars.dart';
 
-class HomePage extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final featuredCarsBloc = Provider.carsBloc(context);

@@ -4,9 +4,8 @@ import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/providers/user_provider.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart';
 
-class RegisterPage extends StatelessWidget {
-  final userProvider = new UserProvider();
-
+class LoginScreen extends StatelessWidget {
+  final _userProvider = new UserProvider();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -45,7 +44,7 @@ class RegisterPage extends StatelessWidget {
             ),
             child: Column(
               children: <Widget>[
-                Text('Crear cuenta', style: TextStyle(fontSize: 20.0)),
+                Text('Datos de acceso', style: TextStyle(fontSize: 20.0)),
                 SizedBox(height: 60.0),
                 _createEmail(bloc),
                 SizedBox(height: 30.0),
@@ -62,7 +61,7 @@ class RegisterPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    '¿Ya tienes cuenta? Accede ',
+                    '¿No tienes cuenta? Crea una ',
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16.0,
@@ -74,7 +73,8 @@ class RegisterPage extends StatelessWidget {
                           fontSize: 16.0,
                           color: Theme.of(context).primaryColor))
                 ]),
-            onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, 'register'),
           ),
           SizedBox(height: 100.0)
         ],
@@ -94,7 +94,6 @@ class RegisterPage extends StatelessWidget {
                     color: Theme.of(context).primaryColor),
                 labelText: 'Correo electrónico',
                 hintText: 'ejemplo@correo.com',
-                counterText: snapshot.data,
                 errorText: snapshot.error,
               ),
               onChanged: (value) => bloc.changeEmail(value),
@@ -116,7 +115,6 @@ class RegisterPage extends StatelessWidget {
                     color: Theme.of(context).primaryColor),
                 labelText: 'Contraseña',
                 hintText: 'Contraseña',
-                counterText: snapshot.data,
                 errorText: snapshot.error,
               ),
               onChanged: (value) => bloc.changePassword(value),
@@ -131,23 +129,23 @@ class RegisterPage extends StatelessWidget {
           return ElevatedButton(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-              child: Text('Registrar'),
+              child: Text('Ingresar'),
             ),
             style: ElevatedButton.styleFrom(
               primary: Theme.of(context).primaryColor,
             ),
-            onPressed: snapshot.hasData ? () => _register(context, bloc) : null,
+            onPressed: snapshot.hasData ? () => _login(context, bloc) : null,
           );
         },
       );
 
-  _register(BuildContext context, LoginBloc bloc) async {
-    final info = await userProvider.newUser(bloc.email, bloc.password);
+  _login(BuildContext context, LoginBloc bloc) async {
+    Map info = await _userProvider.login(bloc.email, bloc.password);
 
     return (info['ok'])
         ? Navigator.pushReplacementNamed(context, 'home')
-        : showAlert(context,
-            'Ya existe una cuenta con ese email,\ninfo: ' + info['message']);
+        : showAlert(
+            context, 'Email o contraseña no válido,\ninfo: ' + info['message']);
   }
 
   Widget _createBackground(BuildContext context, Size size) {
@@ -179,10 +177,9 @@ class RegisterPage extends StatelessWidget {
           padding: EdgeInsets.only(top: 80.0),
           child: Column(
             children: <Widget>[
-              Icon(Icons.supervised_user_circle_rounded,
-                  color: Colors.white, size: 100.0),
+              Icon(Icons.car_repair, color: Colors.white, size: 100.0),
               SizedBox(height: 10.0, width: double.infinity),
-              Text('Bienvenido',
+              Text('Feeling Cars Now',
                   style: TextStyle(color: Colors.white, fontSize: 25.0))
             ],
           ),

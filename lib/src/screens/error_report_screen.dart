@@ -5,13 +5,13 @@ import 'dart:async';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
-class ErrorReportPage extends StatefulWidget {
-  const ErrorReportPage({Key key}) : super(key: key);
+class ErrorReportScreen extends StatefulWidget {
+  const ErrorReportScreen({Key key}) : super(key: key);
   @override
-  _ErrorReportPageState createState() => _ErrorReportPageState();
+  _ErrorReportScreenState createState() => _ErrorReportScreenState();
 }
 
-class _ErrorReportPageState extends State<ErrorReportPage> {
+class _ErrorReportScreenState extends State<ErrorReportScreen> {
   List<String> attachments = [];
 
   final _recipientController = TextEditingController(

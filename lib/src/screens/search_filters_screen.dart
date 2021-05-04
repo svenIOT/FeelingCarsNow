@@ -11,12 +11,12 @@ import 'package:feeling_cars_now/src/widgets/text_header.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart' as Utils;
 import 'package:feeling_cars_now/src/models/filter_model.dart';
 
-class SearchAndFiltersPage extends StatefulWidget {
+class SearchAndFiltersScreen extends StatefulWidget {
   @override
-  _SearchAndFiltersPageState createState() => _SearchAndFiltersPageState();
+  _SearchAndFiltersScreenState createState() => _SearchAndFiltersScreenState();
 }
 
-class _SearchAndFiltersPageState extends State<SearchAndFiltersPage> {
+class _SearchAndFiltersScreenState extends State<SearchAndFiltersScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final textController = TextEditingController();
   Filter filter = new Filter();

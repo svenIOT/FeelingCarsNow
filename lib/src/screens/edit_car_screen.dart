@@ -7,12 +7,12 @@ import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/models/car_model.dart';
 import 'package:feeling_cars_now/src/widgets/car_form.dart';
 
-class EditCarPage extends StatefulWidget {
+class EditCarScreen extends StatefulWidget {
   @override
-  _EditCarPageState createState() => _EditCarPageState();
+  _EditCarScreenState createState() => _EditCarScreenState();
 }
 
-class _EditCarPageState extends State<EditCarPage> {
+class _EditCarScreenState extends State<EditCarScreen> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 

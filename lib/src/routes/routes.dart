@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 
-import 'package:feeling_cars_now/src/pages/home_page.dart';
-import 'package:feeling_cars_now/src/pages/login_page.dart';
-import 'package:feeling_cars_now/src/pages/edit_car_page.dart';
-import 'package:feeling_cars_now/src/pages/register_page.dart';
-import 'package:feeling_cars_now/src/pages/user_cars_page.dart';
-import 'package:feeling_cars_now/src/pages/car_details_page.dart';
-import 'package:feeling_cars_now/src/pages/preferences_page.dart';
-import 'package:feeling_cars_now/src/pages/error_report_page.dart';
-import 'package:feeling_cars_now/src/pages/find_page.dart';
-import 'package:feeling_cars_now/src/pages/faq_page.dart';
-import 'package:feeling_cars_now/src/pages/search_filters_page.dart';
+import 'package:feeling_cars_now/src/screens/home_screen.dart';
+import 'package:feeling_cars_now/src/screens/login_screen.dart';
+import 'package:feeling_cars_now/src/screens/edit_car_screen.dart';
+import 'package:feeling_cars_now/src/screens/register_screen.dart';
+import 'package:feeling_cars_now/src/screens/user_cars_screen.dart';
+import 'package:feeling_cars_now/src/screens/car_details_screen.dart';
+import 'package:feeling_cars_now/src/screens/preferences_screen.dart';
+import 'package:feeling_cars_now/src/screens/error_report_screen.dart';
+import 'package:feeling_cars_now/src/screens/find_screen.dart';
+import 'package:feeling_cars_now/src/screens/faq_screen.dart';
+import 'package:feeling_cars_now/src/screens/search_filters_screen.dart';
 
 final routes = <String, WidgetBuilder>{
-  'login': (_) => LoginPage(),
-  'home': (_) => HomePage(),
-  'register': (_) => RegisterPage(),
-  'car': (_) => EditCarPage(),
-  'resume': (_) => UserCarsPage(),
-  'details': (_) => CarDetailsPage(),
-  'preferences': (_) => PreferencesPage(),
-  'error': (_) => ErrorReportPage(),
-  'search': (_) => SearchAndFiltersPage(),
-  'find': (_) => FindPage(),
-  'faq': (_) => FaqPage()
+  'login': (_) => LoginScreen(),
+  'home': (_) => HomeScreen(),
+  'register': (_) => RegisterScreen(),
+  'car': (_) => EditCarScreen(),
+  'resume': (_) => UserCarsScreen(),
+  'details': (_) => CarDetailsScreen(),
+  'preferences': (_) => PreferencesScreen(),
+  'error': (_) => ErrorReportScreen(),
+  'search': (_) => SearchAndFiltersScreen(),
+  'find': (_) => FindScreen(),
+  'faq': (_) => FaqScreen()
 };
