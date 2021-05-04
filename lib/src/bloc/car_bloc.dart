@@ -3,10 +3,12 @@ import 'package:rxdart/rxdart.dart';
 
 import 'package:feeling_cars_now/src/providers/car_provider.dart';
 import 'package:feeling_cars_now/src/models/car_model.dart';
+import 'package:feeling_cars_now/src/models/filter_model.dart';
 
 class CarsBloc {
   final _carsController = new BehaviorSubject<List<CarModel>>();
   final _featuredCarsController = new BehaviorSubject<List<CarModel>>();
+  final _filteredCarsController = new BehaviorSubject<List<CarModel>>();
   final _loadingController = new BehaviorSubject<bool>();
 
   final _carsProvider = new CarProvider();
@@ -14,6 +16,8 @@ class CarsBloc {
   Stream<List<CarModel>> get carsStream => _carsController.stream;
   Stream<List<CarModel>> get featuredCarsStream =>
       _featuredCarsController.stream;
+  Stream<List<CarModel>> get filteredCarsStream =>
+      _filteredCarsController.stream;
   Stream<bool> get loading => _loadingController.stream;
 
   void loadCars() async {
@@ -24,6 +28,11 @@ class CarsBloc {
   void loadFeaturedCars() async {
     final featuredCars = await _carsProvider.loadFeaturedCars();
     _featuredCarsController.sink.add(featuredCars);
+  }
+
+  void loadFilteredCars(Filter filter) async {
+    final filteredCars = await _carsProvider.loadFilteredCars(filter);
+    _filteredCarsController.sink.add(filteredCars);
   }
 
   void addCar(CarModel car) async {
@@ -54,5 +63,6 @@ class CarsBloc {
     _carsController?.close();
     _loadingController?.close();
     _featuredCarsController?.close();
+    _filteredCarsController?.close();
   }
 }

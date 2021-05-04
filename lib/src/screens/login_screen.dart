@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:feeling_cars_now/src/bloc/login_bloc.dart';
-import 'package:feeling_cars_now/src/bloc/provider.dart';
+import 'package:feeling_cars_now/src/bloc/provider.dart' as MyProvider;
 import 'package:feeling_cars_now/src/providers/user_provider.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart';
+import 'package:flutter_signin_button/button_view.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:feeling_cars_now/src/bloc/auth_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   final _userProvider = new UserProvider();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -20,7 +26,8 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _loginForm(BuildContext context, Size size) {
-    final bloc = Provider.of(context);
+    final bloc = MyProvider.Provider.of(context);
+    final googleAuthBloc = Provider.of<AuthBloc>(context);
 
     return SingleChildScrollView(
       child: Column(
@@ -50,32 +57,18 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 30.0),
                 _createPassword(bloc),
                 SizedBox(height: 30.0),
-                _createButton(bloc)
+                _createLoginButton(bloc),
+                SizedBox(height: 30.0),
+                SignInButton(Buttons.Google,
+                    text: 'Inicia sesión con Google',
+                    onPressed: () async =>
+                        await googleAuthBloc.loginWithGoogle()
+                            ? Navigator.pushReplacementNamed(context, 'home')
+                            : null),
               ],
             ),
           ),
-          ElevatedButton(
-            style:
-                ElevatedButton.styleFrom(primary: Colors.white30, elevation: 0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    '¿No tienes cuenta? Crea una ',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16.0,
-                        color: Colors.black),
-                  ),
-                  Text("aquí",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                          color: Theme.of(context).primaryColor))
-                ]),
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, 'register'),
-          ),
+          _registerNewAccount(context),
           SizedBox(height: 100.0)
         ],
       ),
@@ -123,7 +116,7 @@ class LoginScreen extends StatelessWidget {
         },
       );
 
-  Widget _createButton(LoginBloc bloc) => StreamBuilder(
+  Widget _createLoginButton(LoginBloc bloc) => StreamBuilder(
         stream: bloc.formValidStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return ElevatedButton(
@@ -148,43 +141,32 @@ class LoginScreen extends StatelessWidget {
             context, 'Email o contraseña no válido,\ninfo: ' + info['message']);
   }
 
-  Widget _createBackground(BuildContext context, Size size) {
-    final backgroundGradient = Container(
-      height: size.height * 0.4,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(colors: <Color>[
-        Color.fromRGBO(63, 63, 156, 1.0),
-        Color.fromRGBO(90, 70, 178, 1.0),
-      ])),
-    );
+  Widget _createBackground(BuildContext context, Size size) => Container(
+        height: size.height * 0.4,
+        width: double.infinity,
+        child: Image(
+          image: AssetImage('assets/img/logo.png'),
+          fit: BoxFit.fill,
+        ),
+      );
 
-    final backgroundCircles = Container(
-      width: 100.0,
-      height: 100.0,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100.0),
-        color: Color.fromRGBO(255, 255, 255, 0.06),
-      ),
-    );
-
-    return Stack(
-      children: <Widget>[
-        backgroundGradient,
-        Positioned(top: 90.0, left: -30.0, child: backgroundCircles),
-        Positioned(top: -40.0, right: -30.0, child: backgroundCircles),
-        Container(
-          padding: EdgeInsets.only(top: 80.0),
-          child: Column(
-            children: <Widget>[
-              Icon(Icons.car_repair, color: Colors.white, size: 100.0),
-              SizedBox(height: 10.0, width: double.infinity),
-              Text('Feeling Cars Now',
-                  style: TextStyle(color: Colors.white, fontSize: 25.0))
-            ],
+  Widget _registerNewAccount(BuildContext context) => ElevatedButton(
+        style: ElevatedButton.styleFrom(primary: Colors.white30, elevation: 0),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          Text(
+            '¿No tienes cuenta? Crea una ',
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 16.0,
+                color: Colors.black),
           ),
-        )
-      ],
-    );
-  }
+          Text("aquí",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                  color: Theme.of(context).primaryColor))
+        ]),
+        onPressed: () => Navigator.pushReplacementNamed(context, 'register'),
+      );
 }

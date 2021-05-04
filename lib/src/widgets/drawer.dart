@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
+
+import 'package:feeling_cars_now/src/bloc/auth_bloc.dart';
 
 class UserDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final googleAuthBloc = Provider.of<AuthBloc>(context);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -41,7 +46,11 @@ class UserDrawer extends StatelessWidget {
           _createDrawerItem(
             icon: Icons.logout,
             text: 'Cerrar sesión',
-            onTap: () => Navigator.pushReplacementNamed(context, 'login'),
+            onTap: () {
+              // Cerrar sesión con google
+              googleAuthBloc?.logout();
+              Navigator.pushReplacementNamed(context, 'login');
+            },
           ),
           ListTile(
             title: Text('0.0.1'),

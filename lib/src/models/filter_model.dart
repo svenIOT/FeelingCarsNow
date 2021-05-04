@@ -1,19 +1,19 @@
 class Filter {
-  List<String> searchWords = [];
+  String searchWords;
   List<String> category = [];
   List<String> fuel = [];
-  int kmSince = 0;
-  int kmUntil = 999999;
-  int powerSince = 0;
-  int powerUntil = 9999;
+  int kmSince;
+  int kmUntil;
+  int powerSince;
+  int powerUntil;
 
   Filter({
     this.searchWords,
     this.category,
     this.fuel,
-    this.kmSince,
-    this.kmUntil,
-    this.powerSince,
-    this.powerUntil,
+    this.kmSince = 0,
+    this.kmUntil = 999999,
+    this.powerSince = 0,
+    this.powerUntil = 9999,
   });
 }

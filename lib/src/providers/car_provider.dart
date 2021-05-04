@@ -62,13 +62,6 @@ class CarProvider {
     return featuredCars;
   }
 
-  Future<bool> deleteCar(String id) async {
-    final url = '$_url/cars/$id.json?auth=${_prefs.token}';
-    await http.delete(Uri.parse(url));
-
-    return true;
-  }
-
   Future<List<CarModel>> loadFilteredCars(Filter filter) async {
     final List<CarModel> cars = await loadCars();
     List<CarModel> filteredKmCars = [];
@@ -80,29 +73,45 @@ class CarProvider {
     if (filter == null) return cars;
 
     // Filtrar por palabras clave
-    if (filter.searchWords.isNotEmpty) {}
-
+    if (filter.searchWords.isNotEmpty) {
+      filteredSearchWordsCars = cars.where((car) {
+        final String searchWords = filter.searchWords;
+        return car.brand.toLowerCase().contains(searchWords.toLowerCase()) ||
+            car.model.toLowerCase().contains(searchWords.toLowerCase());
+      }).toList();
+    }
+    // TODO: awful things
     // Filtrar por kilómetros y potencia
-    if (filter.kmSince != 0 && filter.kmUntil != 0) {
+    //if (filter.kmSince != null || filter.kmUntil != null) {
+    /* if (filter.kmUntil != 0) {
       filteredKmCars = cars.where((car) {
         return car.km >= filter.kmSince && car.km <= filter.kmUntil;
       }).toList();
-    }
-
-    if (filter.powerSince != 0 && filter.powerUntil != 0) {
+    } */
+    //}
+    //if (filter.powerSince != null || filter.powerUntil != null) {
+    /* if (filter.powerSince != 0 || filter.powerUntil != 0) {
       filteredPowerCars = cars.where((car) {
         return car.power >= filter.powerSince && car.km <= filter.powerUntil;
       }).toList();
-    }
+    } */
+    //}
     // Filtrar por categoría y combustible
 
     List<CarModel> filteredCars = [
-      ...filteredKmCars,
-      ...filteredPowerCars,
+      ...filteredSearchWordsCars,
       ...filteredCategoryCars,
-      ...filteredSearchWordsCars
+      ...filteredPowerCars,
+      ...filteredKmCars
     ];
     return filteredCars;
+  }
+
+  Future<bool> deleteCar(String id) async {
+    final url = '$_url/cars/$id.json?auth=${_prefs.token}';
+    await http.delete(Uri.parse(url));
+
+    return true;
   }
 
   Future<String> uploadImage(File image) async {

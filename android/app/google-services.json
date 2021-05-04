@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "540270116216",
+    "firebase_url": "https://flutter-varios-db270-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "flutter-varios-db270",
+    "storage_bucket": "flutter-varios-db270.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540270116216:android:1d24eb1eb4eee26d499c8d",
+        "android_client_info": {
+          "package_name": "com.example.feeling_cars_now"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540270116216-rgk4j9609qg5fkrlk515b3mp9hg03ica.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.feeling_cars_now",
+            "certificate_hash": "c987cc3375e003a748840bcac4fb518ba70e239e"
+          }
+        },
+        {
+          "client_id": "540270116216-8as7ng6rpvdgmfgb3el9r36s3opafdvc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOhrbIYlPIZgaxMfaKBb6rucr9fg4TqWg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540270116216-8as7ng6rpvdgmfgb3el9r36s3opafdvc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

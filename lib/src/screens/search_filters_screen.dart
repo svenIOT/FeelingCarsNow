@@ -127,8 +127,7 @@ class _SearchAndFiltersScreenState extends State<SearchAndFiltersScreen> {
           filter.searchWords = textController.text
               .replaceAll(RegExp(' +'), ' ')
               .trimRight()
-              .trimLeft()
-              .split(" ");
+              .trimLeft();
           // Guardar estado
           final FormState form = _formKey.currentState;
           form.save();
