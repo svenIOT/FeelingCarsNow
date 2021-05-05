@@ -11,26 +11,33 @@ class FaqScreen extends StatefulWidget {
 }
 
 class _FaqScreenState extends State<FaqScreen> {
+  List<Item> _faqBasicsItems;
+  List<Item> _faqCarsAndSellersItems;
+  List<Item> _faqAccountAndSecurityItems;
+
+  // Creación de items desde los datos en las constantes
+  @override
+  void initState() {
+    _faqBasicsItems = _getItemsContent(faqConstants.faqBasicsContent);
+    _faqCarsAndSellersItems =
+        _getItemsContent(faqConstants.faqCarsAndSellersContent);
+    _faqAccountAndSecurityItems =
+        _getItemsContent(faqConstants.faqAccountAndSecurityContent);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Creación de items desde los datos en las constantes
-    List<Item> _faqBasicsItems =
-        _getItemsContent(faqConstants.faqBasicsContent);
-    List<Item> _faqCarsAndSellersItems =
-        _getItemsContent(faqConstants.faqCarsAndSellersContent);
-    List<Item> _faqAccountAndSecurityItems =
-        _getItemsContent(faqConstants.faqAccountAndSecurityContent);
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Preguntas frecuentes"),
       ),
-      body: ListView(padding: EdgeInsets.all(10.0), children: [
+      body: ListView(padding: EdgeInsets.all(10.0), children: <Widget>[
         Container(
           padding: EdgeInsets.all(5.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            boxShadow: [
+            boxShadow: <BoxShadow>[
               BoxShadow(
                 color: Colors.grey.withOpacity(0.1),
                 spreadRadius: 5,
@@ -68,15 +75,9 @@ class _FaqScreenState extends State<FaqScreen> {
               ),
             ),
             ExpansionPanelList(
-              animationDuration: Duration(seconds: 1),
-              expansionCallback: (index, isExpanded) => setState(() {
-                // TODO: no se aplica el cambio en los expansionPanel
-                print(
-                    'Elemento ${index} - Pre tap ${_faqBasicsItems[index].isExpanded}');
-                _faqBasicsItems[index].isExpanded = !isExpanded;
-                print(
-                    'Elemento ${index} - Post tap ${_faqBasicsItems[index].isExpanded}');
-              }),
+              animationDuration: Duration(milliseconds: 600),
+              expansionCallback: (index, isExpanded) => setState(
+                  () => _faqBasicsItems[index].isExpanded = !isExpanded),
               children: _createExpansionPanels(_faqBasicsItems),
               expandedHeaderPadding: EdgeInsets.all(5.0),
             ),
@@ -98,9 +99,8 @@ class _FaqScreenState extends State<FaqScreen> {
             ),
             ExpansionPanelList(
               animationDuration: Duration(seconds: 1),
-              expansionCallback: (index, isExpanded) => setState(() {
-                _faqCarsAndSellersItems[index].isExpanded = !isExpanded;
-              }),
+              expansionCallback: (index, isExpanded) => setState(() =>
+                  _faqCarsAndSellersItems[index].isExpanded = !isExpanded),
               children: _createExpansionPanels(_faqCarsAndSellersItems),
               expandedHeaderPadding: EdgeInsets.all(5.0),
             ),
@@ -148,7 +148,17 @@ class _FaqScreenState extends State<FaqScreen> {
       items.map((item) {
         return ExpansionPanel(
           headerBuilder: (context, isExpanded) => TextHeader(item.header),
-          body: Text(item.body),
+          body: Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            margin: EdgeInsets.only(bottom: 20.0),
+            child: Text(
+              item.body,
+              style: TextStyle(
+                fontSize: 15.0,
+              ),
+            ),
+          ),
           isExpanded: item.isExpanded,
           canTapOnHeader: true,
         );
