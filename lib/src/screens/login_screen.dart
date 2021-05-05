@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:feeling_cars_now/src/bloc/login_bloc.dart';
-import 'package:feeling_cars_now/src/bloc/provider.dart' as MyProvider;
-import 'package:feeling_cars_now/src/providers/user_provider.dart';
+import 'package:feeling_cars_now/src/bloc/provider.dart' as myProvider;
+import 'package:feeling_cars_now/src/services/user_service.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:feeling_cars_now/src/bloc/auth_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
-  final _userProvider = new UserProvider();
+  final _userService = new Userservice();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _loginForm(BuildContext context, Size size) {
-    final bloc = MyProvider.Provider.of(context);
+    final bloc = myProvider.Provider.of(context);
     final googleAuthBloc = Provider.of<AuthBloc>(context);
 
     return SingleChildScrollView(
@@ -133,7 +133,7 @@ class LoginScreen extends StatelessWidget {
       );
 
   _login(BuildContext context, LoginBloc bloc) async {
-    Map info = await _userProvider.login(bloc.email, bloc.password);
+    Map info = await _userService.login(bloc.email, bloc.password);
 
     return (info['ok'])
         ? Navigator.pushReplacementNamed(context, 'home')

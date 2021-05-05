@@ -6,7 +6,7 @@ import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/models/car_model.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
 import 'package:feeling_cars_now/src/constants/dropdown_items_constants.dart'
-    as DropdownItemsConstants;
+    as dropdownItemsConstants;
 import 'dropdown_custom.dart';
 
 class CarForm extends StatefulWidget {
@@ -51,6 +51,8 @@ class _CarFormState extends State<CarForm> {
           _carPower(),
           _carKm(),
           _carPrice(),
+          _carDescription(),
+          SizedBox(height: 20.0),
           _createSaveButton(),
         ],
       ),
@@ -65,124 +67,120 @@ class _CarFormState extends State<CarForm> {
           fit: BoxFit.cover,
         )
       : Image(
-          // Si la foto.path es null escoje la imagen de assets
           image: AssetImage(widget.photo?.path ?? 'assets/img/no-image.png'),
           height: 300.0,
           fit: BoxFit.cover,
         );
 
-  Widget _carYear() {
-    return TextFormField(
-      initialValue: widget.car.year.toString() ?? "1984",
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
-      decoration: InputDecoration(
-        labelText: 'Año del coche',
-      ),
-      onSaved: (value) => widget.car.year = int.tryParse(value),
-      validator: (value) => utils.isNumber(value)
-          ? null
-          : 'Ingrese un año válido de 4 dígitos númericos',
-    );
-  }
+  Widget _carYear() => TextFormField(
+        initialValue: widget.car.year.toString() ?? "1984",
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
+        decoration: InputDecoration(
+          labelText: 'Año del coche',
+        ),
+        onSaved: (value) => widget.car.year = int.tryParse(value),
+        validator: (value) => utils.isNumber(value)
+            ? null
+            : 'Ingrese un año válido de 4 dígitos númericos',
+      );
 
-  Widget _categoryAndFuelDropdownButton(CarModel _car) {
-    return Container(
-      padding: EdgeInsets.only(top: 15.0),
-      child: Column(
-        children: [
-          DropdownCustom(
-            hintText: "Homologación...",
-            items: DropdownItemsConstants.categoryDropdownItems,
-            car: _car,
-          ),
-          SizedBox(height: 15.0),
-          DropdownCustom(
-            hintText: "Combustible...",
-            items: DropdownItemsConstants.fuelDropdownItems,
-            car: _car,
-          ),
-        ],
-      ),
-    );
-  }
+  Widget _categoryAndFuelDropdownButton(CarModel _car) => Container(
+        padding: EdgeInsets.only(top: 15.0),
+        child: Column(
+          children: [
+            DropdownCustom(
+              hintText: "Homologación...",
+              items: dropdownItemsConstants.categoryDropdownItems,
+              car: _car,
+            ),
+            SizedBox(height: 20.0),
+            DropdownCustom(
+              hintText: "Combustible...",
+              items: dropdownItemsConstants.fuelDropdownItems,
+              car: _car,
+            ),
+          ],
+        ),
+      );
 
-  Widget _carBrand() {
-    return TextFormField(
-      initialValue: widget.car.brand,
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-        labelText: 'Marca',
-      ),
-      onSaved: (value) => widget.car.brand = value,
-      validator: (value) =>
-          value.length < 3 ? 'Ingrese la marca del coche' : null,
-    );
-  }
+  Widget _carBrand() => TextFormField(
+        initialValue: widget.car.brand,
+        textCapitalization: TextCapitalization.sentences,
+        decoration: InputDecoration(
+          labelText: 'Marca',
+        ),
+        onSaved: (value) => widget.car.brand = value,
+        validator: (value) =>
+            value.length < 2 ? 'Ingrese la marca del coche' : null,
+      );
 
-  Widget _carModel() {
-    return TextFormField(
-      initialValue: widget.car.model,
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-        labelText: 'Modelo',
-      ),
-      onSaved: (value) => widget.car.model = value,
-      validator: (value) =>
-          value.length < 2 ? 'Ingrese el modelo del coche' : null,
-    );
-  }
+  Widget _carModel() => TextFormField(
+        initialValue: widget.car.model,
+        textCapitalization: TextCapitalization.sentences,
+        decoration: InputDecoration(
+          labelText: 'Modelo',
+        ),
+        onSaved: (value) => widget.car.model = value,
+        validator: (value) =>
+            value.length < 2 ? 'Ingrese el modelo del coche' : null,
+      );
 
-  Widget _carPower() {
-    return TextFormField(
-      initialValue: widget.car.power.toString() ?? "0",
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-        labelText: 'Potencia',
-      ),
-      onSaved: (value) => widget.car.power = int.tryParse(value),
-      validator: (value) => utils.isNumber(value)
-          ? null
-          : 'Ingrese la potencia en caballos del coche',
-    );
-  }
+  Widget _carPower() => TextFormField(
+        initialValue: widget.car.power.toString() ?? "0",
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
+        textCapitalization: TextCapitalization.sentences,
+        decoration: InputDecoration(
+          labelText: 'Potencia',
+        ),
+        onSaved: (value) => widget.car.power = int.tryParse(value),
+        validator: (value) => utils.isNumber(value)
+            ? null
+            : 'Ingrese la potencia en caballos del coche, ej: 150',
+      );
 
-  Widget _carKm() {
-    return TextFormField(
-      initialValue: widget.car.km.toString() ?? "0",
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
-      decoration: InputDecoration(
-        labelText: 'Kilometros',
-      ),
-      onSaved: (value) => widget.car.km = int.tryParse(value),
-      validator: (value) => utils.isNumber(value)
-          ? null
-          : 'Ingrese solo números para los kilometros',
-    );
-  }
+  Widget _carKm() => TextFormField(
+        initialValue: widget.car.km.toString() ?? "0",
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
+        decoration: InputDecoration(
+          labelText: 'Kilometros',
+        ),
+        onSaved: (value) => widget.car.km = int.tryParse(value),
+        validator: (value) =>
+            utils.isNumber(value) ? null : 'Ingrese los kilometros, ej: 100000',
+      );
 
-  Widget _carPrice() {
-    return TextFormField(
-      initialValue: widget.car.price.toString() ?? "0",
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
-      decoration: InputDecoration(
-        labelText: 'Precio',
-      ),
-      onSaved: (value) => widget.car.price = int.tryParse(value),
-      validator: (value) =>
-          utils.isNumber(value) ? null : 'Ingrese solo números para el precio',
-    );
-  }
+  Widget _carPrice() => TextFormField(
+        initialValue: widget.car.price.toString() ?? "0",
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
+        decoration: InputDecoration(
+          labelText: 'Precio',
+        ),
+        onSaved: (value) => widget.car.price = int.tryParse(value),
+        validator: (value) => utils.isNumber(value)
+            ? null
+            : 'Ingrese solo números para el precio, ej: 12000',
+      );
 
-  Widget _createSaveButton() {
-    return RaisedButton.icon(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      color: Theme.of(context).primaryColor,
-      textColor: Colors.white,
-      icon: Icon(Icons.save),
-      label: Text('Guardar'),
-      onPressed: (_isSaving) ? null : _submit,
-    );
-  }
+  Widget _carDescription() => TextFormField(
+        initialValue: widget.car.description,
+        keyboardType: TextInputType.multiline,
+        decoration: InputDecoration(
+          labelText: 'Descripción',
+        ),
+        maxLines: 9,
+        onSaved: (value) => widget.car.description = value,
+        validator: (value) => value.length > 600
+            ? 'Texto demasiado largo, máximo 600 carácteres, hay: ${value.length}'
+            : null,
+      );
+
+  Widget _createSaveButton() => ElevatedButton.icon(
+        style:
+            ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
+        icon: Icon(Icons.save),
+        label: Text('Guardar'),
+        onPressed: (_isSaving) ? null : _submit,
+      );
 
   void _submit() async {
     if (!widget.formKey.currentState.validate()) return;
@@ -195,13 +193,13 @@ class _CarFormState extends State<CarForm> {
     if (widget.photo != null)
       widget.car.photoUrl = await widget.carsBloc.uploadImage(widget.photo);
 
-    // Si el coche no tiene ID lo crea
+    // Comprobar si hay que crear o editar
     widget.car.id == null
         ? widget.carsBloc.addCar(widget.car)
         : widget.carsBloc.editCar(widget.car);
 
     setState(() => _isSaving = false);
-    utils.showSnackBar(context, 'Registro guardado correctamente');
+    utils.showSnackBar(context, 'Coche guardado correctamente');
     Navigator.pop(context);
   }
 }

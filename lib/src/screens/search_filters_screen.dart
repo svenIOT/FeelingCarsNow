@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:feeling_cars_now/src/constants/multiselect_items_constants.dart'
-    as MultiselectItemsConstants;
+    as multiselectItemsConstants;
 import 'package:feeling_cars_now/src/constants/modalbutton_options_constants.dart'
-    as ModalbuttonOptionsConstants;
+    as modalbuttonOptionsConstants;
 import 'package:feeling_cars_now/src/widgets/multiselect_custom.dart';
 import 'package:feeling_cars_now/src/widgets/text_header.dart';
-import 'package:feeling_cars_now/src/utils/utils.dart' as Utils;
+import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
 import 'package:feeling_cars_now/src/models/filter_model.dart';
 
 class SearchAndFiltersScreen extends StatefulWidget {
@@ -88,14 +88,14 @@ class _SearchAndFiltersScreenState extends State<SearchAndFiltersScreen> {
         children: <Widget>[
           MultiselectCustom(
             title: 'Homologación',
-            dataSource: MultiselectItemsConstants.multiselectCategory,
+            dataSource: multiselectItemsConstants.multiselectCategory,
             filter: filter,
             category: true,
           ),
           SizedBox(height: 20.0),
           MultiselectCustom(
             title: 'Combustible',
-            dataSource: MultiselectItemsConstants.multiselectFuel,
+            dataSource: multiselectItemsConstants.multiselectFuel,
             filter: filter,
             category: false,
           ),
@@ -158,14 +158,14 @@ class _SearchAndFiltersScreenState extends State<SearchAndFiltersScreen> {
         _createModalBottomSheet(
           header: '${filter.kmSince ?? 0} - ${filter.kmUntil ?? 0}',
           firstOnItemChange: (index) => setState(() => filter.kmSince =
-              int.tryParse(ModalbuttonOptionsConstants
+              int.tryParse(modalbuttonOptionsConstants
                   .carKilometersValues[index]
                   .replaceFirst('.', ''))),
           secondOnItemChange: (index) => setState(() => filter.kmUntil =
-              int.tryParse(ModalbuttonOptionsConstants
+              int.tryParse(modalbuttonOptionsConstants
                   .carKilometersValues[index]
                   .replaceFirst('.', ''))),
-          children: ModalbuttonOptionsConstants.carKilometersValues
+          children: modalbuttonOptionsConstants.carKilometersValues
               .map((e) => Text(e))
               .toList(),
         ),
@@ -173,10 +173,10 @@ class _SearchAndFiltersScreenState extends State<SearchAndFiltersScreen> {
         _createModalBottomSheet(
           header: '${filter.powerSince ?? 0} - ${filter.powerUntil ?? 0}',
           firstOnItemChange: (index) => setState(() => filter.powerSince =
-              int.tryParse(ModalbuttonOptionsConstants.carPowerValues[index])),
+              int.tryParse(modalbuttonOptionsConstants.carPowerValues[index])),
           secondOnItemChange: (index) => setState(() => filter.powerUntil =
-              int.tryParse(ModalbuttonOptionsConstants.carPowerValues[index])),
-          children: ModalbuttonOptionsConstants.carPowerValues
+              int.tryParse(modalbuttonOptionsConstants.carPowerValues[index])),
+          children: modalbuttonOptionsConstants.carPowerValues
               .map((e) => Text(e))
               .toList(),
         )
@@ -189,7 +189,7 @@ class _SearchAndFiltersScreenState extends State<SearchAndFiltersScreen> {
       void Function(int) firstOnItemChange,
       void Function(int) secondOnItemChange,
       List<Widget> children}) {
-    final height = Utils.getDeviceSize(context).height / 3;
+    final height = utils.getDeviceSize(context).height / 3;
 
     return Expanded(
       child: MaterialButton(

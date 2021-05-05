@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:feeling_cars_now/src/bloc/login_bloc.dart';
 import 'package:feeling_cars_now/src/bloc/provider.dart';
-import 'package:feeling_cars_now/src/providers/user_provider.dart';
+import 'package:feeling_cars_now/src/services/user_service.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart';
 
 class RegisterScreen extends StatelessWidget {
-  final userProvider = new UserProvider();
+  final userService = new Userservice();
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +140,7 @@ class RegisterScreen extends StatelessWidget {
       );
 
   _register(BuildContext context, LoginBloc bloc) async {
-    final info = await userProvider.newUser(bloc.email, bloc.password);
+    final info = await userService.newUser(bloc.email, bloc.password);
 
     return (info['ok'])
         ? Navigator.pushReplacementNamed(context, 'home')

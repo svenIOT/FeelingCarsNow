@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 import 'package:http/http.dart' as http;
 
-class UserProvider {
+class Userservice {
   final String _firebaseKey = "AIzaSyBLa-a3pyn7cQBfFQYt6J4lEFY3dIDIW3w";
   final _prefs = new UserPreferences();
 

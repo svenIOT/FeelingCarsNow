@@ -32,7 +32,6 @@ class _DropdownCustomState extends State<DropdownCustom> {
                 : widget.car.category = value;
           });
         } else {
-          // Filtros TODO: pasar _value a "X" para enviarlo a la findPage (Clase Filter??)
           setState(() {
             _value = value;
           });

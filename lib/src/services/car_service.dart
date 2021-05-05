@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:mime_type/mime_type.dart';
 
-class CarProvider {
+class CarService {
   final _url =
       'https://flutter-varios-db270-default-rtdb.europe-west1.firebasedatabase.app';
   final _prefs = new UserPreferences();

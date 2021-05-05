@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'package:feeling_cars_now/src/providers/auth_provider.dart';
+import 'package:feeling_cars_now/src/services/auth_service.dart';
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class AuthBloc {
-  final authProvider = AuthProvider();
+  final authService = AuthService();
   final googleSignin = GoogleSignIn(scopes: ['email']);
   final _prefs = new UserPreferences();
 
-  Stream<User> get currentUser => authProvider.currentUser;
+  Stream<User> get currentUser => authService.currentUser;
 
   Future<bool> loginWithGoogle() async {
     try {
@@ -20,7 +20,7 @@ class AuthBloc {
           idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
 
       // Firebase Sign in
-      final result = await authProvider.signInWithCredential(credential);
+      final result = await authService.signInWithCredential(credential);
       print('${result.user.displayName}');
 
       _prefs.token = googleAuth.idToken;
@@ -33,6 +33,6 @@ class AuthBloc {
   }
 
   void logout() {
-    authProvider.logout();
+    authService.logout();
   }
 }
