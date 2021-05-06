@@ -53,6 +53,7 @@ class _FaqScreenState extends State<FaqScreen> {
               SizedBox(height: 5.0),
               Text(
                 'Estas FAQ buscan aclarar dudas básicas sobre el uso de Feeling Cars Now. Si tiene dudas específicas contacte con el desarrollador',
+                textAlign: TextAlign.justify,
                 style: TextStyle(
                   fontSize: 15.0,
                 ),
@@ -154,6 +155,7 @@ class _FaqScreenState extends State<FaqScreen> {
             margin: EdgeInsets.only(bottom: 20.0),
             child: Text(
               item.body,
+              textAlign: TextAlign.justify,
               style: TextStyle(
                 fontSize: 15.0,
               ),

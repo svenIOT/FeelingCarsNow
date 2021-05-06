@@ -76,6 +76,7 @@ class _EditCarScreenState extends State<EditCarScreen> {
 
     // Si hay foto seleccionada la asigna en photo
     if (pickedFile != null) photo = File(pickedFile.path);
+    // setState(() => photo = File(pickedFile.path));
 
     // Elimina la foto del modelo para añadir posteriormente la seleccionada
     if (photo != null) return car.photoUrl == null;

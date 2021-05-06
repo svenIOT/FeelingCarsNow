@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
+import 'package:feeling_cars_now/src/widgets/text_header.dart';
 
 class PreferencesScreen extends StatefulWidget {
   static final String routeName = 'settings';
@@ -12,7 +13,6 @@ class PreferencesScreen extends StatefulWidget {
 class _PreferencesScreenState extends State<PreferencesScreen> {
   bool _secondaryColor;
   int _genre;
-  String _name = "";
 
   TextEditingController _textController;
 
@@ -43,38 +43,67 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                   : Theme.of(context).primaryColor),
           body: ListView(
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(15.0),
-                child: TextField(
-                  controller: _textController,
-                  decoration: InputDecoration(
-                      labelText: 'Nombre de usuario',
-                      hintText: 'ej: Yoshida Special 930'),
-                  onChanged: (value) => prefs.username = value,
+              _createContainerBox(<Widget>[
+                TextHeader('Ajustes de usuario'),
+                SizedBox(height: 5.0),
+                Container(
+                  padding: EdgeInsets.all(15.0),
+                  child: TextField(
+                    controller: _textController,
+                    decoration: InputDecoration(
+                        labelText: 'Nombre de usuario',
+                        hintText: 'ej: Yoshida Special 930'),
+                    onChanged: (value) => prefs.username = value,
+                  ),
                 ),
-              ),
-              RadioListTile(
-                value: 1,
-                title: Text('Masculino'),
-                groupValue: _genre,
-                onChanged: _setSelectedRadio,
-              ),
-              RadioListTile(
-                  value: 2,
-                  title: Text('Femenino'),
+                RadioListTile(
+                  value: 1,
+                  title: Text('Masculino'),
                   groupValue: _genre,
-                  onChanged: _setSelectedRadio),
-              Divider(),
-              SwitchListTile(
-                value: _secondaryColor,
-                title: Text('Color secundario'),
-                onChanged: (value) {
-                  prefs.secondaryColor = value;
-                  setState(() => _secondaryColor = value);
-                },
-              ),
+                  onChanged: _setSelectedRadio,
+                ),
+                RadioListTile(
+                    value: 2,
+                    title: Text('Femenino'),
+                    groupValue: _genre,
+                    onChanged: _setSelectedRadio),
+              ]),
+              SizedBox(height: 20.0),
+              _createContainerBox(
+                <Widget>[
+                  TextHeader('Ajustes de la App'),
+                  SizedBox(height: 5.0),
+                  SwitchListTile(
+                    value: _secondaryColor,
+                    title: Text('Color secundario'),
+                    onChanged: (value) {
+                      prefs.secondaryColor = value;
+                      setState(() => _secondaryColor = value);
+                    },
+                  ),
+                ],
+              )
             ],
           )),
     );
   }
+
+  Widget _createContainerBox(List<Widget> _children) => Container(
+        padding: EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 5,
+              blurRadius: 5,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: _children,
+        ),
+      );
 }

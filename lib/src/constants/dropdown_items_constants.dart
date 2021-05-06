@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 
 const List<DropdownMenuItem<String>> categoryDropdownItems = [
   DropdownMenuItem(
+    value: "Sin Homologar",
+    child: Text(
+      "Sin Homologar (circuito)",
+    ),
+  ),
+  DropdownMenuItem(
     value: "Calle",
     child: Text(
       "Calle",
@@ -20,6 +26,12 @@ const List<DropdownMenuItem<String>> fuelDropdownItems = [
     value: "Gasolina",
     child: Text(
       "Gasolina",
+    ),
+  ),
+  DropdownMenuItem(
+    value: "Diesel",
+    child: Text(
+      "Diesel",
     ),
   ),
   DropdownMenuItem(

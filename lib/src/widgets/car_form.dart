@@ -43,11 +43,13 @@ class _CarFormState extends State<CarForm> {
       key: widget.formKey,
       child: Column(
         children: <Widget>[
+          // TODO: no se muestra la imagen al seleccionarla pero se sube, probablemente actualizar state
           _showImage(),
           _carYear(),
           _categoryAndFuelDropdownButton(widget.car),
           _carBrand(),
           _carModel(),
+          _carLocation(),
           _carPower(),
           _carKm(),
           _carPrice(),
@@ -123,6 +125,18 @@ class _CarFormState extends State<CarForm> {
         onSaved: (value) => widget.car.model = value,
         validator: (value) =>
             value.length < 2 ? 'Ingrese el modelo del coche' : null,
+      );
+
+  Widget _carLocation() => TextFormField(
+        initialValue: widget.car.location,
+        textCapitalization: TextCapitalization.sentences,
+        decoration: InputDecoration(
+          labelText: 'Ubicación',
+        ),
+        onSaved: (value) => widget.car.location = value,
+        validator: (value) => value.length < 2
+            ? 'Ingrese la provincia donde se encuentra el coche'
+            : null,
       );
 
   Widget _carPower() => TextFormField(

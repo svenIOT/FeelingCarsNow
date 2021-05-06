@@ -107,7 +107,7 @@ class UserDrawer extends StatelessWidget {
                 // Si el usuario no tiene nombre se le asigna
                 prefs.username.trim() == ""
                     ? 'Usuario-' +
-                        prefs.token.substring(prefs.token.toString().length - 5,
+                        prefs.token.substring(prefs.token.toString().length - 6,
                             prefs.token.toString().length)
                     : prefs.username,
                 style: TextStyle(
