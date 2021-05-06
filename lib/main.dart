@@ -18,18 +18,22 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  final prefs = new UserPreferences();
+
   @override
   Widget build(BuildContext context) {
     return Provider(
       create: (context) => AuthBloc(),
       child: myProvider.Provider(
         child: MaterialApp(
-          title: 'Material App',
-          debugShowCheckedModeBanner: false,
-          initialRoute: 'login',
-          routes: routes,
-          theme: ThemeData(primaryColor: Colors.deepPurple),
-        ),
+            title: 'Material App',
+            debugShowCheckedModeBanner: false,
+            initialRoute: 'login',
+            routes: routes,
+            theme: ThemeData(
+                primaryColor: (prefs.secondaryColor)
+                    ? Colors.grey[800]
+                    : Colors.deepPurple)),
       ),
     );
   }

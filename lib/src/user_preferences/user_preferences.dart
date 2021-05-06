@@ -15,21 +15,28 @@ class UserPreferences {
     this._prefs = await SharedPreferences.getInstance();
   }
 
-  // GET y SET del nombre
-  get token {
-    return _prefs.getString('name') ?? '';
-  }
+  // GET y SET género
+  get genre => _prefs.getInt('genre') ?? 1;
 
-  set token(String value) {
-    _prefs.setString('name', value);
-  }
+  set genre(int value) => _prefs.setInt('genre', value);
+
+  // GET y SET color secundario
+  get secondaryColor => _prefs.getBool('secondaryColor') ?? false;
+
+  set secondaryColor(bool value) => _prefs.setBool('secondaryColor', value);
+
+  // GET y SET del username
+  get username => _prefs.getString('name') ?? '';
+
+  set username(String value) => _prefs.setString('name', value);
+
+  // GET y SET del token
+  get token => _prefs.getString('token') ?? '';
+
+  set token(String value) => _prefs.setString('token', value);
 
   // GET y SET de la última página
-  get lastPage {
-    return _prefs.getString('lastPage') ?? 'login';
-  }
+  get lastPage => _prefs.getString('lastPage') ?? 'login';
 
-  set lastPage(String value) {
-    _prefs.setString('lastPage', value);
-  }
+  set lastPage(String value) => _prefs.setString('lastPage', value);
 }

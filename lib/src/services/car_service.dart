@@ -69,8 +69,14 @@ class CarService {
     List<CarModel> filteredCategoryCars = [];
     List<CarModel> filteredSearchWordsCars = [];
 
-    // Si no hay filtro devuelve todos los coches
-    if (filter == null) return cars;
+    // Si no hay filtros devuelve todos los coches
+    if (filter.searchWords.isEmpty &&
+            filter.category == null &&
+            filter.fuel == null &&
+            filter.kmSince == 0 &&
+            filter.kmUntil == 999999 ||
+        filter.kmUntil == 0 && filter.powerSince == 0 ||
+        filter.powerUntil == 0 && filter.powerUntil == 9999) return cars;
 
     // Filtrar por palabras clave
     if (filter.searchWords.isNotEmpty) {

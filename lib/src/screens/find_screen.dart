@@ -51,29 +51,33 @@ class FindScreen extends StatelessWidget {
 
   Widget _createCarItem(BuildContext context, CarModel car, CarsBloc carsBloc) {
     return Card(
-      child: Column(
-        children: <Widget>[
-          (car.photoUrl == null)
-              ? Image(
-                  image: AssetImage('assets/img/no-image.png'),
-                  height: 150.0,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                )
-              : FadeInImage(
-                  placeholder: AssetImage('assets/img/jar-loading.gif'),
-                  image: NetworkImage(car.photoUrl),
-                  height: 150.0,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-          ListTile(
-            title: Text('${car.brand} - ${car.model}'),
-            subtitle: Text('${car.price} €'),
-            onTap: () =>
-                Navigator.pushNamed(context, 'details', arguments: car),
-          ),
-        ],
+      child: InkWell(
+        child: Column(
+          children: <Widget>[
+            (car.photoUrl == null)
+                ? Image(
+                    image: AssetImage('assets/img/no-image.png'),
+                    height: 150.0,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  )
+                : FadeInImage(
+                    placeholder: AssetImage('assets/img/jar-loading.gif'),
+                    image: NetworkImage(car.photoUrl),
+                    height: 150.0,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+            ListTile(
+              title: Text('${car.brand} - ${car.model}'),
+              subtitle: Padding(
+                padding: EdgeInsets.only(top: 8.0),
+                child: Text('${car.price} €'),
+              ),
+            ),
+          ],
+        ),
+        onTap: () => Navigator.pushNamed(context, 'details', arguments: car),
       ),
     );
   }

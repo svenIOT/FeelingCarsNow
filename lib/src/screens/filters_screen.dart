@@ -11,12 +11,12 @@ import 'package:feeling_cars_now/src/widgets/text_header.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
 import 'package:feeling_cars_now/src/models/filter_model.dart';
 
-class SearchAndFiltersScreen extends StatefulWidget {
+class FiltersScreen extends StatefulWidget {
   @override
-  _SearchAndFiltersScreenState createState() => _SearchAndFiltersScreenState();
+  _FiltersScreenState createState() => _FiltersScreenState();
 }
 
-class _SearchAndFiltersScreenState extends State<SearchAndFiltersScreen> {
+class _FiltersScreenState extends State<FiltersScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final textController = TextEditingController();
   Filter filter = new Filter();
@@ -131,6 +131,7 @@ class _SearchAndFiltersScreenState extends State<SearchAndFiltersScreen> {
           // Guardar estado
           final FormState form = _formKey.currentState;
           form.save();
+
           // Navegar a una nueva página con los resultados
           Navigator.pushNamed(context, 'find', arguments: filter);
         },
@@ -157,11 +158,11 @@ class _SearchAndFiltersScreenState extends State<SearchAndFiltersScreen> {
       children: <Widget>[
         _createModalBottomSheet(
           header: '${filter.kmSince ?? 0} - ${filter.kmUntil ?? 0}',
-          firstOnItemChange: (index) => setState(() => filter.kmSince =
+          sinceOnItemChange: (index) => setState(() => filter.kmSince =
               int.tryParse(modalbuttonOptionsConstants
                   .carKilometersValues[index]
                   .replaceFirst('.', ''))),
-          secondOnItemChange: (index) => setState(() => filter.kmUntil =
+          untilOnItemChange: (index) => setState(() => filter.kmUntil =
               int.tryParse(modalbuttonOptionsConstants
                   .carKilometersValues[index]
                   .replaceFirst('.', ''))),
@@ -172,9 +173,9 @@ class _SearchAndFiltersScreenState extends State<SearchAndFiltersScreen> {
         SizedBox(width: 10.0),
         _createModalBottomSheet(
           header: '${filter.powerSince ?? 0} - ${filter.powerUntil ?? 0}',
-          firstOnItemChange: (index) => setState(() => filter.powerSince =
+          sinceOnItemChange: (index) => setState(() => filter.powerSince =
               int.tryParse(modalbuttonOptionsConstants.carPowerValues[index])),
-          secondOnItemChange: (index) => setState(() => filter.powerUntil =
+          untilOnItemChange: (index) => setState(() => filter.powerUntil =
               int.tryParse(modalbuttonOptionsConstants.carPowerValues[index])),
           children: modalbuttonOptionsConstants.carPowerValues
               .map((e) => Text(e))
@@ -186,8 +187,8 @@ class _SearchAndFiltersScreenState extends State<SearchAndFiltersScreen> {
 
   Widget _createModalBottomSheet(
       {String header,
-      void Function(int) firstOnItemChange,
-      void Function(int) secondOnItemChange,
+      void Function(int) sinceOnItemChange,
+      void Function(int) untilOnItemChange,
       List<Widget> children}) {
     final height = utils.getDeviceSize(context).height / 3;
 
@@ -219,14 +220,14 @@ class _SearchAndFiltersScreenState extends State<SearchAndFiltersScreen> {
                         Expanded(
                           child: CupertinoPicker(
                             itemExtent: 50,
-                            onSelectedItemChanged: firstOnItemChange,
+                            onSelectedItemChanged: sinceOnItemChange,
                             children: children,
                           ),
                         ),
                         Expanded(
                           child: CupertinoPicker(
                               itemExtent: 50,
-                              onSelectedItemChanged: secondOnItemChange,
+                              onSelectedItemChanged: untilOnItemChange,
                               children: children),
                         ),
                       ],

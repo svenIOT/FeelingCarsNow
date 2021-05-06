@@ -32,32 +32,35 @@ class FeaturedCars extends StatelessWidget {
   Widget _createFeaturedCarItem(
       BuildContext context, CarModel car, CarsBloc carsBloc) {
     return Card(
-      child: Column(
-        children: <Widget>[
-          (car.photoUrl == null)
-              ? Image(
-                  image: AssetImage('assets/img/no-image.png'),
-                  height: 180.0,
-                  width: 180.0,
-                  fit: BoxFit.cover,
-                )
-              : FadeInImage(
-                  placeholder: AssetImage('assets/img/jar-loading.gif'),
-                  image: NetworkImage(car.photoUrl),
-                  height: 180.0,
-                  width: 180.0,
-                  fit: BoxFit.cover,
-                ),
-          ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 180.0, maxHeight: 180.0),
-            child: ListTile(
-              title: Text('${car.brand} - ${car.model}'),
-              subtitle: Text('${car.price} €'),
-              onTap: () =>
-                  Navigator.pushNamed(context, 'details', arguments: car),
+      child: InkWell(
+        child: Column(
+          children: <Widget>[
+            (car.photoUrl == null)
+                ? Image(
+                    image: AssetImage('assets/img/no-image.png'),
+                    height: 180.0,
+                    width: 180.0,
+                    fit: BoxFit.cover,
+                  )
+                : FadeInImage(
+                    placeholder: AssetImage('assets/img/jar-loading.gif'),
+                    image: NetworkImage(car.photoUrl),
+                    height: 180.0,
+                    width: 180.0,
+                    fit: BoxFit.cover,
+                  ),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 180.0, maxHeight: 180.0),
+              child: ListTile(
+                title: Text('${car.brand} - ${car.model}'),
+                subtitle: Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Text('${car.price} €')),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+        onTap: () => Navigator.pushNamed(context, 'details', arguments: car),
       ),
     );
   }

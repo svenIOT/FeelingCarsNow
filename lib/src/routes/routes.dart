@@ -10,7 +10,7 @@ import 'package:feeling_cars_now/src/screens/preferences_screen.dart';
 import 'package:feeling_cars_now/src/screens/error_report_screen.dart';
 import 'package:feeling_cars_now/src/screens/find_screen.dart';
 import 'package:feeling_cars_now/src/screens/faq_screen.dart';
-import 'package:feeling_cars_now/src/screens/search_filters_screen.dart';
+import 'package:feeling_cars_now/src/screens/filters_screen.dart';
 
 final routes = <String, WidgetBuilder>{
   'login': (_) => LoginScreen(),
@@ -21,7 +21,7 @@ final routes = <String, WidgetBuilder>{
   'details': (_) => CarDetailsScreen(),
   'preferences': (_) => PreferencesScreen(),
   'error': (_) => ErrorReportScreen(),
-  'search': (_) => SearchAndFiltersScreen(),
+  'search': (_) => FiltersScreen(),
   'find': (_) => FindScreen(),
   'faq': (_) => FaqScreen()
 };
