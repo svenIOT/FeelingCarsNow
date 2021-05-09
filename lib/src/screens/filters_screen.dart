@@ -107,6 +107,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               TextHeader('Potencia'),
             ],
           ),
+          // TODO: add price picker
           _kmAndPowerPickers(context),
         ],
       ),

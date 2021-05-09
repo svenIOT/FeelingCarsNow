@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+
 import 'package:feeling_cars_now/src/bloc/car_bloc.dart';
 import 'package:feeling_cars_now/src/models/car_model.dart';
-import 'package:flutter/material.dart';
-
 import 'package:feeling_cars_now/src/models/filter_model.dart';
 import 'package:feeling_cars_now/src/bloc/provider.dart';
 
@@ -72,7 +73,14 @@ class FindScreen extends StatelessWidget {
               title: Text('${car.brand} - ${car.model}'),
               subtitle: Padding(
                 padding: EdgeInsets.only(top: 8.0),
-                child: Text('${car.price} €'),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('${car.price} €'),
+                    if (car.featured)
+                      Icon(MaterialCommunityIcons.fire, color: Colors.red[700])
+                  ],
+                ),
               ),
             ),
           ],

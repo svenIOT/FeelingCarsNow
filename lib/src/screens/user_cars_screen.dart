@@ -5,7 +5,7 @@ class UserCarsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Perfil'),
+        title: Text('Mis coches'),
       ),
       body: GridView.count(
         // Create a grid with 2 columns. If you change the scrollDirection to
@@ -15,7 +15,7 @@ class UserCarsScreen extends StatelessWidget {
         children: List.generate(20, (index) {
           return Center(
             child: Text(
-              'Item $index',
+              'Coche $index',
               style: Theme.of(context).textTheme.headline5,
             ),
           );
