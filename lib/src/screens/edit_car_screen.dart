@@ -58,15 +58,11 @@ class _EditCarScreenState extends State<EditCarScreen> {
   }
 
   _selectGaleryImage() async {
-    setState(() {
-      _processImage(ImageSource.gallery);
-    });
+    _processImage(ImageSource.gallery);
   }
 
   _shootPhoto() async {
-    setState(() {
-      _processImage(ImageSource.camera);
-    });
+    _processImage(ImageSource.camera);
   }
 
   _processImage(ImageSource source) async {
@@ -74,9 +70,11 @@ class _EditCarScreenState extends State<EditCarScreen> {
       source: source,
     );
 
-    // Si hay foto seleccionada la asigna en photo
-    if (pickedFile != null) photo = File(pickedFile.path);
-    // setState(() => photo = File(pickedFile.path));
+    // Si hay foto seleccionada la asigna en photo y redibuja
+    if (pickedFile != null) {
+      photo = File(pickedFile.path);
+      setState(() {});
+    }
 
     // Elimina la foto del modelo para añadir posteriormente la seleccionada
     if (photo != null) return car.photoUrl == null;

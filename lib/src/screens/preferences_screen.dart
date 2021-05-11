@@ -58,13 +58,13 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 ),
                 RadioListTile(
                   value: 1,
-                  title: Text('Masculino'),
+                  title: Text('Particular'),
                   groupValue: _genre,
                   onChanged: _setSelectedRadio,
                 ),
                 RadioListTile(
                     value: 2,
-                    title: Text('Femenino'),
+                    title: Text('Empresa'),
                     groupValue: _genre,
                     onChanged: _setSelectedRadio),
               ]),

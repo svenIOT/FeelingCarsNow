@@ -43,7 +43,6 @@ class _CarFormState extends State<CarForm> {
       key: widget.formKey,
       child: Column(
         children: <Widget>[
-          // TODO: no se muestra la imagen al seleccionarla pero se sube, probablemente actualizar state
           _showImage(),
           _carYear(),
           _categoryAndFuelDropdownButton(widget.car),
@@ -69,13 +68,15 @@ class _CarFormState extends State<CarForm> {
           fit: BoxFit.cover,
         )
       : Image(
-          image: AssetImage(widget.photo?.path ?? 'assets/img/no-image.png'),
+          image: widget.photo?.path != null
+              ? FileImage(widget.photo)
+              : AssetImage('assets/img/no-image.png'),
           height: 300.0,
           fit: BoxFit.cover,
         );
 
   Widget _carYear() => TextFormField(
-        initialValue: widget.car.year.toString() ?? "1984",
+        initialValue: widget.car.year?.toString(),
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         decoration: InputDecoration(
           labelText: 'Año del coche',
@@ -140,7 +141,7 @@ class _CarFormState extends State<CarForm> {
       );
 
   Widget _carPower() => TextFormField(
-        initialValue: widget.car.power.toString() ?? "0",
+        initialValue: widget.car.power?.toString(),
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         textCapitalization: TextCapitalization.sentences,
         decoration: InputDecoration(
@@ -153,7 +154,7 @@ class _CarFormState extends State<CarForm> {
       );
 
   Widget _carKm() => TextFormField(
-        initialValue: widget.car.km.toString() ?? "0",
+        initialValue: widget.car.km?.toString(),
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         decoration: InputDecoration(
           labelText: 'Kilometros',
@@ -164,7 +165,7 @@ class _CarFormState extends State<CarForm> {
       );
 
   Widget _carPrice() => TextFormField(
-        initialValue: widget.car.price.toString() ?? "0",
+        initialValue: widget.car.price?.toString(),
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         decoration: InputDecoration(
           labelText: 'Precio',

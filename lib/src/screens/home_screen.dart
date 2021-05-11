@@ -38,6 +38,7 @@ class HomeScreen extends StatelessWidget {
               // Lista de coches genérica
               TextHeader('Coches a la venta:'),
               StandardCars(carsBloc),
+              SizedBox(height: 60.0)
             ],
           ),
         ),
