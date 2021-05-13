@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:rxdart/rxdart.dart';
 
 import 'package:feeling_cars_now/src/bloc/validators.dart';
-import 'package:rxdart/rxdart.dart';
 
 class LoginBloc with Validators {
   final _emailController = BehaviorSubject<String>();
@@ -24,7 +24,7 @@ class LoginBloc with Validators {
   String get email => _emailController.value;
   String get password => _passwordController.value;
 
-  // "?"= si es null no ejecuta close()
+  /// Cierra todos Streams
   dispose() {
     _emailController?.close();
     _passwordController?.close();

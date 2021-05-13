@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:flutter_signin_button/button_view.dart';
 
 import 'package:feeling_cars_now/src/bloc/login_bloc.dart';
 import 'package:feeling_cars_now/src/bloc/provider.dart' as myProvider;
 import 'package:feeling_cars_now/src/services/user_service.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart';
-import 'package:flutter_signin_button/button_view.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:feeling_cars_now/src/bloc/auth_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -36,7 +36,7 @@ class LoginScreen extends StatelessWidget {
           Container(
             width: size.width * 0.85,
             margin: EdgeInsets.symmetric(vertical: 30.0),
-            padding: EdgeInsets.symmetric(vertical: 50.0),
+            padding: EdgeInsets.symmetric(vertical: 30.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(5.0),
@@ -51,6 +51,11 @@ class LoginScreen extends StatelessWidget {
             ),
             child: Column(
               children: <Widget>[
+                Icon(
+                  Icons.account_circle,
+                  size: 80,
+                  color: Theme.of(context).primaryColor,
+                ),
                 Text('Datos de acceso', style: TextStyle(fontSize: 20.0)),
                 SizedBox(height: 60.0),
                 _createEmail(bloc),
@@ -75,6 +80,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
+  /// Crea campo de texto del email.
   Widget _createEmail(LoginBloc bloc) => StreamBuilder(
         stream: bloc.emailStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -95,6 +101,7 @@ class LoginScreen extends StatelessWidget {
         },
       );
 
+  /// Crea el campo de texto de la contraseña.
   Widget _createPassword(LoginBloc bloc) => StreamBuilder(
         stream: bloc.passwordStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -116,13 +123,14 @@ class LoginScreen extends StatelessWidget {
         },
       );
 
+  /// Crea el botón de acceder.
   Widget _createLoginButton(LoginBloc bloc) => StreamBuilder(
         stream: bloc.formValidStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return ElevatedButton(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-              child: Text('Ingresar'),
+              child: Text('Acceder'),
             ),
             style: ElevatedButton.styleFrom(
               primary: Theme.of(context).primaryColor,
@@ -132,6 +140,9 @@ class LoginScreen extends StatelessWidget {
         },
       );
 
+  /// LLama al userService y comprueba que existe el usuario.
+  ///
+  /// Si hace login accede, sino muestra mensaje de error.
   _login(BuildContext context, LoginBloc bloc) async {
     Map info = await _userService.login(bloc.email, bloc.password);
 
@@ -141,6 +152,7 @@ class LoginScreen extends StatelessWidget {
             context, 'Email o contraseña no válido,\ninfo: ' + info['message']);
   }
 
+  /// Crea el fondo de la cabecera
   Widget _createBackground(BuildContext context, Size size) => Container(
         height: size.height * 0.4,
         width: double.infinity,
@@ -150,6 +162,7 @@ class LoginScreen extends StatelessWidget {
         ),
       );
 
+  /// Muestra el botón que redirige al formulario para registrar usuarios.
   Widget _registerNewAccount(BuildContext context) => ElevatedButton(
         style: ElevatedButton.styleFrom(primary: Colors.white30, elevation: 0),
         child:

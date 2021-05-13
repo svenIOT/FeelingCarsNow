@@ -147,6 +147,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
     );
   }
 
+  /// Crea un botón para contactar con el vendedor (propietario del anuncio).
   Widget _createMessageButton() => Container(
         height: 40.0,
         width: 150.0,
@@ -168,9 +169,12 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
         ),
       );
 
+  /// Muestra los datos de contacto del vendedor.
   void _newChat() {}
 
-  _showCarImage() => car.photoUrl != null
+  /// Muestra la imagen que corresponda, desde los assets si no existe o
+  /// está cagando, o desde cloudinary.
+  Widget _showCarImage() => car.photoUrl != null
       ? Container(
           margin: EdgeInsets.zero,
           padding: EdgeInsets.zero,
@@ -191,6 +195,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           ),
         );
 
+  /// Crea un ícono y descripción de un dato del coche.
   Widget _createIcon(
           {IconData icon,
           double iconSize,
@@ -206,18 +211,19 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           ),
           SizedBox(height: 5.0),
           Text(
-            text,
+            text ?? "Sin especificar",
             style: iconTextStyle,
           )
         ],
       );
 
+  /// Devuelve una lista con las acciones del Appbar (editar, eliminar).
   List<Widget> _ownerActions() {
     final List<Widget> actions = [];
 
     if (car.userId == _prefs.uid) {
       actions.add(IconButton(
-        icon: Icon(AntDesign.edit),
+        icon: Icon(Entypo.edit),
         onPressed: () => Navigator.pushNamed(context, 'car', arguments: car),
       ));
       actions.add(SizedBox(width: 10.0));

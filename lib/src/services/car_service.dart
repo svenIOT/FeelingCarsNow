@@ -1,12 +1,12 @@
-import 'dart:convert';
 import 'dart:io';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:mime_type/mime_type.dart';
 
 import 'package:feeling_cars_now/src/models/car_model.dart';
 import 'package:feeling_cars_now/src/models/filter_model.dart';
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
-import 'package:mime_type/mime_type.dart';
 
 class CarService {
   final _url =
@@ -15,7 +15,7 @@ class CarService {
 
   /// Crea un coche a partir del modelo -> json, haciendo petición POST.
   ///
-  /// Devuelve true (Future)
+  /// Devuelve true (Future).
   Future<bool> createCar(CarModel car) async {
     final url = '$_url/cars.json?auth=${_prefs.token}';
 
@@ -28,7 +28,7 @@ class CarService {
 
   /// Edita un coche a partir del modelo -> json, haciendo petición PUT.
   ///
-  /// Devuelve true (Future)
+  /// Devuelve true (Future).
   Future<bool> editCar(CarModel car) async {
     final url = '$_url/cars/${car.id}.json?auth=${_prefs.token}';
 
@@ -41,7 +41,7 @@ class CarService {
 
   /// Carga todos los coches en una lista.
   ///
-  /// Si hay errores devuelve una lista vacia (Future)
+  /// Si hay errores devuelve una lista vacia (Future).
   Future<List<CarModel>> loadCars() async {
     final url = '$_url/cars.json?auth=${_prefs.token}';
 
@@ -64,7 +64,7 @@ class CarService {
 
   /// Carga todos los coches y filtra los que están destacados.
   ///
-  /// Devuelve una lista (Future)
+  /// Devuelve una lista (Future).
   Future<List<CarModel>> loadFeaturedCars() async {
     final List<CarModel> cars = await loadCars();
 
@@ -76,7 +76,7 @@ class CarService {
 
   /// Carga todos los coches y los filtra según el modelo.
   ///
-  /// Devuelve una lista (Future)
+  /// Devuelve una lista (Future).
   Future<List<CarModel>> loadFilteredCars(Filter filter) async {
     final List<CarModel> cars = await loadCars();
     List<CarModel> filteredCars = [];
@@ -106,6 +106,18 @@ class CarService {
     // Filtrar por categoría y combustible
 
     return filteredCars;
+  }
+
+  /// Carga todos los coches y los filtra según el ID de usuario.
+  ///
+  /// Devuelve una lista (Future).
+  Future<List<CarModel>> loadUserCars(String _userId) async {
+    final List<CarModel> cars = await loadCars();
+    List<CarModel> userCars = [];
+
+    userCars = cars.where((car) => car.userId == _userId).toList();
+
+    return userCars;
   }
 
   /// Borra el coche por id.

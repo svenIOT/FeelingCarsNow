@@ -37,6 +37,7 @@ class _EditCarScreenState extends State<EditCarScreen> {
             icon: Icon(Icons.photo_size_select_actual),
             onPressed: _selectGaleryImage,
           ),
+          SizedBox(width: 10.0),
           IconButton(
             icon: Icon(Icons.camera_alt),
             onPressed: _shootPhoto,
@@ -57,14 +58,18 @@ class _EditCarScreenState extends State<EditCarScreen> {
     );
   }
 
+  /// Abre la galería para seleccionar una imagen.
   _selectGaleryImage() async {
     _processImage(ImageSource.gallery);
   }
 
+  /// Abre la cámara principal para realizar una foto.
   _shootPhoto() async {
     _processImage(ImageSource.camera);
   }
 
+  /// Coge la imagen seleccionada y la asigna a una variable para posteriormente
+  /// subirla a cloudinary.
   _processImage(ImageSource source) async {
     final pickedFile = await ImagePicker.pickImage(
       source: source,
@@ -76,7 +81,7 @@ class _EditCarScreenState extends State<EditCarScreen> {
       setState(() {});
     }
 
-    // Elimina la foto del modelo para añadir posteriormente la seleccionada
-    if (photo != null) return car.photoUrl == null;
+    // Elimina la foto actual para añadir la seleccionada
+    if (photo != null) return car.photoUrl = null;
   }
 }

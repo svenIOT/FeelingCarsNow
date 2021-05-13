@@ -11,7 +11,7 @@ class CarModel {
       {this.id,
       this.brand,
       this.category,
-      this.featured,
+      this.featured = false, // Por defecto los coches no están destacados
       this.fuel,
       this.km,
       this.price,

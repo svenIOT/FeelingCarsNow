@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feeling_cars_now/src/bloc/car_bloc.dart';
 import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/models/car_model.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 import 'package:feeling_cars_now/src/constants/dropdown_items_constants.dart'
     as dropdownItemsConstants;
 import 'dropdown_custom.dart';
@@ -35,9 +35,6 @@ class _CarFormState extends State<CarForm> {
   Widget build(BuildContext context) {
     widget.carsBloc = Provider.carsBloc(context);
 
-    // Por defecto los coches no están destacados
-    widget.car.featured = false;
-
     // Agregar el usuario que crea el coche, si es null agrega el user test
     widget.car.userId = _prefs.uid ?? "DhMd9XzjbMUkROQ2j83xMaOwB9b2";
 
@@ -62,6 +59,8 @@ class _CarFormState extends State<CarForm> {
     );
   }
 
+  /// Muestra la imagen que corresponda, desde los assets si no existe o
+  /// está cagando, o desde cloudinary.
   _showImage() => widget.car.photoUrl != null
       ? FadeInImage(
           image: NetworkImage(widget.car.photoUrl),
@@ -77,6 +76,7 @@ class _CarFormState extends State<CarForm> {
           fit: BoxFit.cover,
         );
 
+  /// Crea el campo de texto del año del coche.
   Widget _carYear() => TextFormField(
         initialValue: widget.car.year?.toString(),
         keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -89,18 +89,19 @@ class _CarFormState extends State<CarForm> {
             : 'Ingrese un año válido de 4 dígitos númericos',
       );
 
+  /// Crea los desplegables del tipo de homologación y el combustible.
   Widget _categoryAndFuelDropdownButton(CarModel _car) => Container(
         padding: EdgeInsets.only(top: 15.0),
         child: Column(
           children: [
             DropdownCustom(
-              hintText: "Homologación...",
+              hintText: _car.category ?? "Homologación...",
               items: dropdownItemsConstants.categoryDropdownItems,
               car: _car,
             ),
             SizedBox(height: 20.0),
             DropdownCustom(
-              hintText: "Combustible...",
+              hintText: _car.fuel ?? "Combustible...",
               items: dropdownItemsConstants.fuelDropdownItems,
               car: _car,
             ),
@@ -108,6 +109,7 @@ class _CarFormState extends State<CarForm> {
         ),
       );
 
+  /// Crea el campo de texto de la marca del coche.
   Widget _carBrand() => TextFormField(
         initialValue: widget.car.brand,
         textCapitalization: TextCapitalization.sentences,
@@ -119,6 +121,7 @@ class _CarFormState extends State<CarForm> {
             value.length < 2 ? 'Ingrese la marca del coche' : null,
       );
 
+  /// Crea el campo de texto del modelo del coche.
   Widget _carModel() => TextFormField(
         initialValue: widget.car.model,
         textCapitalization: TextCapitalization.sentences,
@@ -130,6 +133,7 @@ class _CarFormState extends State<CarForm> {
             value.length < 2 ? 'Ingrese el modelo del coche' : null,
       );
 
+  /// Crea el campo de texto de la localización del coche.
   Widget _carLocation() => TextFormField(
         initialValue: widget.car.location,
         textCapitalization: TextCapitalization.sentences,
@@ -142,6 +146,7 @@ class _CarFormState extends State<CarForm> {
             : null,
       );
 
+  /// Crea el campo de texto de la potencia del coche.
   Widget _carPower() => TextFormField(
         initialValue: widget.car.power?.toString(),
         keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -155,6 +160,7 @@ class _CarFormState extends State<CarForm> {
             : 'Ingrese la potencia en caballos del coche, ej: 150',
       );
 
+  /// Crea el campo de texto de los kilómetros que tiene el coche.
   Widget _carKm() => TextFormField(
         initialValue: widget.car.km?.toString(),
         keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -166,6 +172,7 @@ class _CarFormState extends State<CarForm> {
             utils.isNumber(value) ? null : 'Ingrese los kilometros, ej: 100000',
       );
 
+  /// Crea el campo de texto del precio del coche.
   Widget _carPrice() => TextFormField(
         initialValue: widget.car.price?.toString(),
         keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -178,6 +185,7 @@ class _CarFormState extends State<CarForm> {
             : 'Ingrese solo números para el precio, ej: 12000',
       );
 
+  /// Crea el campo de texto ampliado de la descripción (campo opcional).
   Widget _carDescription() => TextFormField(
         initialValue: widget.car.description,
         keyboardType: TextInputType.multiline,
@@ -191,6 +199,7 @@ class _CarFormState extends State<CarForm> {
             : null,
       );
 
+  /// Crea el botón para guardar.
   Widget _createSaveButton() => ElevatedButton.icon(
         style:
             ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
@@ -199,6 +208,8 @@ class _CarFormState extends State<CarForm> {
         onPressed: (_isSaving) ? null : _submit,
       );
 
+  /// Valida que el formulario cumpla los requisitos, guarda el estado y realiza
+  /// una creación o edición según corresponda.
   void _submit() async {
     if (!widget.formKey.currentState.validate()) return;
 

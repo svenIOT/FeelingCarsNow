@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:feeling_cars_now/src/bloc/login_bloc.dart';
 import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/services/user_service.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class RegisterScreen extends StatelessWidget {
   final userService = new Userservice();
@@ -20,8 +22,9 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
+  /// Contiene el formulario de login.
   Widget _loginForm(BuildContext context, Size size) {
-    final bloc = Provider.of(context);
+    final loginBloc = Provider.of(context);
 
     return SingleChildScrollView(
       child: Column(
@@ -30,7 +33,7 @@ class RegisterScreen extends StatelessWidget {
           Container(
             width: size.width * 0.85,
             margin: EdgeInsets.symmetric(vertical: 30.0),
-            padding: EdgeInsets.symmetric(vertical: 50.0),
+            padding: EdgeInsets.symmetric(vertical: 30.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(5.0),
@@ -45,43 +48,29 @@ class RegisterScreen extends StatelessWidget {
             ),
             child: Column(
               children: <Widget>[
+                Icon(
+                  MaterialCommunityIcons.account_supervisor_circle,
+                  size: 80,
+                  color: Theme.of(context).primaryColor,
+                ),
                 Text('Crear cuenta', style: TextStyle(fontSize: 20.0)),
                 SizedBox(height: 60.0),
-                _createEmail(bloc),
+                _createEmail(loginBloc),
                 SizedBox(height: 30.0),
-                _createPassword(bloc),
+                _createPassword(loginBloc),
                 SizedBox(height: 30.0),
-                _createButton(bloc)
+                _createButton(loginBloc)
               ],
             ),
           ),
-          ElevatedButton(
-            style:
-                ElevatedButton.styleFrom(primary: Colors.white30, elevation: 0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    '¿Ya tienes cuenta? Accede ',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16.0,
-                        color: Colors.black),
-                  ),
-                  Text("aquí",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                          color: Theme.of(context).primaryColor))
-                ]),
-            onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
-          ),
+          _loginWithAExistingAccount(context),
           SizedBox(height: 100.0)
         ],
       ),
     );
   }
 
+  /// Crea campo de texto del email.
   Widget _createEmail(LoginBloc bloc) => StreamBuilder(
         stream: bloc.emailStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -90,8 +79,7 @@ class RegisterScreen extends StatelessWidget {
             child: TextField(
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                icon: Icon(Icons.alternate_email,
-                    color: Theme.of(context).primaryColor),
+                icon: Icon(Entypo.email, color: Theme.of(context).primaryColor),
                 labelText: 'Correo electrónico',
                 hintText: 'ejemplo@correo.com',
                 errorText: snapshot.error,
@@ -102,6 +90,7 @@ class RegisterScreen extends StatelessWidget {
         },
       );
 
+  /// Crea el campo de texto de la contraseña.
   Widget _createPassword(LoginBloc bloc) => StreamBuilder(
         stream: bloc.passwordStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -111,7 +100,7 @@ class RegisterScreen extends StatelessWidget {
               obscureText: true,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                icon: Icon(Icons.lock_outline,
+                icon: Icon(MaterialCommunityIcons.textbox_password,
                     color: Theme.of(context).primaryColor),
                 labelText: 'Contraseña',
                 hintText: 'Contraseña',
@@ -123,6 +112,7 @@ class RegisterScreen extends StatelessWidget {
         },
       );
 
+  /// Crea el botón de registrar.
   Widget _createButton(LoginBloc bloc) => StreamBuilder(
         stream: bloc.formValidStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -139,6 +129,9 @@ class RegisterScreen extends StatelessWidget {
         },
       );
 
+  /// LLama al userService y crea un nuevo usuario con email y contraseña.
+  ///
+  /// Si hubo un error al registrar lanza un mensaje de error.
   _register(BuildContext context, LoginBloc bloc) async {
     final info = await userService.newUser(bloc.email, bloc.password);
 
@@ -148,6 +141,7 @@ class RegisterScreen extends StatelessWidget {
             'Ya existe una cuenta con ese email,\ninfo: ' + info['message']);
   }
 
+  /// Crea el fondo de la cabecera
   Widget _createBackground(BuildContext context, Size size) => Container(
         height: size.height * 0.4,
         width: double.infinity,
@@ -155,5 +149,26 @@ class RegisterScreen extends StatelessWidget {
           image: AssetImage('assets/img/logo-nocircles.png'),
           fit: BoxFit.fill,
         ),
+      );
+
+  /// Muestra el botón que redirige al formulario para hacer login.
+  Widget _loginWithAExistingAccount(BuildContext context) => ElevatedButton(
+        style: ElevatedButton.styleFrom(primary: Colors.white30, elevation: 0),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          Text(
+            '¿Ya tienes cuenta? Accede ',
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 16.0,
+                color: Colors.black),
+          ),
+          Text("aquí",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                  color: Theme.of(context).primaryColor))
+        ]),
+        onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
       );
 }
