@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feeling_cars_now/src/bloc/car_bloc.dart';
@@ -28,6 +29,7 @@ class CarForm extends StatefulWidget {
 
 class _CarFormState extends State<CarForm> {
   bool _isSaving = false;
+  final _prefs = new UserPreferences();
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +37,9 @@ class _CarFormState extends State<CarForm> {
 
     // Por defecto los coches no están destacados
     widget.car.featured = false;
-    // TODO: validaciones
-    // TODO: agregar dinámicamente el usuario que crea el coche
-    widget.car.userId = "DhMd9XzjbMUkROQ2j83xMaOwB9b2";
+
+    // Agregar el usuario que crea el coche, si es null agrega el user test
+    widget.car.userId = _prefs.uid ?? "DhMd9XzjbMUkROQ2j83xMaOwB9b2";
 
     return Form(
       key: widget.formKey,

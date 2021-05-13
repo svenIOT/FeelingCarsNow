@@ -21,10 +21,10 @@ class AuthBloc {
 
       // Firebase Sign in
       final result = await authService.signInWithCredential(credential);
-      print('${result.user.displayName}');
 
+      _prefs.uid = result.user.uid;
       _prefs.token = googleAuth.idToken;
-      print('${googleAuth.idToken}');
+
       return true;
     } catch (error) {
       print(error);

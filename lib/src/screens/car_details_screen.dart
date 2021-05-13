@@ -5,6 +5,8 @@ import 'package:feeling_cars_now/src/bloc/car_bloc.dart';
 import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/models/car_model.dart';
 import 'package:feeling_cars_now/src/widgets/text_header.dart';
+import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class CarDetailsScreen extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class CarDetailsScreen extends StatefulWidget {
 class _CarDetailsScreenState extends State<CarDetailsScreen> {
   CarsBloc carsBloc;
   CarModel car = new CarModel();
+  final _prefs = new UserPreferences();
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +32,8 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Detalles'),
-        actions: <Widget>[
-          // TODO: si el usuario es el propietario del anuncio habilitar botón editar
-        ],
+        // Si el usuario es el propietario puede editar
+        actions: _ownerActions(),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -209,4 +211,24 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           )
         ],
       );
+
+  List<Widget> _ownerActions() {
+    final List<Widget> actions = [];
+
+    if (car.userId == _prefs.uid) {
+      actions.add(IconButton(
+        icon: Icon(AntDesign.edit),
+        onPressed: () => Navigator.pushNamed(context, 'car', arguments: car),
+      ));
+      actions.add(SizedBox(width: 10.0));
+      actions.add(IconButton(
+        icon: Icon(AntDesign.delete),
+        onPressed: () => utils.showAlertDialog(context, '¡Atención!',
+                'Si continua se eliminará de forma permanente el anuncio y no será visible para otros usuarios.')
+            ? carsBloc.deleteCar(car.id)
+            : null,
+      ));
+    }
+    return actions;
+  }
 }

@@ -13,6 +13,9 @@ class CarService {
       'https://flutter-varios-db270-default-rtdb.europe-west1.firebasedatabase.app';
   final _prefs = new UserPreferences();
 
+  /// Crea un coche a partir del modelo -> json, haciendo petición POST.
+  ///
+  /// Devuelve true (Future)
   Future<bool> createCar(CarModel car) async {
     final url = '$_url/cars.json?auth=${_prefs.token}';
 
@@ -23,6 +26,9 @@ class CarService {
     return true;
   }
 
+  /// Edita un coche a partir del modelo -> json, haciendo petición PUT.
+  ///
+  /// Devuelve true (Future)
   Future<bool> editCar(CarModel car) async {
     final url = '$_url/cars/${car.id}.json?auth=${_prefs.token}';
 
@@ -33,6 +39,9 @@ class CarService {
     return true;
   }
 
+  /// Carga todos los coches en una lista.
+  ///
+  /// Si hay errores devuelve una lista vacia (Future)
   Future<List<CarModel>> loadCars() async {
     final url = '$_url/cars.json?auth=${_prefs.token}';
 
@@ -53,6 +62,9 @@ class CarService {
     return cars;
   }
 
+  /// Carga todos los coches y filtra los que están destacados.
+  ///
+  /// Devuelve una lista (Future)
   Future<List<CarModel>> loadFeaturedCars() async {
     final List<CarModel> cars = await loadCars();
 
@@ -62,57 +74,43 @@ class CarService {
     return featuredCars;
   }
 
+  /// Carga todos los coches y los filtra según el modelo.
+  ///
+  /// Devuelve una lista (Future)
   Future<List<CarModel>> loadFilteredCars(Filter filter) async {
     final List<CarModel> cars = await loadCars();
-    List<CarModel> filteredKmCars = [];
-    List<CarModel> filteredPowerCars = [];
-    List<CarModel> filteredCategoryCars = [];
-    List<CarModel> filteredSearchWordsCars = [];
+    List<CarModel> filteredCars = [];
 
     // Si no hay filtros devuelve todos los coches
-    if (filter.searchWords.isEmpty &&
-            filter.category == null &&
-            filter.fuel == null &&
-            filter.kmSince == 0 &&
-            filter.kmUntil == 999999 ||
-        filter.kmUntil == 0 && filter.powerSince == 0 ||
-        filter.powerUntil == 0 && filter.powerUntil == 9999) return cars;
+    if (_filterIsEmpty(filter)) return cars;
 
     // Filtrar por palabras clave
     if (filter.searchWords.isNotEmpty) {
-      filteredSearchWordsCars = cars.where((car) {
-        final String searchWords = filter.searchWords;
-        return car.brand.toLowerCase().contains(searchWords.toLowerCase()) ||
-            car.model.toLowerCase().contains(searchWords.toLowerCase());
-      }).toList();
+      filteredCars = _filterBySearchWords(cars, filter.searchWords);
     }
-    // TODO: awful things
-    // Filtrar por kilómetros y potencia
-    //if (filter.kmSince != null || filter.kmUntil != null) {
-    /* if (filter.kmUntil != 0) {
-      filteredKmCars = cars.where((car) {
-        return car.km >= filter.kmSince && car.km <= filter.kmUntil;
-      }).toList();
+    // TODO:
+    // Filtrar por kilómetros
+    /* if (filter.kmSince != null || filter.kmUntil != null) {
+      if (filter.kmSince != 0 ||
+          filter.kmUntil != 0 ||
+          filter.kmUntil != 999999) {
+        filteredCars = [..._filterByKm(cars, filter)];
+      }
     } */
-    //}
-    //if (filter.powerSince != null || filter.powerUntil != null) {
-    /* if (filter.powerSince != 0 || filter.powerUntil != 0) {
-      filteredPowerCars = cars.where((car) {
-        return car.power >= filter.powerSince && car.km <= filter.powerUntil;
-      }).toList();
+    //Filtrar por potencia
+    /* if (filter.powerSince != null || filter.powerUntil != null) {
+      if (filter.powerSince != 0 || filter.powerUntil != 0) {
+        filteredCars = [..._filterByPower(cars, filter)];
+      }
     } */
-    //}
     // Filtrar por categoría y combustible
 
-    List<CarModel> filteredCars = [
-      ...filteredSearchWordsCars,
-      ...filteredCategoryCars,
-      ...filteredPowerCars,
-      ...filteredKmCars
-    ];
     return filteredCars;
   }
 
+  /// Borra el coche por id.
+  ///
+  /// Devuelve true (Future)
   Future<bool> deleteCar(String id) async {
     final url = '$_url/cars/$id.json?auth=${_prefs.token}';
     await http.delete(Uri.parse(url));
@@ -120,6 +118,9 @@ class CarService {
     return true;
   }
 
+  /// Sube la imagen a cloudinary.
+  ///
+  /// Devuelve la url de la imagen subida a cloudinary o null si hubo un error (Future).
   Future<String> uploadImage(File image) async {
     final url = Uri.parse(
         'https://api.cloudinary.com/v1_1/dy9jm2gzn/image/upload?upload_preset=jximwwvv');
@@ -143,4 +144,53 @@ class CarService {
     final respData = json.decode(resp.body);
     return respData['secure_url'];
   }
+
+  /// Comprueba si los valores del filtro son usados o están por defecto.
+  bool _filterIsEmpty(Filter filter) => filter.searchWords.isEmpty &&
+              filter.category == null &&
+              filter.fuel == null &&
+              filter.kmSince == 0 &&
+              filter.kmUntil == 0 ||
+          filter.kmUntil == 999999 &&
+              filter.powerSince == 0 &&
+              filter.powerUntil == 0 ||
+          filter.powerUntil == 9999 &&
+              filter.priceSince == 0 &&
+              filter.priceUntil == 0 ||
+          filter.priceUntil == 9999
+      ? true
+      : false;
+
+  /// Filtra los coches de la lista por marca o modelo.
+  ///
+  /// Devuelve una lista.
+  List<CarModel> _filterBySearchWords(List<CarModel> cars, String searchWords) {
+    return cars
+        .where((car) =>
+            car.brand.toLowerCase().contains(searchWords.toLowerCase()) ||
+            car.model.toLowerCase().contains(searchWords.toLowerCase()))
+        .toList();
+  }
+
+  /// Filtra los coches de la lista por kilómetros. Si los kilometros máximos son 0, no hay máximo
+  /// y si los kilómetros mínimos son mayores que los máximos, no hay mímino.
+  ///
+  /// Devuelve una lista.
+  List<CarModel> _filterByKm(List<CarModel> cars, Filter filter) =>
+      cars.where((car) {
+        if (filter.kmUntil == 0) filter.kmUntil = 999999;
+        if (filter.kmSince > filter.kmUntil) filter.kmSince = 0;
+        return car.km >= filter.kmSince && car.km <= filter.kmUntil;
+      }).toList();
 }
+
+/// Filtra los coches de la lista por potencia. Si la potencia máxima es 0, no hay máximo
+/// y si la potencia mínima es mayor que el máximo, no hay mímino.
+///
+/// Devuelve una lista.
+List<CarModel> _filterByPower(List<CarModel> cars, Filter filter) =>
+    cars.where((car) {
+      if (filter.powerUntil == 0) filter.powerUntil = 9999;
+      if (filter.powerSince > filter.powerUntil) filter.powerSince = 0;
+      return car.power >= filter.powerSince && car.power <= filter.powerUntil;
+    }).toList();

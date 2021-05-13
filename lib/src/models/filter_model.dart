@@ -6,6 +6,8 @@ class Filter {
   int kmUntil;
   int powerSince;
   int powerUntil;
+  int priceSince;
+  int priceUntil;
 
   Filter({
     this.searchWords,
@@ -15,5 +17,7 @@ class Filter {
     this.kmUntil = 999999,
     this.powerSince = 0,
     this.powerUntil = 9999,
+    this.priceSince = 0,
+    this.priceUntil = 999999,
   });
 }

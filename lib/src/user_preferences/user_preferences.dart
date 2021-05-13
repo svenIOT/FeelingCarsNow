@@ -25,6 +25,11 @@ class UserPreferences {
 
   set secondaryColor(bool value) => _prefs.setBool('secondaryColor', value);
 
+  // GET y SET del uid
+  get uid => _prefs.getString('uid') ?? '';
+
+  set uid(String value) => _prefs.setString('uid', value);
+
   // GET y SET del username
   get username => _prefs.getString('name') ?? '';
 

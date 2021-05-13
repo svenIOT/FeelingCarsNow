@@ -70,7 +70,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
           Radius.circular(10),
         ),
       ),
-      child: TextField(
+      child: TextFormField(
         controller: textController,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
@@ -99,7 +99,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             filter: filter,
             category: false,
           ),
-          SizedBox(height: 10.0),
+          SizedBox(height: 20.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -107,49 +107,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
               TextHeader('Potencia'),
             ],
           ),
-          // TODO: add price picker
           _kmAndPowerPickers(context),
+          SizedBox(height: 20.0),
+          TextHeader('Precio'),
+          _pricePicker(context),
         ],
-      ),
-    );
-  }
-
-  Widget _createApllyButton(BuildContext context) {
-    return Container(
-      child: ElevatedButton(
-        child: Row(
-          children: [Text('Aplicar   '), Icon(FontAwesome.flag_checkered)],
-        ),
-        style: ElevatedButton.styleFrom(
-          primary: Theme.of(context).primaryColor,
-        ),
-        onPressed: () {
-          // Eliminar espacios sobrantes y guardar palabras
-          filter.searchWords = textController.text
-              .replaceAll(RegExp(' +'), ' ')
-              .trimRight()
-              .trimLeft();
-          // Guardar estado
-          final FormState form = _formKey.currentState;
-          form.save();
-
-          // Navegar a una nueva página con los resultados
-          Navigator.pushNamed(context, 'find', arguments: filter);
-        },
-      ),
-    );
-  }
-
-  Widget _createResetButton(BuildContext context) {
-    return Container(
-      child: ElevatedButton(
-        child: Icon(MaterialCommunityIcons.restore),
-        style: ElevatedButton.styleFrom(
-          primary: Theme.of(context).primaryColor,
-        ),
-        onPressed: () {
-          // TODO: Reset campos
-        },
       ),
     );
   }
@@ -182,6 +144,25 @@ class _FiltersScreenState extends State<FiltersScreen> {
               .map((e) => Text(e))
               .toList(),
         )
+      ],
+    );
+  }
+
+  Widget _pricePicker(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        _createModalBottomSheet(
+          header: '${filter.priceSince ?? 0} - ${filter.priceUntil ?? 0}',
+          sinceOnItemChange: (index) => setState(() => filter.priceSince =
+              int.tryParse(modalbuttonOptionsConstants.carPriceValues[index]
+                  .replaceFirst('.', ''))),
+          untilOnItemChange: (index) => setState(() => filter.priceUntil =
+              int.tryParse(modalbuttonOptionsConstants.carPriceValues[index]
+                  .replaceFirst('.', ''))),
+          children: modalbuttonOptionsConstants.carPriceValues
+              .map((e) => Text(e))
+              .toList(),
+        ),
       ],
     );
   }
@@ -239,6 +220,47 @@ class _FiltersScreenState extends State<FiltersScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _createApllyButton(BuildContext context) {
+    return Container(
+      child: ElevatedButton(
+        child: Row(
+          children: [Text('Aplicar   '), Icon(FontAwesome.flag_checkered)],
+        ),
+        style: ElevatedButton.styleFrom(
+          primary: Theme.of(context).primaryColor,
+        ),
+        onPressed: () {
+          // Eliminar espacios sobrantes y guardar palabras
+          filter.searchWords = textController.text
+              .replaceAll(RegExp(' +'), ' ')
+              .trimRight()
+              .trimLeft();
+          // Guardar estado
+          final FormState form = _formKey.currentState;
+          form.save();
+
+          // Navegar a una nueva página con los resultados
+          Navigator.pushNamed(context, 'find', arguments: filter);
+        },
+      ),
+    );
+  }
+
+  Widget _createResetButton(BuildContext context) {
+    return Container(
+      child: ElevatedButton(
+        child: Icon(MaterialCommunityIcons.restore),
+        style: ElevatedButton.styleFrom(
+          primary: Theme.of(context).primaryColor,
+        ),
+        onPressed: () {
+          final FormState form = _formKey.currentState;
+          form.reset();
+        },
       ),
     );
   }

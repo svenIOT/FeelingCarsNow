@@ -21,8 +21,10 @@ class Userservice {
     Map<String, dynamic> decodedResp = json.decode(resp.body);
     print(decodedResp);
 
-    if (decodedResp.containsKey('idToken')) {
+    if (decodedResp.containsKey('idToken') &&
+        decodedResp.containsKey('localId')) {
       _prefs.token = decodedResp['idToken'];
+      _prefs.uid = decodedResp['localId'];
       return {'ok': true, 'token': decodedResp['idToken']};
     } else {
       return {'ok': false, 'message': decodedResp['error']['message']};
