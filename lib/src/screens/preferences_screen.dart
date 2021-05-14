@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 import 'package:feeling_cars_now/src/widgets/text_header.dart';
+import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
 
 class PreferencesScreen extends StatefulWidget {
   static final String routeName = 'settings';
@@ -12,7 +13,7 @@ class PreferencesScreen extends StatefulWidget {
 
 class _PreferencesScreenState extends State<PreferencesScreen> {
   bool _secondaryColor;
-  int _genre;
+  int _accountType;
 
   TextEditingController _textController;
 
@@ -21,15 +22,15 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   @override
   void initState() {
     super.initState();
-    _genre = prefs.genre;
+    _accountType = prefs.accountType;
     _secondaryColor = prefs.secondaryColor;
     _textController = new TextEditingController(text: prefs.username);
     prefs.lastPage = PreferencesScreen.routeName;
   }
 
   _setSelectedRadio(int value) {
-    prefs.genre = value;
-    setState(() => _genre = value);
+    prefs.accountType = value;
+    setState(() => _accountType = value);
   }
 
   @override
@@ -37,10 +38,10 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     return Container(
       child: Scaffold(
           appBar: AppBar(
-              title: Text('Ajustes'),
-              backgroundColor: (prefs.secondaryColor)
-                  ? Colors.grey[700]
-                  : Theme.of(context).primaryColor),
+            title: Text('Ajustes'),
+            backgroundColor:
+                utils.getActualColor(context, prefs.secondaryColor),
+          ),
           body: ListView(
             children: <Widget>[
               _createContainerBox(<Widget>[
@@ -59,13 +60,13 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 RadioListTile(
                   value: 1,
                   title: Text('Particular'),
-                  groupValue: _genre,
+                  groupValue: _accountType,
                   onChanged: _setSelectedRadio,
                 ),
                 RadioListTile(
                     value: 2,
                     title: Text('Empresa'),
-                    groupValue: _genre,
+                    groupValue: _accountType,
                     onChanged: _setSelectedRadio),
               ]),
               SizedBox(height: 20.0),

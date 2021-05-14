@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:feeling_cars_now/src/bloc/login_bloc.dart';
 import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/services/user_service.dart';
-import 'package:feeling_cars_now/src/utils/utils.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
 
 class RegisterScreen extends StatelessWidget {
   final userService = new Userservice();
@@ -132,13 +132,19 @@ class RegisterScreen extends StatelessWidget {
   /// LLama al userService y crea un nuevo usuario con email y contraseña.
   ///
   /// Si hubo un error al registrar lanza un mensaje de error.
-  _register(BuildContext context, LoginBloc bloc) async {
+  void _register(BuildContext context, LoginBloc bloc) async {
     final info = await userService.newUser(bloc.email, bloc.password);
 
     return (info['ok'])
-        ? Navigator.pushReplacementNamed(context, 'home')
-        : showAlert(context,
+        ? _successfulRegiser(context)
+        : utils.showAlert(context,
             'Ya existe una cuenta con ese email,\ninfo: ' + info['message']);
+  }
+
+  /// Muestra un snackbar y redirige al login cuando el usuario se creó.
+  void _successfulRegiser(BuildContext context) {
+    utils.showSnackBar(context, 'Usuario creado correctamente');
+    Navigator.pushReplacementNamed(context, 'login');
   }
 
   /// Crea el fondo de la cabecera

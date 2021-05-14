@@ -10,6 +10,10 @@ bool isNumber(String value) {
 /// Obtiene el tamaño del dispositivo según el context.
 Size getDeviceSize(BuildContext context) => MediaQuery.of(context).size;
 
+Color getActualColor(BuildContext context, bool secondaryColor) {
+  return (secondaryColor) ? Colors.grey[700] : Theme.of(context).primaryColor;
+}
+
 /// Muestra una alerta con un mensaje
 void showAlert(BuildContext context, String message) {
   showDialog(
@@ -27,22 +31,25 @@ void showAlert(BuildContext context, String message) {
   );
 }
 
-/// Muestra una alerta con 2 opciones. Devuelve true si la opción es OK.
-bool showAlertDialog(BuildContext context, String title, String body) {
-  bool response = false;
-
+/// Muestra una alerta con 2 opciones.
+///
+/// Recibe los textos (mensaje y botones) y la función a realizar al seleccionar continuar.
+void showAlertDialog(
+    {@required BuildContext context,
+    @required String title,
+    @required String body,
+    String cancelButtonText,
+    String proceedButtonText,
+    @required Function() onProceedPressed}) {
   Widget cancelButton = ElevatedButton(
     style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
-    child: Text("Cancelar"),
+    child: Text(cancelButtonText ?? "Cancelar"),
     onPressed: () => Navigator.of(context).pop(),
   );
   Widget continueButton = ElevatedButton(
     style: ElevatedButton.styleFrom(primary: Colors.red[700]),
-    child: Text("Borrar"),
-    onPressed: () {
-      response = true;
-      Navigator.of(context).pop();
-    },
+    child: Text(proceedButtonText ?? "Continuar"),
+    onPressed: onProceedPressed,
   );
 
   showDialog(
@@ -56,14 +63,13 @@ bool showAlertDialog(BuildContext context, String title, String body) {
       ],
     ),
   );
-  return response;
 }
 
 /// Muestra un snackbar con un mensaje.
 void showSnackBar(BuildContext context, String message) {
   final snackbar = SnackBar(
     content: Text(message),
-    duration: Duration(milliseconds: 1750),
+    duration: Duration(seconds: 3),
   );
 
   ScaffoldMessenger.of(context).showSnackBar(snackbar);

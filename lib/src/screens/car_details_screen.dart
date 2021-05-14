@@ -147,8 +147,15 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
     );
   }
 
-  /// Crea un botón para contactar con el vendedor (propietario del anuncio).
-  Widget _createMessageButton() => Container(
+  /// Crea un botón para contactar con el vendedor. Si el usuario actual
+  /// es el propietario oculta el botón.
+  Widget _createMessageButton() {
+    bool _isVisible = false;
+    if (car.userId != _prefs.uid) _isVisible = true;
+
+    return Visibility(
+      visible: _isVisible,
+      child: Container(
         height: 40.0,
         width: 150.0,
         child: FloatingActionButton(
@@ -167,7 +174,9 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             borderRadius: BorderRadius.all(Radius.circular(25.0)),
           ),
         ),
-      );
+      ),
+    );
+  }
 
   /// Muestra los datos de contacto del vendedor.
   void _newChat() {}
@@ -229,12 +238,21 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
       actions.add(SizedBox(width: 10.0));
       actions.add(IconButton(
         icon: Icon(AntDesign.delete),
-        onPressed: () => utils.showAlertDialog(context, '¡Atención!',
-                'Si continua se eliminará de forma permanente el anuncio y no será visible para otros usuarios.')
-            ? carsBloc.deleteCar(car.id)
-            : null,
+        onPressed: () => utils.showAlertDialog(
+            context: context,
+            title: '¡Atención!',
+            body:
+                'Si continua se eliminará de forma permanente el anuncio y no será visible para otros usuarios.',
+            onProceedPressed: _deleteCar),
       ));
     }
     return actions;
+  }
+
+  /// Borra el coche actual, muestra un snackbar al usuario y vuelve a la pantalla anterior.
+  void _deleteCar() {
+    carsBloc.deleteCar(car.id);
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    utils.showSnackBar(context, 'Anuncio borrado...');
   }
 }

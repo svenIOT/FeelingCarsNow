@@ -6,7 +6,12 @@ import 'package:feeling_cars_now/src/widgets/text_header.dart';
 import 'package:feeling_cars_now/src/widgets/featured_cars.dart';
 import 'package:feeling_cars_now/src/widgets/standard_cars.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final featuredCarsBloc = Provider.carsBloc(context);

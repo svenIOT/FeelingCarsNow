@@ -23,25 +23,26 @@ class UserCarsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               StreamBuilder(
-                  stream: userCarsBloc.userCarsStream,
-                  builder: (BuildContext context,
-                          AsyncSnapshot<List<CarModel>> snapshot) =>
-                      snapshot.hasData
-                          ? GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      childAspectRatio: 0.8,
-                                      crossAxisSpacing: 8,
-                                      mainAxisSpacing: 8,
-                                      crossAxisCount: 2),
-                              primary: false,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (context, index) => _createCarItem(
-                                  context, snapshot.data[index], userCarsBloc),
-                            )
-                          : Center(child: CircularProgressIndicator())),
+                stream: userCarsBloc.userCarsStream,
+                builder: (BuildContext context,
+                        AsyncSnapshot<List<CarModel>> snapshot) =>
+                    snapshot.hasData
+                        ? GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 0.8,
+                                    crossAxisSpacing: 8,
+                                    mainAxisSpacing: 8,
+                                    crossAxisCount: 2),
+                            primary: false,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) => _createCarItem(
+                                context, snapshot.data[index], userCarsBloc),
+                          )
+                        : Center(child: CircularProgressIndicator()),
+              ),
             ],
           ),
         ),

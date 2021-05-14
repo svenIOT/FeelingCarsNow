@@ -44,7 +44,8 @@ class _CarFormState extends State<CarForm> {
         children: <Widget>[
           _showImage(),
           _carYear(),
-          _categoryAndFuelDropdownButton(widget.car),
+          _categoryAndFuelDropdownButton(
+              widget.car), // TODO: hacer required al save
           _carBrand(),
           _carModel(),
           _carLocation(),

@@ -24,20 +24,21 @@ class CarModel {
       this.location});
 
   String id;
+  String userId;
   String brand;
+  String model;
   String category;
-  bool featured;
   String fuel;
+  String photoUrl;
+  String location;
+  String description;
   int km;
   int price;
   int power;
-  String model;
-  String userId;
   int year;
-  String photoUrl;
-  String description;
-  String location;
+  bool featured;
 
+  /// Mapea los datos de un json a un CarModel
   factory CarModel.fromJson(Map<String, dynamic> json) => CarModel(
       id: json["id"],
       brand: json["brand"],
@@ -54,6 +55,7 @@ class CarModel {
       description: json["description"],
       location: json["location"]);
 
+  /// Construye un json con los datos del CarModel.
   Map<String, dynamic> toJson() => {
         //"id": id, evitar duplicado de ID
         "brand": brand,
@@ -65,6 +67,7 @@ class CarModel {
         "price": price,
         "model": model,
         "userID": userId,
+        "year": year,
         "photoUrl": photoUrl,
         "description": description,
         "location": location

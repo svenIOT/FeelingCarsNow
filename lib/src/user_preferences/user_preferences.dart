@@ -15,10 +15,10 @@ class UserPreferences {
     this._prefs = await SharedPreferences.getInstance();
   }
 
-  // GET y SET género
-  get genre => _prefs.getInt('genre') ?? 1;
+  // GET y SET tipo de cuenta
+  get accountType => _prefs.getInt('genre') ?? 1;
 
-  set genre(int value) => _prefs.setInt('genre', value);
+  set accountType(int value) => _prefs.setInt('genre', value);
 
   // GET y SET color secundario
   get secondaryColor => _prefs.getBool('secondaryColor') ?? false;
