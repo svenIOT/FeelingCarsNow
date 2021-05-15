@@ -9,8 +9,13 @@ class AuthBloc {
   final googleSignin = GoogleSignIn(scopes: ['email']);
   final _prefs = new UserPreferences();
 
+  /// Getter stream usuario actual.
   Stream<User> get currentUser => authService.currentUser;
 
+  /// Hace login usando una cuenta de Google, almacena el userId, email y token
+  /// en el storage del dispositivo.
+  ///
+  /// Devuelve true o false si hubo alguna excepción.
   Future<bool> loginWithGoogle() async {
     try {
       final GoogleSignInAccount googleUser = await googleSignin.signIn();
@@ -22,8 +27,10 @@ class AuthBloc {
       // Firebase Sign in
       final result = await authService.signInWithCredential(credential);
 
+      // Almacenar datos en el storage
       _prefs.uid = result.user.uid;
-      _prefs.token = googleAuth.idToken;
+      _prefs.email = result.user.email;
+      _prefs.token = await result.user.getIdToken();
 
       return true;
     } catch (error) {
@@ -32,7 +39,12 @@ class AuthBloc {
     }
   }
 
-  void logout() {
-    authService.logout();
+  /// Desconecta el usuario y revoca la autenticación, llama a cerrar sesión del
+  /// AuthService.
+  void logout() async {
+    if (googleSignin.currentUser != null) {
+      await googleSignin.disconnect();
+      await authService.logout();
+    }
   }
 }

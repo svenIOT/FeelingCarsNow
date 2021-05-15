@@ -5,6 +5,7 @@ import 'package:feeling_cars_now/src/widgets/drawer.dart';
 import 'package:feeling_cars_now/src/widgets/text_header.dart';
 import 'package:feeling_cars_now/src/widgets/featured_cars.dart';
 import 'package:feeling_cars_now/src/widgets/standard_cars.dart';
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,6 +13,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final prefs = new UserPreferences();
+
   @override
   Widget build(BuildContext context) {
     final featuredCarsBloc = Provider.carsBloc(context);
@@ -22,7 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text('Inicio'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
@@ -52,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  /// Crea el botón flotante para añadir nuevos coches.
   Widget _createFloatingActionButton(BuildContext context) =>
       FloatingActionButton(
         child: Icon(Icons.add),

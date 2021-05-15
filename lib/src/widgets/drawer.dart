@@ -59,6 +59,8 @@ class UserDrawer extends StatelessWidget {
               // Cerrar sesión con google
               googleAuthBloc?.logout();
               Navigator.pushReplacementNamed(context, 'login');
+              // Limpiar datos del storage
+              prefs.clearUserPreferences();
             },
           ),
           ListTile(
@@ -70,6 +72,7 @@ class UserDrawer extends StatelessWidget {
     );
   }
 
+  /// Crea un elemento de menú. Recibe la función a realizar onTap.
   Widget _createDrawerItem(
       {BuildContext context,
       IconData icon,
@@ -89,6 +92,7 @@ class UserDrawer extends StatelessWidget {
     );
   }
 
+  /// Crea la cabecera del drawer.
   Widget _createHeader() => DrawerHeader(
         margin: EdgeInsets.zero,
         padding: EdgeInsets.zero,
