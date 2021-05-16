@@ -12,6 +12,7 @@ class CarModel {
       this.brand,
       this.category,
       this.featured = false, // Por defecto los coches no están destacados
+      this.ownerEmail,
       this.fuel,
       this.km,
       this.price,
@@ -25,6 +26,7 @@ class CarModel {
 
   String id;
   String userId;
+  String ownerEmail;
   String brand;
   String model;
   String category;
@@ -42,6 +44,7 @@ class CarModel {
   factory CarModel.fromJson(Map<String, dynamic> json) => CarModel(
       id: json["id"],
       brand: json["brand"],
+      ownerEmail: json["ownerEmail"],
       category: json["category"],
       featured: json["featured"],
       fuel: json["fuel"],
@@ -59,6 +62,7 @@ class CarModel {
   Map<String, dynamic> toJson() => {
         //"id": id, evitar duplicado de ID
         "brand": brand,
+        "ownerEmail": ownerEmail,
         "category": category,
         "featured": featured,
         "fuel": fuel,

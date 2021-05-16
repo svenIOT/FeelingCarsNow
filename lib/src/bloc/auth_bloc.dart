@@ -30,7 +30,7 @@ class AuthBloc {
       // Almacenar datos en el storage
       _prefs.uid = result.user.uid;
       _prefs.email = result.user.email;
-      _prefs.token = await result.user.getIdToken();
+      _prefs.token = await result.user.getIdToken(true);
 
       return true;
     } catch (error) {

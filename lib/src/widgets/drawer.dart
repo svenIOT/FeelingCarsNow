@@ -23,12 +23,12 @@ class UserDrawer extends StatelessWidget {
             text: 'Mis coches',
             onTap: () => Navigator.pushNamed(context, 'resume'),
           ),
-          _createDrawerItem(
+          /* _createDrawerItem(
             context: context,
             icon: Icons.question_answer,
             text: 'Mensajes',
-            onTap: () => Navigator.pushNamed(context, 'resume'),
-          ),
+            onTap: () => Navigator.pushNamed(context, 'messages'),
+          ), */
           Divider(),
           _createDrawerItem(
             context: context,
@@ -104,21 +104,38 @@ class UserDrawer extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Positioned(
-              bottom: 12.0,
-              left: 16.0,
-              child: Text(
-                // Si el usuario no tiene nombre se le asigna
-                prefs.username.trim() == ""
-                    ? 'Usuario-' +
-                        prefs.token.substring(prefs.token.toString().length - 6,
-                            prefs.token.toString().length)
-                    : prefs.username,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.w500,
+              bottom: 10.0,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      // Si el usuario no tiene nombre se le asigna
+                      prefs.username.trim() == ''
+                          ? 'Usuario-' +
+                              prefs.token.substring(
+                                  prefs.token.toString().length - 6,
+                                  prefs.token.toString().length)
+                          : prefs.username,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      prefs.email ?? '',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
-                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],

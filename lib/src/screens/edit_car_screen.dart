@@ -6,6 +6,7 @@ import 'package:feeling_cars_now/src/bloc/car_bloc.dart';
 import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/models/car_model.dart';
 import 'package:feeling_cars_now/src/widgets/car_form.dart';
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class EditCarScreen extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class EditCarScreen extends StatefulWidget {
 class _EditCarScreenState extends State<EditCarScreen> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final prefs = new UserPreferences();
 
   CarsBloc carsBloc;
   CarModel car = new CarModel();
@@ -23,6 +25,9 @@ class _EditCarScreenState extends State<EditCarScreen> {
   @override
   Widget build(BuildContext context) {
     carsBloc = Provider.carsBloc(context);
+
+    // Añadir el email de contacto del propietario
+    car.ownerEmail = prefs.email;
 
     // Si se le pasa un coche desde el padre lo guarda en car (es editar coche)
     final CarModel argumentCar = ModalRoute.of(context).settings.arguments;

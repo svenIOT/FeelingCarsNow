@@ -16,7 +16,7 @@ class CarDetailsScreen extends StatefulWidget {
 class _CarDetailsScreenState extends State<CarDetailsScreen> {
   CarsBloc carsBloc;
   CarModel car = new CarModel();
-  final _prefs = new UserPreferences();
+  final prefs = new UserPreferences();
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +151,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
   /// es el propietario oculta el botón.
   Widget _createMessageButton() {
     bool _isVisible = false;
-    if (car.userId != _prefs.uid) _isVisible = true;
+    if (car.userId != prefs.uid) _isVisible = true;
 
     return Visibility(
       visible: _isVisible,
@@ -179,7 +179,8 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
   }
 
   /// Muestra los datos de contacto del vendedor.
-  void _newChat() {}
+  void _newChat() =>
+      Navigator.pushNamed(context, 'contact', arguments: car.ownerEmail);
 
   /// Muestra la imagen que corresponda, desde los assets si no existe o
   /// está cagando, o desde cloudinary.
@@ -230,7 +231,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
   List<Widget> _ownerActions() {
     final List<Widget> actions = [];
 
-    if (car.userId == _prefs.uid) {
+    if (car.userId == prefs.uid) {
       actions.add(IconButton(
         icon: Icon(Entypo.edit),
         onPressed: () => Navigator.pushNamed(context, 'car', arguments: car),
