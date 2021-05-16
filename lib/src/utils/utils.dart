@@ -10,6 +10,7 @@ bool isNumber(String value) {
 /// Obtiene el tamaño del dispositivo según el context.
 Size getDeviceSize(BuildContext context) => MediaQuery.of(context).size;
 
+/// Obtiene el color principal según las preferencias de usuario almacenadas en el storage.
 Color getActualColor(BuildContext context, bool secondaryColor) {
   return (secondaryColor) ? Colors.grey[700] : Theme.of(context).primaryColor;
 }

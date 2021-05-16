@@ -27,6 +27,7 @@ class StandardCars extends StatelessWidget {
     );
   }
 
+  /// Crea el card de cada coche.
   Widget _createCarItem(BuildContext context, CarModel car, CarsBloc carsBloc) {
     return Card(
       child: InkWell(

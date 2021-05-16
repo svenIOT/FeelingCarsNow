@@ -7,11 +7,13 @@ import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class UserCarsScreen extends StatelessWidget {
+  static final String routeName = 'resume';
+  final prefs = new UserPreferences();
   @override
   Widget build(BuildContext context) {
-    final _prefs = new UserPreferences();
+    prefs.lastScreen = UserCarsScreen.routeName;
     final userCarsBloc = Provider.carsBloc(context);
-    userCarsBloc.loadUserCars(_prefs.uid);
+    userCarsBloc.loadUserCars(prefs.uid);
 
     return Scaffold(
       appBar: AppBar(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 import 'package:feeling_cars_now/src/widgets/text_header.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class PreferencesScreen extends StatefulWidget {
-  static final String routeName = 'settings';
+  static final String routeName = 'preferences';
 
   @override
   _PreferencesScreenState createState() => _PreferencesScreenState();
@@ -25,7 +25,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     _accountType = prefs.accountType;
     _secondaryColor = prefs.secondaryColor;
     _textController = new TextEditingController(text: prefs.username);
-    prefs.lastPage = PreferencesScreen.routeName;
+    prefs.lastScreen = PreferencesScreen.routeName;
   }
 
   _setSelectedRadio(int value) {

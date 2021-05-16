@@ -5,13 +5,18 @@ import 'package:feeling_cars_now/src/bloc/login_bloc.dart';
 import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/services/user_service.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class RegisterScreen extends StatelessWidget {
+  static final String routeName = 'register';
+  final prefs = new UserPreferences();
   final userService = new Userservice();
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    prefs.lastScreen = RegisterScreen.routeName;
+    final size = utils.getDeviceSize(context);
+
     return Scaffold(
       body: Stack(
         children: <Widget>[

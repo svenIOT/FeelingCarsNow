@@ -226,7 +226,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
         ],
       );
 
-  /// Devuelve una lista con las acciones del Appbar (editar, eliminar).
+  /// Si es el propietario del anuncio, devuelve una lista con las acciones del Appbar (editar, eliminar).
   List<Widget> _ownerActions() {
     final List<Widget> actions = [];
 

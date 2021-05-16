@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:flutter_icons/flutter_icons.dart';
+
+import 'package:feeling_cars_now/src/widgets/text_header.dart';
+import 'package:feeling_cars_now/src/models/filter_model.dart';
+import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
+import 'package:feeling_cars_now/src/widgets/multiselect_custom.dart';
 import 'package:feeling_cars_now/src/constants/multiselect_items_constants.dart'
     as multiselectItemsConstants;
 import 'package:feeling_cars_now/src/constants/modalbutton_options_constants.dart'
     as modalbuttonOptionsConstants;
-import 'package:feeling_cars_now/src/widgets/multiselect_custom.dart';
-import 'package:feeling_cars_now/src/widgets/text_header.dart';
-import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
-import 'package:feeling_cars_now/src/models/filter_model.dart';
 
 class FiltersScreen extends StatefulWidget {
   @override
@@ -59,6 +59,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
     );
   }
 
+  /// Crea el campo de texto para búsqueda por marca o modelo.
   Widget _createSearchInput(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -82,6 +83,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
     );
   }
 
+  /// Crea los filtros más específicos.
   Widget _createFilters(BuildContext context) {
     return Container(
       child: Column(
@@ -116,6 +118,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
     );
   }
 
+  /// Crea los selectores de kilómetros y potencia con valor inicial y final.
   Widget _kmAndPowerPickers(BuildContext context) {
     return Row(
       children: <Widget>[
@@ -148,6 +151,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
     );
   }
 
+  /// Crea el selector de precio con valor inicial y final.
   Widget _pricePicker(BuildContext context) {
     return Row(
       children: <Widget>[
@@ -167,6 +171,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
     );
   }
 
+  /// Crea un selector "desde", "hasta". Recibe un objeto con las funciones a realizar cuando
+  /// se modifica un valor y la lista de hijos a mostrar (valores).
   Widget _createModalBottomSheet(
       {String header,
       void Function(int) sinceOnItemChange,
@@ -224,6 +230,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
     );
   }
 
+  /// Crea el botón para aplicar los filtros en el estado actual. Elimina carácteres
+  /// sobrantes de la búsqueda por texto.
+  ///
+  /// Al aplicar se guarda el estado, y se le pasa la clase filter a la siguiente página.
   Widget _createApllyButton(BuildContext context) {
     return Container(
       child: ElevatedButton(
@@ -250,6 +260,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
     );
   }
 
+  /// Resetea los campos de selección del formulario.
   Widget _createResetButton(BuildContext context) {
     return Container(
       child: ElevatedButton(

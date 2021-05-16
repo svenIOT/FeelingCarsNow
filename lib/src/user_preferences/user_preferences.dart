@@ -16,44 +16,48 @@ class UserPreferences {
   }
 
   // GET y SET tipo de cuenta
-  get accountType => _prefs.getInt('genre') ?? 1;
+  int get accountType => _prefs.getInt('genre') ?? 1;
 
   set accountType(int value) => _prefs.setInt('genre', value);
 
   // GET y SET color secundario
-  get secondaryColor => _prefs.getBool('secondaryColor') ?? false;
+  bool get secondaryColor => _prefs.getBool('secondaryColor') ?? false;
 
   set secondaryColor(bool value) => _prefs.setBool('secondaryColor', value);
 
   // GET y SET del uid
-  get uid => _prefs.getString('uid') ?? '';
+  String get uid => _prefs.getString('uid') ?? '';
 
   set uid(String value) => _prefs.setString('uid', value);
 
   // GET y SET del email
-  get email => _prefs.getString('email') ?? '';
+  String get email => _prefs.getString('email') ?? '';
 
   set email(String value) => _prefs.setString('email', value);
 
   // GET y SET del username
-  get username => _prefs.getString('name') ?? '';
+  String get username => _prefs.getString('name') ?? '';
 
   set username(String value) => _prefs.setString('name', value);
 
   // GET y SET del token
-  get token => _prefs.getString('token') ?? '';
+  String get token => _prefs.getString('token') ?? '';
 
   set token(String value) => _prefs.setString('token', value);
 
-  // GET y SET de la última página
-  get lastPage => _prefs.getString('lastPage') ?? 'login';
+  // GET y SET de la última página, si no existe devuelve al login.
+  String get lastScreen => _prefs.getString('lastPage') == null ||
+          _prefs.getString('lastPage').isEmpty
+      ? 'login'
+      : _prefs.getString('lastPage');
 
-  set lastPage(String value) => _prefs.setString('lastPage', value);
+  set lastScreen(String value) => _prefs.setString('lastPage', value);
 
-  /// Elimina del storage el userId, email y token del usuario actual.
+  /// Elimina del storage el userId, email, token y última pantalla del usuario actual.
   void clearUserPreferences() {
     uid = "";
     email = "";
     token = "";
+    lastScreen = "";
   }
 }

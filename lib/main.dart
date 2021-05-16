@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 import 'src/user_preferences/user_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:feeling_cars_now/src/bloc/auth_bloc.dart';
-import 'package:feeling_cars_now/src/bloc/provider.dart' as myProvider;
 import 'package:feeling_cars_now/src/routes/routes.dart';
+import 'package:feeling_cars_now/src/bloc/provider.dart' as myProvider;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
             title: 'Material App',
             debugShowCheckedModeBanner: false,
-            initialRoute: 'login',
+            initialRoute: prefs.lastScreen,
             routes: routes,
             theme: ThemeData(
                 primaryColor: (prefs.secondaryColor)

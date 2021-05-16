@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
-import 'package:feeling_cars_now/src/bloc/login_bloc.dart';
-import 'package:feeling_cars_now/src/bloc/provider.dart' as myProvider;
-import 'package:feeling_cars_now/src/services/user_service.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart';
 import 'package:feeling_cars_now/src/bloc/auth_bloc.dart';
+import 'package:feeling_cars_now/src/bloc/login_bloc.dart';
+import 'package:feeling_cars_now/src/services/user_service.dart';
+import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
+import 'package:feeling_cars_now/src/bloc/provider.dart' as myProvider;
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
+  static final String routeName = 'login';
+  final prefs = new UserPreferences();
   final _userService = new Userservice();
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    prefs.lastScreen = LoginScreen.routeName;
+    final size = utils.getDeviceSize(context);
 
     return Scaffold(
       body: Stack(

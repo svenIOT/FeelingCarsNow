@@ -8,12 +8,19 @@ import 'package:feeling_cars_now/src/widgets/standard_cars.dart';
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
+  static final String routeName = 'home';
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   final prefs = new UserPreferences();
+
+  @override
+  void initState() {
+    super.initState();
+    prefs.lastScreen = HomeScreen.routeName;
+  }
 
   @override
   Widget build(BuildContext context) {

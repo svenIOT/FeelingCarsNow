@@ -1,17 +1,21 @@
-import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:async';
-
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
+import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
+
 class ErrorReportScreen extends StatefulWidget {
-  const ErrorReportScreen({Key key}) : super(key: key);
+  static final String routeName = 'error';
+
   @override
   _ErrorReportScreenState createState() => _ErrorReportScreenState();
 }
 
 class _ErrorReportScreenState extends State<ErrorReportScreen> {
+  final prefs = new UserPreferences();
   List<String> attachments = [];
 
   final _recipientController = TextEditingController(
@@ -24,6 +28,12 @@ class _ErrorReportScreenState extends State<ErrorReportScreen> {
   final _bodyController = TextEditingController(
     text: 'Explicación del problema lo más detalladamente posible.',
   );
+
+  @override
+  void initState() {
+    super.initState();
+    prefs.lastScreen = ErrorReportScreen.routeName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +129,8 @@ class _ErrorReportScreenState extends State<ErrorReportScreen> {
     );
   }
 
+  /// Le solicita al usuario su gestor de correo, le prepara el email
+  /// con los datos ingresados ya listo para enviar.
   Future<void> send() async {
     final Email email = Email(
       body: _bodyController.text,
@@ -139,15 +151,12 @@ class _ErrorReportScreenState extends State<ErrorReportScreen> {
 
     if (!mounted) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(platformResponse),
-        duration: Duration(seconds: 3),
-      ),
-    );
+    utils.showSnackBar(context, platformResponse);
     Navigator.pop(context);
   }
 
+  /// Abre la galería para seleccionar una imagen y añade la imagen seleccionada a la
+  /// lista de archivos adjuntos. Actualiza el estado
   void _openImagePicker() async {
     File pick = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (pick != null) {
@@ -157,6 +166,7 @@ class _ErrorReportScreenState extends State<ErrorReportScreen> {
     }
   }
 
+  /// Elimina un archivo adjunto. Actualiza el es estado
   void _removeAttachment(String attatchment) {
     setState(() {
       attachments.remove(attatchment);

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
-import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 import 'package:feeling_cars_now/src/bloc/auth_bloc.dart';
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class UserDrawer extends StatelessWidget {
   final prefs = new UserPreferences();

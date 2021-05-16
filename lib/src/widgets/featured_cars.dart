@@ -30,6 +30,7 @@ class FeaturedCars extends StatelessWidget {
     );
   }
 
+  /// Crea el card de cada coche.
   Widget _createFeaturedCarItem(
       BuildContext context, CarModel car, CarsBloc carsBloc) {
     return Card(

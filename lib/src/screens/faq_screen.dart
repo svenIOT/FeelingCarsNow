@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
 
-import 'package:feeling_cars_now/src/constants/faq_constants.dart'
-    as faqConstants;
 import 'package:feeling_cars_now/src/widgets/text_header.dart';
 import 'package:feeling_cars_now/src/models/item_model.dart';
+import 'package:feeling_cars_now/src/constants/faq_constants.dart'
+    as faqConstants;
+import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class FaqScreen extends StatefulWidget {
+  static final String routeName = 'faq';
   @override
   _FaqScreenState createState() => _FaqScreenState();
 }
 
 class _FaqScreenState extends State<FaqScreen> {
+  final prefs = new UserPreferences();
   List<Item> _faqBasicsItems;
   List<Item> _faqCarsAndSellersItems;
   List<Item> _faqAccountAndSecurityItems;
 
-  // Creación de items desde los datos en las constantes
   @override
   void initState() {
+    // Creación de items desde los datos en las constantes
     _faqBasicsItems = _getItemsContent(faqConstants.faqBasicsContent);
     _faqCarsAndSellersItems =
         _getItemsContent(faqConstants.faqCarsAndSellersContent);
     _faqAccountAndSecurityItems =
         _getItemsContent(faqConstants.faqAccountAndSecurityContent);
+    prefs.lastScreen = FaqScreen.routeName;
     super.initState();
   }
 
@@ -135,6 +139,9 @@ class _FaqScreenState extends State<FaqScreen> {
     );
   }
 
+  /// Crea el contenido de cada pregunta/respuesta desde un map en las constantes.
+  ///
+  /// Devuelve una lista de Item.
   List<Item> _getItemsContent(List<Map<String, String>> faqContent) {
     List<Item> faqItems = [];
 
@@ -145,6 +152,9 @@ class _FaqScreenState extends State<FaqScreen> {
     return faqItems;
   }
 
+  /// Crea un expansionPanel por cada pregunta (item).
+  ///
+  /// Devuelve una lista de paneles.
   List<ExpansionPanel> _createExpansionPanels(List<Item> items) =>
       items.map((item) {
         return ExpansionPanel(
