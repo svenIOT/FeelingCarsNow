@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:feeling_cars_now/src/widgets/drawer.dart';
 import 'package:feeling_cars_now/src/widgets/text_header.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
@@ -42,6 +43,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
             backgroundColor:
                 utils.getActualColor(context, prefs.secondaryColor),
           ),
+          drawer: UserDrawer(),
           body: ListView(
             children: <Widget>[
               _createContainerBox(<Widget>[

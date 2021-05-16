@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
+import 'package:feeling_cars_now/src/widgets/drawer.dart';
 import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
@@ -47,6 +48,7 @@ class _ErrorReportScreenState extends State<ErrorReportScreen> {
           )
         ],
       ),
+      drawer: UserDrawer(),
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(

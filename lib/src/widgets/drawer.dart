@@ -19,9 +19,15 @@ class UserDrawer extends StatelessWidget {
           SizedBox(height: 5.0),
           _createDrawerItem(
             context: context,
+            icon: MaterialCommunityIcons.home,
+            text: 'Inicio',
+            onTap: () => Navigator.pushReplacementNamed(context, 'home'),
+          ),
+          _createDrawerItem(
+            context: context,
             icon: MaterialCommunityIcons.car_back,
             text: 'Mis coches',
-            onTap: () => Navigator.pushNamed(context, 'resume'),
+            onTap: () => Navigator.pushReplacementNamed(context, 'resume'),
           ),
           /* _createDrawerItem(
             context: context,
@@ -34,20 +40,20 @@ class UserDrawer extends StatelessWidget {
             context: context,
             icon: Icons.help_center,
             text: 'Preguntas frecuentes',
-            onTap: () => Navigator.pushNamed(context, 'faq'),
+            onTap: () => Navigator.pushReplacementNamed(context, 'faq'),
           ),
           _createDrawerItem(
             context: context,
             icon: Icons.settings,
             text: 'Preferencias',
-            onTap: () => Navigator.pushNamed(context, 'preferences'),
+            onTap: () => Navigator.pushReplacementNamed(context, 'preferences'),
           ),
           Divider(),
           _createDrawerItem(
             context: context,
             icon: Icons.bug_report,
             text: 'Reportar un error',
-            onTap: () => Navigator.pushNamed(context, 'error'),
+            onTap: () => Navigator.pushReplacementNamed(context, 'error'),
           ),
           Divider(),
           _createDrawerItem(

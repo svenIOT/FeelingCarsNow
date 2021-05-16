@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:feeling_cars_now/src/widgets/drawer.dart';
 import 'package:feeling_cars_now/src/widgets/text_header.dart';
 import 'package:feeling_cars_now/src/models/item_model.dart';
 import 'package:feeling_cars_now/src/constants/faq_constants.dart'
@@ -36,6 +37,7 @@ class _FaqScreenState extends State<FaqScreen> {
       appBar: AppBar(
         title: Text("Preguntas frecuentes"),
       ),
+      drawer: UserDrawer(),
       body: ListView(padding: EdgeInsets.all(10.0), children: <Widget>[
         Container(
           padding: EdgeInsets.all(5.0),

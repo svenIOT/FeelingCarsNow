@@ -14,7 +14,7 @@ class ContactScreen extends StatelessWidget {
       ),
       body: Container(
         child: Center(
-          child: TextHeader('Email de contacto:\n\n $ownerEmail'),
+          child: TextHeader('Email del propietario:\n\n $ownerEmail'),
         ),
       ),
     );

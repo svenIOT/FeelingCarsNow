@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:feeling_cars_now/src/bloc/car_bloc.dart';
-import 'package:feeling_cars_now/src/models/car_model.dart';
 import 'package:feeling_cars_now/src/bloc/provider.dart';
+import 'package:feeling_cars_now/src/widgets/drawer.dart';
+import 'package:feeling_cars_now/src/models/car_model.dart';
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class UserCarsScreen extends StatelessWidget {
@@ -19,6 +20,7 @@ class UserCarsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Mis coches'),
       ),
+      drawer: UserDrawer(),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -32,7 +34,7 @@ class UserCarsScreen extends StatelessWidget {
                         ? GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
-                                    childAspectRatio: 0.8,
+                                    childAspectRatio: 0.7,
                                     crossAxisSpacing: 8,
                                     mainAxisSpacing: 8,
                                     crossAxisCount: 2),
