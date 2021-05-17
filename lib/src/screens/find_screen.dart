@@ -31,7 +31,7 @@ class FindScreen extends StatelessWidget {
                           ? GridView.builder(
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                      childAspectRatio: 0.8,
+                                      childAspectRatio: 0.7,
                                       crossAxisSpacing: 8,
                                       mainAxisSpacing: 8,
                                       crossAxisCount: 2),

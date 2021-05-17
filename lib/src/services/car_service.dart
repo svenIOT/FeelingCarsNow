@@ -74,38 +74,49 @@ class CarService {
     return featuredCars;
   }
 
-  /// Carga todos los coches y los filtra según el modelo.
+  /// Carga todos los coches y los filtra según los filtros seleccionados.
   ///
   /// Devuelve una lista (Future).
   Future<List<CarModel>> loadFilteredCars(Filter filter) async {
     final List<CarModel> cars = await loadCars();
-    List<CarModel> filteredCars = [];
+    filter.filteredCars = cars;
 
     // Si no hay filtros devuelve todos los coches
     if (_filterIsEmpty(filter)) return cars;
 
-    // Filtrar por palabras clave
-    if (filter.searchWords.isNotEmpty) {
-      filteredCars = _filterBySearchWords(cars, filter.searchWords);
-    }
-    // TODO:
-    // Filtrar por kilómetros
-    /* if (filter.kmSince != null || filter.kmUntil != null) {
-      if (filter.kmSince != 0 ||
-          filter.kmUntil != 0 ||
-          filter.kmUntil != 999999) {
-        filteredCars = [..._filterByKm(cars, filter)];
-      }
-    } */
-    //Filtrar por potencia
-    /* if (filter.powerSince != null || filter.powerUntil != null) {
-      if (filter.powerSince != 0 || filter.powerUntil != 0) {
-        filteredCars = [..._filterByPower(cars, filter)];
-      }
-    } */
-    // Filtrar por categoría y combustible
+    Set<Map<String, dynamic>> filterActions = {
+      {
+        "searchWord": filter.searchWordFilterExist(),
+        "action": filter.filterBySearchWords(filter.searchWords),
+      },
+      {
+        "category": filter.categoryFilterExist(),
+        "action": filter.filterByCategory(filter),
+      },
+      {
+        "fuel": filter.fuelFilterExist(),
+        "action": filter.filterByFuel(filter),
+      },
+      {
+        "km": filter.kmFilterExist(),
+        "action": filter.filterByKm(filter),
+      },
+      {
+        "power": filter.powerFilterExist(),
+        "action": filter.filterByPower(filter),
+      },
+      {
+        "price": filter.priceFilterExist(),
+        "action": filter.filterByPrice(filter),
+      },
+    };
 
-    return filteredCars;
+    filterActions.forEach((element) {
+      if (element.containsValue(true))
+        filter.filteredCars = [...element.values.last];
+    });
+
+    return filter.filteredCars;
   }
 
   /// Carga todos los coches y los filtra según el ID de usuario.
@@ -158,51 +169,12 @@ class CarService {
   }
 
   /// Comprueba si los valores del filtro son usados o están por defecto.
-  bool _filterIsEmpty(Filter filter) => filter.searchWords.isEmpty &&
-              filter.category == null &&
-              filter.fuel == null &&
-              filter.kmSince == 0 &&
-              filter.kmUntil == 0 ||
-          filter.kmUntil == 999999 &&
-              filter.powerSince == 0 &&
-              filter.powerUntil == 0 ||
-          filter.powerUntil == 9999 &&
-              filter.priceSince == 0 &&
-              filter.priceUntil == 0 ||
-          filter.priceUntil == 9999
+  bool _filterIsEmpty(Filter filter) => !filter.searchWordFilterExist() &&
+          !filter.categoryFilterExist() &&
+          !filter.fuelFilterExist() &&
+          !filter.kmFilterExist() &&
+          !filter.powerFilterExist() &&
+          !filter.priceFilterExist()
       ? true
       : false;
-
-  /// Filtra los coches de la lista por marca o modelo.
-  ///
-  /// Devuelve una lista.
-  List<CarModel> _filterBySearchWords(List<CarModel> cars, String searchWords) {
-    return cars
-        .where((car) =>
-            car.brand.toLowerCase().contains(searchWords.toLowerCase()) ||
-            car.model.toLowerCase().contains(searchWords.toLowerCase()))
-        .toList();
-  }
-
-  /// Filtra los coches de la lista por kilómetros. Si los kilometros máximos son 0, no hay máximo
-  /// y si los kilómetros mínimos son mayores que los máximos, no hay mímino.
-  ///
-  /// Devuelve una lista.
-  List<CarModel> _filterByKm(List<CarModel> cars, Filter filter) =>
-      cars.where((car) {
-        if (filter.kmUntil == 0) filter.kmUntil = 999999;
-        if (filter.kmSince > filter.kmUntil) filter.kmSince = 0;
-        return car.km >= filter.kmSince && car.km <= filter.kmUntil;
-      }).toList();
 }
-
-/// Filtra los coches de la lista por potencia. Si la potencia máxima es 0, no hay máximo
-/// y si la potencia mínima es mayor que el máximo, no hay mímino.
-///
-/// Devuelve una lista.
-List<CarModel> _filterByPower(List<CarModel> cars, Filter filter) =>
-    cars.where((car) {
-      if (filter.powerUntil == 0) filter.powerUntil = 9999;
-      if (filter.powerSince > filter.powerUntil) filter.powerSince = 0;
-      return car.power >= filter.powerSince && car.power <= filter.powerUntil;
-    }).toList();

@@ -22,6 +22,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Filter filter = new Filter();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -253,7 +258,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
           final FormState form = _formKey.currentState;
           form.save();
 
-          // Navegar a una nueva página con los resultados
+          // Inicializar filtros (listas) que sean nulos.
+          if (filter.category == null) filter.category = [];
+          if (filter.fuel == null) filter.fuel = [];
+          if (filter.filteredCars == null) filter.filteredCars = [];
           Navigator.pushNamed(context, 'find', arguments: filter);
         },
       ),
@@ -271,6 +279,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
         onPressed: () {
           final FormState form = _formKey.currentState;
           form.reset();
+          textController.text = '';
+          setState(() {
+            filter.kmSince = 0;
+            filter.kmUntil = 0;
+            filter.powerSince = 0;
+            filter.powerUntil = 0;
+            filter.priceSince = 0;
+            filter.priceUntil = 0;
+          });
         },
       ),
     );
