@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 
 class Userservice {
-  final String _firebaseKey =
-      "AIzaSyBLa-a3pyn7cQBfFQYt6J4lEFY3dIDIW3w"; //TODO: hidde .env
+  final String _firebaseKey = env['API_KEY'];
   final _prefs = new UserPreferences();
 
   /// Envía una petición POST de acceso con el email y contraseña. Guarda el uid,

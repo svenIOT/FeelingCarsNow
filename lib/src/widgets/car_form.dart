@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
+import 'dropdown_custom.dart';
 import 'package:feeling_cars_now/src/bloc/car_bloc.dart';
 import 'package:feeling_cars_now/src/bloc/provider.dart';
 import 'package:feeling_cars_now/src/models/car_model.dart';
@@ -8,7 +9,6 @@ import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 import 'package:feeling_cars_now/src/constants/dropdown_items_constants.dart'
     as dropdownItemsConstants;
-import 'dropdown_custom.dart';
 
 class CarForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -29,14 +29,14 @@ class CarForm extends StatefulWidget {
 
 class _CarFormState extends State<CarForm> {
   bool _isSaving = false;
-  final _prefs = new UserPreferences();
+  final prefs = new UserPreferences();
 
   @override
   Widget build(BuildContext context) {
     widget.carsBloc = Provider.carsBloc(context);
 
     // Agregar el usuario que crea el coche, si es null agrega el user test
-    widget.car.userId = _prefs.uid ?? "DhMd9XzjbMUkROQ2j83xMaOwB9b2";
+    widget.car.userId = prefs.uid ?? "DhMd9XzjbMUkROQ2j83xMaOwB9b2";
 
     return Form(
       key: widget.formKey,
@@ -44,8 +44,7 @@ class _CarFormState extends State<CarForm> {
         children: <Widget>[
           _showImage(),
           _carYear(),
-          _categoryAndFuelDropdownButton(
-              widget.car), // TODO: hacer required al save
+          _categoryAndFuelDropdownButton(widget.car),
           _carBrand(),
           _carModel(),
           _carLocation(),

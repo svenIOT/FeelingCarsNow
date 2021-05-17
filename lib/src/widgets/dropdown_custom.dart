@@ -18,7 +18,7 @@ class _DropdownCustomState extends State<DropdownCustom> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
+    return DropdownButtonFormField<String>(
       items: widget.items,
       onChanged: (value) {
         if (widget.car != null) {
@@ -27,7 +27,9 @@ class _DropdownCustomState extends State<DropdownCustom> {
             _value = value;
             // Asignar valor según si es categoría o combustible al coche que se va a guardar
             final firstItem = widget.items[0].value.toString();
-            firstItem.contains("Gasolina") || firstItem.contains("Hibrido")
+            firstItem.contains("Gasolina") ||
+                    firstItem.contains("Hibrido") ||
+                    firstItem.contains("Diesel")
                 ? widget.car.fuel = value
                 : widget.car.category = value;
           });
@@ -37,6 +39,7 @@ class _DropdownCustomState extends State<DropdownCustom> {
           });
         }
       },
+      validator: (value) => value == null ? 'Selecciona uno por favor' : null,
       value: _value,
       elevation: 2,
       style: TextStyle(color: Colors.black54, fontSize: 18.0),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'src/user_preferences/user_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'src/user_preferences/user_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 
 import 'package:feeling_cars_now/src/bloc/auth_bloc.dart';
 import 'package:feeling_cars_now/src/routes/routes.dart';
@@ -11,8 +12,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = new UserPreferences();
   await prefs.initPrefs();
+  await DotEnv.load(fileName: ".env");
   await Firebase.initializeApp();
-
   runApp(MyApp());
 }
 
