@@ -43,17 +43,17 @@ class Filter {
   bool priceFilterExist() => priceSince != 0 || priceUntil != 0 ? true : false;
 
   /// Filtra los coches de la lista por marca o modelo.
-  List<CarModel> filterBySearchWords(String searchWords) =>
+  List<CarModel> filterBySearchWords() =>
       filteredCars = filteredCars.where((car) {
         return car.brand.toLowerCase().contains(searchWords.toLowerCase()) ||
             car.model.toLowerCase().contains(searchWords.toLowerCase());
       }).toList();
 
   /// Filtra los coches de la lista por categoría (homologación).
-  List<CarModel> filterByCategory(Filter filter) {
+  List<CarModel> filterByCategory() {
     List<CarModel> tempCars = [];
-    for (var car in filter.filteredCars) {
-      for (var category in filter.category) {
+    for (var car in filteredCars) {
+      for (var category in category) {
         if (car.category.compareTo(category) == 0) tempCars.add(car);
       }
     }
@@ -62,10 +62,10 @@ class Filter {
   }
 
   /// Filtra los coches de la lista por tipo de combustible.
-  List<CarModel> filterByFuel(Filter filter) {
+  List<CarModel> filterByFuel() {
     List<CarModel> tempCars = [];
-    for (var car in filter.filteredCars) {
-      for (var fuel in filter.fuel) {
+    for (var car in filteredCars) {
+      for (var fuel in fuel) {
         if (car.fuel.compareTo(fuel) == 0) tempCars.add(car);
       }
     }
@@ -75,28 +75,25 @@ class Filter {
 
   /// Filtra los coches de la lista por kilómetros. Si los kilometros máximos son 0, no hay máximo
   /// y si los kilómetros mínimos son mayores que los máximos, no hay mímino.
-  List<CarModel> filterByKm(Filter filter) =>
-      filteredCars = filteredCars.where((car) {
-        if (filter.kmUntil == 0) return car.km >= filter.kmSince;
-        if (filter.kmSince > filter.kmUntil) filter.kmSince = 0;
-        return car.km >= filter.kmSince && car.km <= filter.kmUntil;
+  List<CarModel> filterByKm() => filteredCars = filteredCars.where((car) {
+        if (kmUntil == 0) return car.km >= kmSince;
+        if (kmSince > kmUntil) kmSince = 0;
+        return car.km >= kmSince && car.km <= kmUntil;
       }).toList();
 
   /// Filtra los coches de la lista por potencia. Si la potencia máxima es 0, no hay máximo
   /// y si la potencia mínima es mayor que el máximo, no hay mímino.
-  List<CarModel> filterByPower(Filter filter) =>
-      filteredCars = filteredCars.where((car) {
-        if (filter.powerUntil == 0) return car.power >= filter.powerSince;
-        if (filter.powerSince > filter.powerUntil) filter.powerSince = 0;
-        return car.power >= filter.powerSince && car.power <= filter.powerUntil;
+  List<CarModel> filterByPower() => filteredCars = filteredCars.where((car) {
+        if (powerUntil == 0) return car.power >= powerSince;
+        if (powerSince > powerUntil) powerSince = 0;
+        return car.power >= powerSince && car.power <= powerUntil;
       }).toList();
 
   /// Filtra los coches de la lista por precio. Si el precio máximo es 0, no hay máximo
   /// y si el precio mínimo es mayor que el máximo, no hay mímino.
-  List<CarModel> filterByPrice(Filter filter) =>
-      filteredCars = filteredCars.where((car) {
-        if (filter.priceUntil == 0) return car.price >= filter.priceSince;
-        if (filter.priceSince > filter.priceUntil) filter.priceSince = 0;
-        return car.price >= filter.priceSince && car.price <= filter.priceUntil;
+  List<CarModel> filterByPrice() => filteredCars = filteredCars.where((car) {
+        if (priceUntil == 0) return car.price >= priceSince;
+        if (priceSince > priceUntil) priceSince = 0;
+        return car.price >= priceSince && car.price <= priceUntil;
       }).toList();
 }

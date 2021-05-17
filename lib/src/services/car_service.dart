@@ -84,34 +84,34 @@ class CarService {
     // Si no hay filtros devuelve todos los coches
     if (_filterIsEmpty(filter)) return cars;
 
-    Set<Map<String, dynamic>> filterActions = {
+    Set<Map<String, dynamic>> selectedFilterActions = {
       {
         "searchWord": filter.searchWordFilterExist(),
-        "action": filter.filterBySearchWords(filter.searchWords),
+        "action": filter.filterBySearchWords(),
       },
       {
         "category": filter.categoryFilterExist(),
-        "action": filter.filterByCategory(filter),
+        "action": filter.filterByCategory(),
       },
       {
         "fuel": filter.fuelFilterExist(),
-        "action": filter.filterByFuel(filter),
+        "action": filter.filterByFuel(),
       },
       {
         "km": filter.kmFilterExist(),
-        "action": filter.filterByKm(filter),
+        "action": filter.filterByKm(),
       },
       {
         "power": filter.powerFilterExist(),
-        "action": filter.filterByPower(filter),
+        "action": filter.filterByPower(),
       },
       {
         "price": filter.priceFilterExist(),
-        "action": filter.filterByPrice(filter),
+        "action": filter.filterByPrice(),
       },
     };
 
-    filterActions.forEach((element) {
+    selectedFilterActions.forEach((element) {
       if (element.containsValue(true))
         filter.filteredCars = [...element.values.last];
     });
