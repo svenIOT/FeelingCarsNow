@@ -14,7 +14,7 @@ import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 class LoginScreen extends StatelessWidget {
   static final String routeName = 'login';
   final prefs = new UserPreferences();
-  final _userService = new Userservice();
+  final userService = new Userservice();
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +31,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
+  /// Crea el formulario del login.
   Widget _loginForm(BuildContext context, Size size) {
     final bloc = myProvider.Provider.of(context);
     final googleAuthBloc = Provider.of<AuthBloc>(context);
@@ -70,12 +71,7 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 30.0),
                 _createLoginButton(bloc),
                 SizedBox(height: 30.0),
-                SignInButton(Buttons.Google,
-                    text: 'Inicia sesión con Google',
-                    onPressed: () async =>
-                        await googleAuthBloc.loginWithGoogle()
-                            ? Navigator.pushReplacementNamed(context, 'home')
-                            : null),
+                _signInWithGoogle(context, googleAuthBloc),
               ],
             ),
           ),
@@ -150,7 +146,7 @@ class LoginScreen extends StatelessWidget {
   ///
   /// Si hace login accede, sino muestra mensaje de error.
   _login(BuildContext context, LoginBloc bloc) async {
-    Map info = await _userService.login(bloc.email, bloc.password);
+    Map info = await userService.login(bloc.email, bloc.password);
 
     return (info['ok'])
         ? Navigator.pushReplacementNamed(context, 'home')
@@ -158,7 +154,7 @@ class LoginScreen extends StatelessWidget {
             context, 'Email o contraseña no válido,\ninfo: ' + info['message']);
   }
 
-  /// Crea el fondo de la cabecera
+  /// Crea el fondo de la cabecera.
   Widget _createBackground(BuildContext context, Size size) => Container(
         height: size.height * 0.4,
         width: double.infinity,
@@ -188,4 +184,15 @@ class LoginScreen extends StatelessWidget {
         ]),
         onPressed: () => Navigator.pushReplacementNamed(context, 'register'),
       );
+
+  /// Crea el botón de inicio de sesión con Google.
+  _signInWithGoogle(BuildContext context, AuthBloc googleAuthBloc) {
+    return SignInButton(Buttons.Google, text: 'Inicia sesión con Google',
+        onPressed: () async {
+      utils.showSnackBar(context, 'Conectando...');
+      return await googleAuthBloc.loginWithGoogle()
+          ? Navigator.pushReplacementNamed(context, 'home')
+          : null;
+    });
+  }
 }

@@ -179,8 +179,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
   }
 
   /// Muestra los datos de contacto del vendedor.
-  void _newChat() =>
-      Navigator.pushNamed(context, 'contact', arguments: car.ownerEmail);
+  void _newChat() => Navigator.pushNamed(context, 'contact', arguments: car);
 
   /// Muestra la imagen que corresponda, desde los assets si no existe o
   /// está cagando, o desde cloudinary.
