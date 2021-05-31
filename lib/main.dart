@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider(
+    return Provider<AuthBloc>(
       create: (context) => AuthBloc(),
       child: myProvider.Provider(
         child: MaterialApp(

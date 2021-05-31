@@ -17,6 +17,20 @@ class _DropdownCustomState extends State<DropdownCustom> {
   String _value;
 
   @override
+  void initState() {
+    super.initState();
+    // Si se está editando ya existe el value (prevenir validator null al editar)
+    if (widget.car != null) {
+      final firstItem = widget.items[0].value.toString();
+      firstItem.contains("Gasolina") ||
+              firstItem.contains("Hibrido") ||
+              firstItem.contains("Diesel")
+          ? _value = widget.car.fuel
+          : _value = widget.car.category;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       items: widget.items,

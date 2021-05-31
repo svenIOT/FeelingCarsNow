@@ -228,6 +228,6 @@ class _CarFormState extends State<CarForm> {
 
     setState(() => _isSaving = false);
     utils.showSnackBar(context, 'Coche guardado correctamente');
-    Navigator.pop(context);
+    Navigator.pushReplacementNamed(context, 'home');
   }
 }

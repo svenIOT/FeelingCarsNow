@@ -4,15 +4,20 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:feeling_cars_now/src/bloc/car_bloc.dart';
 import 'package:feeling_cars_now/src/models/car_model.dart';
 
-class StandardCars extends StatelessWidget {
+class StandardCars extends StatefulWidget {
   StandardCars(this.carsBloc);
 
   final CarsBloc carsBloc;
 
   @override
+  _StandardCarsState createState() => _StandardCarsState();
+}
+
+class _StandardCarsState extends State<StandardCars> {
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: carsBloc.carsStream,
+      stream: widget.carsBloc.carsStream,
       builder: (BuildContext context, AsyncSnapshot<List<CarModel>> snapshot) =>
           snapshot.hasData
               ? ListView.builder(
@@ -20,8 +25,8 @@ class StandardCars extends StatelessWidget {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) =>
-                      _createCarItem(context, snapshot.data[index], carsBloc),
+                  itemBuilder: (context, index) => _createCarItem(
+                      context, snapshot.data[index], widget.carsBloc),
                 )
               : Center(child: CircularProgressIndicator()),
     );
