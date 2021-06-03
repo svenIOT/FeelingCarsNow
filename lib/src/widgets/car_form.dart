@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:feeling_cars_now/src/bloc/validators.dart';
 import 'package:flutter/material.dart';
 
 import 'dropdown_custom.dart';
@@ -9,6 +10,7 @@ import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
 import 'package:feeling_cars_now/src/user_preferences/user_preferences.dart';
 import 'package:feeling_cars_now/src/constants/dropdown_items_constants.dart'
     as dropdownItemsConstants;
+import 'package:feeling_cars_now/src/constants/modalbutton_options_constants.dart';
 
 class CarForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
@@ -84,9 +86,12 @@ class _CarFormState extends State<CarForm> {
           labelText: 'Año del coche',
         ),
         onSaved: (value) => widget.car.year = int.tryParse(value),
-        validator: (value) => utils.isNumber(value)
-            ? null
-            : 'Ingrese un año válido de 4 dígitos númericos',
+        validator: (value) => Validators.validateNumbericField(
+            value: value,
+            errorText:
+                'Ingrese un año válido de 4 dígitos númericos, min: 1945, máx: ${DateTime.now().year}',
+            maxAllowedNumber: DateTime.now().year,
+            minAllowedNumber: 1945),
       );
 
   /// Crea los desplegables del tipo de homologación y el combustible.
@@ -117,8 +122,8 @@ class _CarFormState extends State<CarForm> {
           labelText: 'Marca',
         ),
         onSaved: (value) => widget.car.brand = value,
-        validator: (value) =>
-            value.length < 2 ? 'Ingrese la marca del coche' : null,
+        validator: (value) => Validators.validateTextField(
+            value, 'Ingrese la marca del coche, ej: Volkswagen'),
       );
 
   /// Crea el campo de texto del modelo del coche.
@@ -129,8 +134,8 @@ class _CarFormState extends State<CarForm> {
           labelText: 'Modelo',
         ),
         onSaved: (value) => widget.car.model = value,
-        validator: (value) =>
-            value.length < 2 ? 'Ingrese el modelo del coche' : null,
+        validator: (value) => Validators.validateTextField(
+            value, 'Ingrese el modelo del coche, ej: Polo GTI'),
       );
 
   /// Crea el campo de texto de la localización del coche.
@@ -141,9 +146,8 @@ class _CarFormState extends State<CarForm> {
           labelText: 'Ubicación',
         ),
         onSaved: (value) => widget.car.location = value,
-        validator: (value) => value.length < 2
-            ? 'Ingrese la provincia donde se encuentra el coche'
-            : null,
+        validator: (value) => Validators.validateTextField(
+            value, 'Ingrese la provincia donde se encuentra el coche'),
       );
 
   /// Crea el campo de texto de la potencia del coche.
@@ -155,9 +159,12 @@ class _CarFormState extends State<CarForm> {
           labelText: 'Potencia',
         ),
         onSaved: (value) => widget.car.power = int.tryParse(value),
-        validator: (value) => utils.isNumber(value)
-            ? null
-            : 'Ingrese la potencia en caballos del coche, ej: 150',
+        validator: (value) => Validators.validateNumbericField(
+            value: value,
+            errorText:
+                'Ingrese la potencia en caballos del coche, ej: 150, máx: ${carPowerValues[carPowerValues.length - 1]}',
+            maxAllowedNumber:
+                int.parse(carPowerValues[carPowerValues.length - 1])),
       );
 
   /// Crea el campo de texto de los kilómetros que tiene el coche.
@@ -168,8 +175,13 @@ class _CarFormState extends State<CarForm> {
           labelText: 'Kilometros',
         ),
         onSaved: (value) => widget.car.km = int.tryParse(value),
-        validator: (value) =>
-            utils.isNumber(value) ? null : 'Ingrese los kilometros, ej: 100000',
+        validator: (value) => Validators.validateNumbericField(
+            value: value,
+            errorText:
+                'Ingrese los kilometros, ej: 100000, máx: ${carKilometersValues[carKilometersValues.length - 1]}',
+            maxAllowedNumber: int.parse(
+                carKilometersValues[carKilometersValues.length - 1]
+                    .replaceFirst('.', ''))),
       );
 
   /// Crea el campo de texto del precio del coche.
@@ -180,9 +192,13 @@ class _CarFormState extends State<CarForm> {
           labelText: 'Precio',
         ),
         onSaved: (value) => widget.car.price = int.tryParse(value),
-        validator: (value) => utils.isNumber(value)
-            ? null
-            : 'Ingrese solo números para el precio, ej: 12000',
+        validator: (value) => Validators.validateNumbericField(
+            value: value,
+            errorText:
+                'Ingrese solo números para el precio, ej: 12000, máx: ${carPriceValues[carPriceValues.length - 1]}',
+            maxAllowedNumber: int.parse(
+                carPriceValues[carPriceValues.length - 1]
+                    .replaceFirst('.', ''))),
       );
 
   /// Crea el campo de texto ampliado de la descripción (campo opcional).

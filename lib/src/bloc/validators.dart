@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
+
+import 'package:feeling_cars_now/src/utils/utils.dart' as utils;
 
 class Validators {
   final validateEmail =
@@ -17,4 +20,22 @@ class Validators {
         ? sink.add(password)
         : sink.addError('La contraseña debe contener 8 carácteres'),
   );
+
+  /// Valida un campo númerico según el máximo establecido por la aplicación como valor
+  /// permitido.
+  static dynamic validateNumbericField(
+          {@required String value,
+          @required int maxAllowedNumber,
+          int minAllowedNumber = 1,
+          @required String errorText}) =>
+      utils.isNumber(value) &&
+              !(int.parse(value) < minAllowedNumber) &&
+              !(int.parse(value) > maxAllowedNumber)
+          ? null
+          : errorText;
+
+  /// Valida un campo de texto con como mínimo con 2 carácteres (eliminando
+  /// espacios).
+  static dynamic validateTextField(String value, String errorText) =>
+      value.trim().length < 2 ? errorText : null;
 }
